@@ -1,18 +1,20 @@
 package com.cc.po;
 
+import java.util.List;
+
 public class Product {
     /**
      * 商品ID
      */
     private Integer id;
     /**
-     * 创建者ID
+     * 创建者
      */
-    private Integer createId;
+    private User creator;
     /**
-     * 更新者ID
+     * 更新者
      */
-    private Integer updateId;
+    private User updater;
     /**
      * 商品名称
      */
@@ -28,7 +30,7 @@ public class Product {
     /**
      * 商品价格
      */
-    private Float price;
+    private Double price;
     /**
      * 库存
      */
@@ -38,6 +40,10 @@ public class Product {
      */
     private Integer saleCount;
 
+    private List<OrderDetail> orderDetailList;
+
+    private List<Comment> commentList;
+
     public Integer getId() {
         return id;
     }
@@ -46,20 +52,24 @@ public class Product {
         this.id = id;
     }
 
-    public Integer getCreateId() {
-        return createId;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setCreateId(Integer createId) {
-        this.createId = createId;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
-    public Integer getUpdateId() {
-        return updateId;
+    public User getUpdater() {
+        return updater;
     }
 
-    public void setUpdateId(Integer updateId) {
-        this.updateId = updateId;
+    public void setUpdater(User updater) {
+        this.updater = updater;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getName() {
@@ -86,14 +96,6 @@ public class Product {
         this.image = image;
     }
 
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
     public Integer getProductCount() {
         return productCount;
     }
@@ -108,5 +110,25 @@ public class Product {
 
     public void setSaleCount(Integer saleCount) {
         this.saleCount = saleCount;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public List<OrderDetail> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+        this.orderDetailList = orderDetailList;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 }

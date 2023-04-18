@@ -1,5 +1,7 @@
 package com.cc.po;
 
+import java.util.Date;
+
 public class Report {
     /**
      * 举报ID
@@ -8,7 +10,7 @@ public class Report {
     /**
      * 用户ID
      */
-    private Integer userId;
+    private User user;
     /**
      * 举报内容
      */
@@ -16,7 +18,7 @@ public class Report {
     /**
      * 举报时间
      */
-    private String time;
+    private Date time;
     /**
      * 处理状态
      */
@@ -30,12 +32,16 @@ public class Report {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public String getContent() {
@@ -44,14 +50,6 @@ public class Report {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getStatus() {

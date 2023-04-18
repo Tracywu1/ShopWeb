@@ -1,18 +1,21 @@
 package com.cc.po;
 
+import java.util.Date;
+import java.util.List;
+
 public class Chat {
     /**
      * 聊天ID
      */
     private Integer id;
     /**
-     * 发生者ID
+     * 发送者
      */
-    private Integer senderId;
+    private User sender;
     /**
-     * 接收者ID
+     * 接收者
      */
-    private Integer receiverId;
+    private User receiver;
     /**
      * 聊天内容
      */
@@ -20,7 +23,9 @@ public class Chat {
     /**
      * 发送时间
      */
-    private String sendTime;
+    private Date sendTime;
+
+    private List<User> userList;
 
     public Integer getId() {
         return id;
@@ -30,20 +35,20 @@ public class Chat {
         this.id = id;
     }
 
-    public Integer getSenderId() {
-        return senderId;
+    public User getSender() {
+        return sender;
     }
 
-    public void setSenderId(Integer senderId) {
-        this.senderId = senderId;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
-    public Integer getReceiverId() {
-        return receiverId;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setReceiverId(Integer receiverId) {
-        this.receiverId = receiverId;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     public String getContent() {
@@ -54,11 +59,19 @@ public class Chat {
         this.content = content;
     }
 
-    public String getSendTime() {
+    public Date getSendTime() {
         return sendTime;
     }
 
-    public void setSendTime(String sendTime) {
+    public void setSendTime(Date sendTime) {
         this.sendTime = sendTime;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 }

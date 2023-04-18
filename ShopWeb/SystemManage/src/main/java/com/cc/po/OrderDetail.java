@@ -6,21 +6,21 @@ public class OrderDetail {
      */
     private Integer id;
     /**
-     * 商品ID
+     * 商品
      */
-    private Integer productId;
+    private Product product;
     /**
-     * 店铺ID
+     * 店铺
      */
-    private Integer storeId;
+    private Store store;
     /**
-     * 订单ID
+     * 订单
      */
-    private Integer orderId;
+    private Order order;
     /**
      * 商品单价
      */
-    private Float price;
+    private Double price;
     /**
      * 商品数量
      */
@@ -34,35 +34,35 @@ public class OrderDetail {
         this.id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public Integer getStoreId() {
-        return storeId;
+    public Store getStore() {
+        return store;
     }
 
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
-    public Integer getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

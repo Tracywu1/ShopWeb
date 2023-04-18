@@ -1,34 +1,38 @@
 package com.cc.po;
 
+import java.util.List;
+
 public class Cart {
     /**
      * 购物车ID
      */
     private Integer id;
     /**
-     *用户ID
+     * 所属用户
      */
-    private Integer userId;
+    private User user;
     /**
-     *商品ID
+     * 商品
      */
-    private Integer productId;
+    private Product product;
     /**
-     *店铺ID
+     * 商品所属店铺
      */
-    private Integer storeId;
+    private Store store;
     /**
-     *购买数量
+     * 购买数量
      */
     private Integer count;
     /**
      *商品单价
      */
-    private Float price;
+    private Double price;
     /**
      *总价
      */
-    private Float totalPrice;
+    private Double totalPrice;
+
+    private List<Product> productList;
 
     public Integer getId() {
         return id;
@@ -38,28 +42,28 @@ public class Cart {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public Integer getStoreId() {
-        return storeId;
+    public Store getStore() {
+        return store;
     }
 
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     public Integer getCount() {
@@ -70,19 +74,27 @@ public class Cart {
         this.count = count;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Float getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Float totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 }

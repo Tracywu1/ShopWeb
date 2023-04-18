@@ -1,18 +1,21 @@
 package com.cc.po;
 
+import java.util.Date;
+import java.util.List;
+
 public class Order {
     /**
      * 订单ID
      */
     private Integer id;
     /**
-     * 订单ID
+     * 订单编号
      */
-    private Integer orderId;
+    private String orderNo;
     /**
-     * 用户ID
+     * 所属用户
      */
-    private Integer userId;
+    private User user;
     /**
      * 订单数量
      */
@@ -24,15 +27,17 @@ public class Order {
     /**
      * 订单金额
      */
-    private Float totalPrice;
+    private Double totalPrice;
     /**
      * 创建时间
      */
-    private String createTime;
+    private Date createTime;
     /**
      * 更新时间
      */
-    private String updateTime;
+    private Date updateTime;
+
+    private List<OrderDetail> orderDetailList;
 
     public Integer getId() {
         return id;
@@ -42,20 +47,20 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getOrderId() {
-        return orderId;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getCount() {
@@ -74,27 +79,35 @@ public class Order {
         this.status = status;
     }
 
-    public Float getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Float totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<OrderDetail> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+        this.orderDetailList = orderDetailList;
     }
 }

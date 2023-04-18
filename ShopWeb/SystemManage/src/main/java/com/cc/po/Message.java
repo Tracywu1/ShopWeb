@@ -8,7 +8,7 @@ public class Message {
     /**
      * 用户ID
      */
-    private Integer userId;
+    private User user;
     /**
      * 消息类型
      */
@@ -30,12 +30,12 @@ public class Message {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getType() {

@@ -1,22 +1,24 @@
 package com.cc.po;
 
+import java.util.Date;
+
 public class Subscribe {
     /**
      * 关注ID
      */
     private Integer id;
     /**
-     * 用户ID
+     * 用户
      */
-    private Integer userId;
+    private User user;
     /**
-     * 店铺ID
+     * 店铺
      */
-    private Integer storeId;
+    private Store store;
     /**
      * 关注时间
      */
-    private String createTime;
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -26,27 +28,27 @@ public class Subscribe {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getStoreId() {
-        return storeId;
+    public Store getStore() {
+        return store;
     }
 
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 }

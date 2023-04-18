@@ -6,9 +6,9 @@ public class Address {
      */
     private Integer id;
     /**
-     * 用户ID
+     * 所属用户
      */
-    private Integer userId;
+    private User user;
     /**
      * 收货人
      */
@@ -30,12 +30,12 @@ public class Address {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getConsignee() {
@@ -61,4 +61,5 @@ public class Address {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
 }

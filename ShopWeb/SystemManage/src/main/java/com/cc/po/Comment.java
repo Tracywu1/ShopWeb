@@ -6,17 +6,17 @@ public class Comment {
      */
     private Integer id;
     /**
-     * 创建者ID
+     * 创建者
      */
-    private Integer createId;
+    private User creator;
     /**
      * 更新者ID
      */
-    private Integer updateId;
+    private User updater;
     /**
      * 商品ID
      */
-    private Integer productId;
+    private Product product;
     /**
      * 评论内容
      */
@@ -34,28 +34,28 @@ public class Comment {
         this.id = id;
     }
 
-    public Integer getCreateId() {
-        return createId;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setCreateId(Integer createId) {
-        this.createId = createId;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
-    public Integer getUpdateId() {
-        return updateId;
+    public User getUpdater() {
+        return updater;
     }
 
-    public void setUpdateId(Integer updateId) {
-        this.updateId = updateId;
+    public void setUpdater(User updater) {
+        this.updater = updater;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public String getContent() {

@@ -1,18 +1,20 @@
 package com.cc.po;
 
+import java.util.Date;
+
 public class Return {
     /**
      * 退货ID
      */
     private Integer id;
     /**
-     * 用户ID
+     * 用户
      */
-    private String userId;
+    private User user;
     /**
-     * 订单ID
+     * 订单
      */
-    private Integer orderId;
+    private Order order;
     /**
      * 退货原因
      */
@@ -24,7 +26,7 @@ public class Return {
     /**
      * 退货时间
      */
-    private String time;
+    private Date time;
 
     public Integer getId() {
         return id;
@@ -34,20 +36,20 @@ public class Return {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public String getReason() {
@@ -66,11 +68,11 @@ public class Return {
         this.status = status;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 }

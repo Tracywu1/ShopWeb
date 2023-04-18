@@ -1,14 +1,16 @@
 package com.cc.po;
 
+import java.util.List;
+
 public class Store {
     /**
      * 店铺ID
      */
     private Integer id;
     /**
-     * 店铺管理员ID
+     * 店铺管理员
      */
-    private Integer userId;
+    private User manager;
     /**
      * 店铺名称
      */
@@ -30,6 +32,14 @@ public class Store {
      */
     private Integer aveMonthSales;
 
+    private List<Product> productList;
+
+    private List<Blog> blogList;
+
+    private List<Subscribe> subscribeList;
+
+    private List<Cart> cartList;
+
     public Integer getId() {
         return id;
     }
@@ -38,12 +48,12 @@ public class Store {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getManager() {
+        return manager;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setManager(User manager) {
+        this.manager = manager;
     }
 
     public String getName() {
@@ -84,5 +94,37 @@ public class Store {
 
     public void setAveMonthSales(Integer aveMonthSales) {
         this.aveMonthSales = aveMonthSales;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    public List<Blog> getBlogList() {
+        return blogList;
+    }
+
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
+    }
+
+    public List<Subscribe> getSubscribeList() {
+        return subscribeList;
+    }
+
+    public void setSubscribeList(List<Subscribe> subscribeList) {
+        this.subscribeList = subscribeList;
+    }
+
+    public List<Cart> getCartList() {
+        return cartList;
+    }
+
+    public void setCartList(List<Cart> cartList) {
+        this.cartList = cartList;
     }
 }

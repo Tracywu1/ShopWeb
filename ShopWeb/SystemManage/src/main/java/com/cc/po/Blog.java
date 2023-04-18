@@ -1,22 +1,28 @@
 package com.cc.po;
 
+import java.util.List;
+
 public class Blog {
     /**
      * 动态ID
      */
     private Integer id;
     /**
-     * 商品ID
+     * 所属商品
      */
-    private Integer productId;
+    private Product product;
     /**
-     * 店铺ID
+     * 所属店铺
      */
-    private Integer storeId;
+    private Store store;
     /**
      * 动态内容
      */
     private String content;
+    /**
+     * 一个动态可对应多个商品
+     */
+    private List<Product> products;
 
     public Integer getId() {
         return id;
@@ -26,20 +32,20 @@ public class Blog {
         this.id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public Integer getStoreId() {
-        return storeId;
+    public Store getStore() {
+        return store;
     }
 
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     public String getContent() {
@@ -48,5 +54,13 @@ public class Blog {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
