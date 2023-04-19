@@ -1,5 +1,8 @@
 package com.cc.po;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class Comment {
     /**
      * 评论ID
@@ -10,11 +13,7 @@ public class Comment {
      */
     private User creator;
     /**
-     * 更新者ID
-     */
-    private User updater;
-    /**
-     * 商品ID
+     * 商品
      */
     private Product product;
     /**
@@ -24,7 +23,7 @@ public class Comment {
     /**
      * 发布时间
      */
-    private String createTime;
+    private Timestamp createTime;
 
     public Integer getId() {
         return id;
@@ -42,12 +41,12 @@ public class Comment {
         this.creator = creator;
     }
 
-    public User getUpdater() {
-        return updater;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setUpdater(User updater) {
-        this.updater = updater;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public Product getProduct() {
@@ -66,11 +65,14 @@ public class Comment {
         this.content = content;
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", creator=" + creator +
+                ", product=" + product +
+                ", content='" + content + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 }

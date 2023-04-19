@@ -1,5 +1,8 @@
 package com.cc.po;
 
+import com.cc.contants.ReportStatus;
+
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Report {
@@ -8,7 +11,7 @@ public class Report {
      */
     private Integer id;
     /**
-     * 用户ID
+     * 举报用户
      */
     private User user;
     /**
@@ -18,11 +21,11 @@ public class Report {
     /**
      * 举报时间
      */
-    private Date time;
+    private Timestamp time;
     /**
      * 处理状态
      */
-    private String status;
+    private ReportStatus status = ReportStatus.TO_BE_PROCESSED;
 
     public Integer getId() {
         return id;
@@ -40,10 +43,6 @@ public class Report {
         this.user = user;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
     public String getContent() {
         return content;
     }
@@ -52,11 +51,30 @@ public class Report {
         this.content = content;
     }
 
-    public String getStatus() {
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public ReportStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReportStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "id=" + id +
+                ", user=" + user +
+                ", content='" + content + '\'' +
+                ", time=" + time +
+                ", status=" + status +
+                '}';
     }
 }

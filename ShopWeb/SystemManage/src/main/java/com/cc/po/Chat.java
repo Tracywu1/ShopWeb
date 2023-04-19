@@ -1,6 +1,6 @@
 package com.cc.po;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Chat {
@@ -23,7 +23,7 @@ public class Chat {
     /**
      * 发送时间
      */
-    private Date sendTime;
+    private Timestamp sendTime;
 
     private List<User> userList;
 
@@ -59,11 +59,11 @@ public class Chat {
         this.content = content;
     }
 
-    public Date getSendTime() {
+    public Timestamp getSendTime() {
         return sendTime;
     }
 
-    public void setSendTime(Date sendTime) {
+    public void setSendTime(Timestamp sendTime) {
         this.sendTime = sendTime;
     }
 
@@ -73,5 +73,17 @@ public class Chat {
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
+    }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id=" + id +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", content='" + content + '\'' +
+                ", sendTime=" + sendTime +
+                ", userList=" + userList +
+                '}';
     }
 }

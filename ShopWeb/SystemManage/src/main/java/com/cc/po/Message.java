@@ -1,18 +1,26 @@
 package com.cc.po;
 
+import com.cc.contants.MsgType;
+
+import java.sql.Timestamp;
+
 public class Message {
     /**
      * 消息ID
      */
     private Integer id;
     /**
-     * 用户ID
+     * 发送者
      */
-    private User user;
+    private User sender;
+    /**
+     * 接收者
+     */
+    private User receiver;
     /**
      * 消息类型
      */
-    private String type;
+    private MsgType type;
     /**
      * 消息内容
      */
@@ -20,7 +28,7 @@ public class Message {
     /**
      * 接收时间
      */
-    private String time;
+    private Timestamp time;
 
     public Integer getId() {
         return id;
@@ -30,20 +38,32 @@ public class Message {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public User getSender() {
+        return sender;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
-    public String getType() {
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    public MsgType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(MsgType type) {
         this.type = type;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     public String getContent() {
@@ -54,11 +74,15 @@ public class Message {
         this.content = content;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", type=" + type +
+                ", content='" + content + '\'' +
+                ", time=" + time +
+                '}';
     }
 }

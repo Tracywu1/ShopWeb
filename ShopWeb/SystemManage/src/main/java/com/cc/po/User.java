@@ -1,5 +1,8 @@
 package com.cc.po;
 
+import com.cc.contants.UserRole;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 public class User {
@@ -31,7 +34,18 @@ public class User {
      *头像地址
      */
     private String image;
-
+    /**
+     * 用户角色
+     */
+    private UserRole userRole;
+    /**
+     * 创建时间
+     */
+    private Timestamp createTime;
+    /**
+     * 更新时间
+     */
+    private Timestamp updateTime;
     private List<Address> addressList;
 
     private List<Chat> chatList;
@@ -176,5 +190,54 @@ public class User {
 
     public void setSubscribeList(List<Subscribe> subscribeList) {
         this.subscribeList = subscribeList;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", image='" + image + '\'' +
+                ", userRole=" + userRole +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", addressList=" + addressList +
+                ", chatList=" + chatList +
+                ", reportList=" + reportList +
+                ", messageList=" + messageList +
+                ", cartList=" + cartList +
+                ", orderList=" + orderList +
+                ", returnList=" + returnList +
+                ", commentList=" + commentList +
+                ", subscribeList=" + subscribeList +
+                '}';
     }
 }

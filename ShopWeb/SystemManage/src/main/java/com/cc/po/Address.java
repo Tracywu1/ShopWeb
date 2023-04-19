@@ -1,5 +1,11 @@
 package com.cc.po;
 
+import com.cc.contants.IsDefault;
+
+import java.sql.Timestamp;
+
+import static com.cc.contants.IsDefault.NO;
+
 public class Address {
     /**
      * 地址ID
@@ -21,6 +27,18 @@ public class Address {
      * 详细地址
      */
     private String detail;
+    /**
+     * 是否设为默认地址
+     */
+    private IsDefault isDefault = NO;
+    /**
+     * 创建时间
+     */
+    private Timestamp  createTime;
+    /**
+     * 更新时间
+     */
+    private Timestamp updateTime;
 
     public Integer getId() {
         return id;
@@ -62,4 +80,41 @@ public class Address {
         this.detail = detail;
     }
 
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public IsDefault getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(IsDefault isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", user=" + user +
+                ", consignee='" + consignee + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", detail='" + detail + '\'' +
+                ", isDefault=" + isDefault +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

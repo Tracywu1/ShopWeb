@@ -1,6 +1,8 @@
 package com.cc.po;
 
-import java.util.Date;
+import com.cc.contants.ReturnStatus;
+
+import java.sql.Timestamp;
 
 public class Return {
     /**
@@ -22,11 +24,11 @@ public class Return {
     /**
      * 退货状态
      */
-    private String status;
+    private ReturnStatus status = ReturnStatus.TO_BE_PROCESSED;
     /**
      * 退货时间
      */
-    private Date time;
+    private Timestamp time;
 
     public Integer getId() {
         return id;
@@ -60,19 +62,31 @@ public class Return {
         this.reason = reason;
     }
 
-    public String getStatus() {
+    public ReturnStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReturnStatus status) {
         this.status = status;
     }
 
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "Return{" +
+                "id=" + id +
+                ", user=" + user +
+                ", order=" + order +
+                ", reason='" + reason + '\'' +
+                ", status=" + status +
+                ", time=" + time +
+                '}';
     }
 }

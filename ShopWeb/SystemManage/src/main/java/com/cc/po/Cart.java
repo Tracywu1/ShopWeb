@@ -1,5 +1,6 @@
 package com.cc.po;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Cart {
@@ -31,6 +32,14 @@ public class Cart {
      *总价
      */
     private Double totalPrice;
+    /**
+     * 创建时间
+     */
+    private Timestamp  createTime;
+    /**
+     * 更新时间
+     */
+    private Timestamp updateTime;
 
     private List<Product> productList;
 
@@ -96,5 +105,37 @@ public class Cart {
 
     public void setProductList(List<Product> productList) {
         this.productList = productList;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", user=" + user +
+                ", product=" + product +
+                ", store=" + store +
+                ", count=" + count +
+                ", price=" + price +
+                ", totalPrice=" + totalPrice +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", productList=" + productList +
+                '}';
     }
 }

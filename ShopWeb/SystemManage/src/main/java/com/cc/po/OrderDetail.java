@@ -73,4 +73,16 @@ public class OrderDetail {
     public void setCount(Integer count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "id=" + id +
+                ", product=" + product +
+                ", store=" + store +
+                ", order=" + order +
+                ", price=" + price +
+                ", count=" + count +
+                '}';
+    }
 }

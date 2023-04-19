@@ -1,5 +1,8 @@
 package com.cc.po;
 
+import com.cc.contants.OrderStatus;
+
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +26,7 @@ public class Order {
     /**
      * 订单状态
      */
-    private String status;
+    private OrderStatus status = OrderStatus.NOT_SHIPPED;
     /**
      * 订单金额
      */
@@ -31,11 +34,11 @@ public class Order {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Timestamp createTime;
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private Timestamp updateTime;
 
     private List<OrderDetail> orderDetailList;
 
@@ -71,14 +74,6 @@ public class Order {
         this.count = count;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Double getTotalPrice() {
         return totalPrice;
     }
@@ -91,23 +86,46 @@ public class Order {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public List<OrderDetail> getOrderDetailList() {
         return orderDetailList;
     }
 
     public void setOrderDetailList(List<OrderDetail> orderDetailList) {
         this.orderDetailList = orderDetailList;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
+                ", user=" + user +
+                ", count=" + count +
+                ", status=" + status +
+                ", totalPrice=" + totalPrice +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", orderDetailList=" + orderDetailList +
+                '}';
     }
 }

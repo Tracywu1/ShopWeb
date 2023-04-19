@@ -1,5 +1,6 @@
 package com.cc.po;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Subscribe {
@@ -18,7 +19,7 @@ public class Subscribe {
     /**
      * 关注时间
      */
-    private Date createTime;
+    private Timestamp createTime;
 
     public Integer getId() {
         return id;
@@ -44,11 +45,21 @@ public class Subscribe {
         this.store = store;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Subscribe{" +
+                "id=" + id +
+                ", user=" + user +
+                ", store=" + store +
+                ", createTime=" + createTime +
+                '}';
     }
 }
