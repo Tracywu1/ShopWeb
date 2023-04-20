@@ -11,8 +11,7 @@ import java.util.List;
 /**
  * @author 32119
  */
-public class CRUDUtils {
-
+public final class CRUDUtils {
     /**
      * 此方法是通用的执行增删改的方法
      *
@@ -149,5 +148,8 @@ public class CRUDUtils {
             JDBCUtils.release(conn, psmt, rs);
         }
         return null;
+    }
+
+    private CRUDUtils() {
     }
 }
