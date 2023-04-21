@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * @author 32119
  */
-@WebServlet("/check-code")
+@WebServlet("/check-code/*")
 public class CheckCodeServlet extends BaseServlet {
     public void checkCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session =request.getSession();

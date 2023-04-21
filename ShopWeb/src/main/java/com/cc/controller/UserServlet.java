@@ -7,7 +7,7 @@ import com.cc.service.UserService;
 
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/userServlet")
+@WebServlet("/user/*")
 public class UserServlet extends BaseServlet {
     private UserService userService = new UserServiceImpl();
 

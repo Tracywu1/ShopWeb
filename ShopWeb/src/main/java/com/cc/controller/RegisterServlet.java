@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * @author 32119
  */
-@WebServlet("/register")
+@WebServlet("/register/*")
 public class RegisterServlet extends BaseServlet {
     private UserService userService = new UserServiceImpl();
 
