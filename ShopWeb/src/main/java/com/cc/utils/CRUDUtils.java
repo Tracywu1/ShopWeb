@@ -122,8 +122,10 @@ public class CRUDUtils {
         try {
             conn = JDBCUtils.getConnection();
             psmt = conn.prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                psmt.setObject(i + 1, params[i]);
+            if (params != null && params.length > 0) {
+                for (int i = 0; i < params.length; i++) {
+                    psmt.setObject(i + 1, params[i]);
+                }
             }
             rs = psmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -150,4 +152,36 @@ public class CRUDUtils {
         }
         return null;
     }
+
+    /**
+     * 通用的查询方法（返回记录总数）
+     *
+     * @param sql    SQL语句
+     * @param params 占位符的值
+     * @return 返回记录总数
+     */
+    public static int queryCount(String sql, Object... params) {
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        try {
+            conn = JDBCUtils.getConnection();
+            psmt = conn.prepareStatement(sql);
+            if (params != null && params.length > 0) {
+                for (int i = 0; i < params.length; i++) {
+                    psmt.setObject(i + 1, params[i]);
+                }
+            }
+            rs = psmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(conn, psmt, rs);
+        }
+        return 0;
+    }
+
 }

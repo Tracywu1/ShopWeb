@@ -58,7 +58,7 @@
                     return;
                 }
 
-                axios.post('register?method=register&checkCode=' + this.checkCode, {
+                axios.post('register/register?checkCode=' + this.checkCode, {
                         username: this.user.username,
                         password: this.user.password,
                     }, {

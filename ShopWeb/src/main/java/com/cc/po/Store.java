@@ -15,7 +15,7 @@ public class Store {
     /**
      * 店铺名称
      */
-    private String name;
+    private String storeName;
     /**
      * 店铺介绍
      */
@@ -65,12 +65,12 @@ public class Store {
         this.manager = manager;
     }
 
-    public String getName() {
-        return name;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public String getDescription() {
@@ -158,7 +158,7 @@ public class Store {
         return "Store{" +
                 "id=" + id +
                 ", manager=" + manager +
-                ", name='" + name + '\'' +
+                ", storeName='" + storeName + '\'' +
                 ", description='" + description + '\'' +
                 ", logo='" + logo + '\'' +
                 ", fansNum=" + fansNum +

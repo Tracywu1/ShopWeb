@@ -17,9 +17,17 @@ public class Product {
      */
     private User updater;
     /**
+     * 所属店铺
+     */
+    private Store store;
+    /**
+     * 所属店铺名称
+     */
+    private String storeName;
+    /**
      * 商品名称
      */
-    private String name;
+    private String productName;
     /**
      * 商品描述
      */
@@ -81,12 +89,12 @@ public class Product {
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getDescription() {
@@ -157,13 +165,39 @@ public class Product {
         this.updateTime = updateTime;
     }
 
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", creator=" + creator +
                 ", updater=" + updater +
-                ", name='" + name + '\'' +
+                ", store=" + store +
+                ", storeName='" + storeName + '\'' +
+                ", productName='" + productName + '\'' +
                 ", description='" + description + '\'' +
                 ", image='" + image + '\'' +
                 ", price=" + price +
