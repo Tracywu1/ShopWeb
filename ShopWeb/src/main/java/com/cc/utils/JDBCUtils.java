@@ -17,7 +17,7 @@ public class JDBCUtils {
 
     static {
         try {
-            InputStream in = new FileInputStream("D:\\code\\ShopWeb\\src\\main\\resources\\db.properties");
+            InputStream in = new FileInputStream("D:\\qg\\最终考核\\购物网站\\ShopWeb\\src\\main\\resources\\db.properties");
             Properties properties = new Properties();
             properties.load(in);
 

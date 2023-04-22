@@ -2,6 +2,8 @@ package com.cc.service.Impl;
 
 import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.UserDao;
+import com.cc.po.PageBean;
+import com.cc.po.Product;
 import com.cc.po.User;
 import com.cc.service.UserService;
 
@@ -42,6 +44,21 @@ public class UserServiceImpl implements UserService {
         }
         userDao.insert(user);
         return true;
+    }
+
+    @Override
+    public void deleteByIds(int[] ids) {
+
+    }
+
+    @Override
+    public PageBean<Product> selectByPage(int currentPage, int pageSize) {
+        return null;
+    }
+
+    @Override
+    public PageBean<Product> selectByPageAndCondition(int currentPage, int pageSize, User user) {
+        return null;
     }
 
 

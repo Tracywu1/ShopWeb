@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * @author 32119
  */
-@WebFilter("/*")
+//@WebFilter("/*")
 public class LoginCheckFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

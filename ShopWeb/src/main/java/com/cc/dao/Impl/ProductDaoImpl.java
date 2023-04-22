@@ -13,22 +13,22 @@ public class ProductDaoImpl implements ProductDao {
     private static final Logger logger = LoggerFactory.getLogger(ProductDaoImpl.class);
 
     @Override
-    public void insert(Product product) {
+    public void insert(Product product) throws Exception {
         Object[] params = {product.getProductName(), product.getDescription(), product.getImage(), product.getPrice()};
-        String sql = "insert into tb_product(productName,description,image,price) values(?,?,?,?)";
+        String sql = "insert into tb_product(storeName,productName,description,image,price) values(?,?,?,?)";
         int update = CRUDUtils.update(sql, params);
         logger.info("update:" + update);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws Exception {
         String sql = "delete from tb_product where id = ?";
         int update = CRUDUtils.update(sql, id);
         logger.info("update:" + update);
     }
 
     @Override
-    public void deleteByIds(int[] ids) {
+    public void deleteByIds(int[] ids) throws Exception {
         int update = 0;
         String sql = null;
         for (int id : ids) {
@@ -40,7 +40,16 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Product select(Integer id) {
+    public List<Product> selectAll() throws Exception {
+        String sql = "select * from tb_product";
+        List<Product> products = CRUDUtils.queryMore(sql,Product.class,null);
+        logger.info(products.toString());
+        return products;
+    }
+
+
+    @Override
+    public Product select(Integer id) throws Exception {
         String sql = "select * from tb_product where id =?";
         Product product = CRUDUtils.query(sql, Product.class, id);
         logger.info(String.valueOf(product));
@@ -48,7 +57,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> selectByProductName(String productName) {
+    public List<Product> selectByProductName(String productName) throws Exception {
         String sql = "select * from tb_product where productName LIKE ?";
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, productName);
         logger.info(String.valueOf(products));
@@ -56,7 +65,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void update(Product product) {
+    public void update(Product product) throws Exception {
         Object[] params = {product.getProductName(), product.getDescription(), product.getImage(), product.getPrice(), product.getId()};
         //待修改
         String sql = "update tb_product set productName = ?,description = ?,image = ?,price = ? where id = ?";
@@ -65,7 +74,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> selectByPage(int begin, int size) {
+    public List<Product> selectByPage(int begin, int size) throws Exception {
         Object[] params = {begin, size};
         String sql = "select * from tb_product limit ?, ?";
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, params);
@@ -74,7 +83,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public int selectTotalCount() {
+    public int selectTotalCount() throws Exception {
         String sql = "select count(*) from tb_product";
         int totalCount = CRUDUtils.queryCount(sql, null);
         logger.info("totalCount:" + totalCount);
@@ -82,7 +91,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> selectByPageAndCondition(int begin, int size, Product product) {
+    public List<Product> selectByPageAndCondition(int begin, int size, Product product) throws Exception {
         StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM tb_product WHERE 1=1");
 
         fuzzyQuery(product, sqlBuilder);
@@ -96,7 +105,7 @@ public class ProductDaoImpl implements ProductDao {
             if (product.getProductName() != null && !product.getProductName().isEmpty()) {
                 count++;
             }
-            if (product.getStore().getStoreName() != null && !product.getStore().getStoreName().isEmpty()) {
+            if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
                 count++;
             }
 
@@ -116,7 +125,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public int selectTotalCountByCondition(Product product) {
+    public int selectTotalCountByCondition(Product product) throws Exception {
         StringBuilder sqlBuilder = new StringBuilder("SELECT COUNT(*) FROM tb_product WHERE 1=1 ");
 
         fuzzyQuery(product, sqlBuilder);
@@ -128,7 +137,7 @@ public class ProductDaoImpl implements ProductDao {
             if (product.getProductName() != null && !product.getProductName().isEmpty()) {
                 count++;
             }
-            if (product.getStore().getStoreName() != null && !product.getStore().getStoreName().isEmpty()) {
+            if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
                 count++;
             }
 
@@ -150,8 +159,8 @@ public class ProductDaoImpl implements ProductDao {
             index++;
         }
 
-        if (product.getStore().getStoreName() != null && !product.getStore().getStoreName().isEmpty()) {
-            params[index] = "%" + product.getStore().getStoreName() + "%";
+        if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
+            params[index] = "%" + product.getStoreName() + "%";
         }
     }
 
@@ -161,7 +170,7 @@ public class ProductDaoImpl implements ProductDao {
                 sqlBuilder.append(" AND productName LIKE ?");
             }
 
-            if (product.getStore().getStoreName() != null && !product.getStore().getStoreName().isEmpty()) {
+            if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
                 sqlBuilder.append(" AND storeName LIKE ?");
             }
         }

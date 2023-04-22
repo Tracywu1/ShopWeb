@@ -1,5 +1,6 @@
 package com.cc.po;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -11,15 +12,15 @@ public class Product {
     /**
      * 创建者
      */
-    private User creator;
+    private Integer createId;
     /**
      * 更新者
      */
-    private User updater;
+    private Integer updateId;
     /**
      * 所属店铺
      */
-    private Store store;
+    private Integer storeId;
     /**
      * 所属店铺名称
      */
@@ -39,7 +40,7 @@ public class Product {
     /**
      * 商品价格
      */
-    private Double price;
+    private BigDecimal price ;
     /**
      * 库存
      */
@@ -57,10 +58,10 @@ public class Product {
      */
     private Timestamp updateTime;
 
-    private List<OrderItem> orderItemList;
+   /* private List<OrderItem> orderItemList;
 
     private List<Comment> commentList;
-
+*/
     public Integer getId() {
         return id;
     }
@@ -69,24 +70,20 @@ public class Product {
         this.id = id;
     }
 
-    public User getCreator() {
-        return creator;
+    public Integer getCreatId() {
+        return createId;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreatId(Integer creatId) {
+        this.createId = creatId;
     }
 
-    public User getUpdater() {
-        return updater;
+    public Integer getUpdateId() {
+        return updateId;
     }
 
-    public void setUpdater(User updater) {
-        this.updater = updater;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setUpdateId(Integer updateId) {
+        this.updateId = updateId;
     }
 
     public String getProductName() {
@@ -113,6 +110,26 @@ public class Product {
         this.image = image;
     }
 
+    public Integer getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(Integer createId) {
+        this.createId = createId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     public Integer getProductCount() {
         return productCount;
     }
@@ -129,11 +146,7 @@ public class Product {
         this.saleCount = saleCount;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public List<OrderItem> getOrderDetailList() {
+    /*public List<OrderItem> getOrderDetailList() {
         return orderItemList;
     }
 
@@ -147,7 +160,7 @@ public class Product {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
-    }
+    }*/
 
     public Timestamp getCreateTime() {
         return createTime;
@@ -165,22 +178,22 @@ public class Product {
         this.updateTime = updateTime;
     }
 
-    public Store getStore() {
-        return store;
+    public int getStoreId() {
+        return storeId;
     }
 
-    public void setStore(Store store) {
-        this.store = store;
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
     }
 
-    public List<OrderItem> getOrderItemList() {
+    /*public List<OrderItem> getOrderItemList() {
         return orderItemList;
     }
 
     public void setOrderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
     }
-
+*/
     public String getStoreName() {
         return storeName;
     }
@@ -193,9 +206,9 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", creator=" + creator +
-                ", updater=" + updater +
-                ", store=" + store +
+                ", createId=" + createId +
+                ", updateId=" + updateId +
+                ", storeId=" + storeId +
                 ", storeName='" + storeName + '\'' +
                 ", productName='" + productName + '\'' +
                 ", description='" + description + '\'' +
@@ -205,8 +218,6 @@ public class Product {
                 ", saleCount=" + saleCount +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", orderItemList=" + orderItemList +
-                ", commentList=" + commentList +
                 '}';
     }
 }

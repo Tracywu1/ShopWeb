@@ -73,6 +73,25 @@
                     align="center"
             >
             </el-table-column>
+            <el-table-column
+                    prop="description"
+                    label="商品描述"
+                    align="center"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="productCount"
+                    label="商品库存"
+                    align="center"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="saleCount"
+                    label="商品月销量"
+                    align="center"
+            >
+            </el-table-column>
+
 
             <el-table-column
                     align="center"
@@ -111,7 +130,7 @@
 
             axios({
                 method:"get",
-                url:"http://localhost:8080/product-case/selectAllServlet"
+                url:"product/selectAll"
             }).then(function (resp) {
                 _this.tableData = resp.data;
             })

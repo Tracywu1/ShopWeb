@@ -20,12 +20,16 @@ public class CRUDUtils {
      * @param params 占位符的值
      * @return update 更新数据的条数
      */
-    public static int update(String sql, Object... params) {
+    public static int update(String sql, Object... params) throws Exception{
         //获取连接
         Connection conn = null;
         PreparedStatement psmt = null;
         try {
             conn = JDBCUtils.getConnection();
+
+            //关闭自动提交事务
+            conn.setAutoCommit(false);
+
             psmt = conn.prepareStatement(sql);
             if (params != null && params.length > 0) {
                 for (int i = 0; i < params.length; i++) {
@@ -33,16 +37,18 @@ public class CRUDUtils {
                 }
             }
             int row = psmt.executeUpdate();
+            conn.commit();
             //返回更新数据的条数
             return row;
         } catch (Exception e) {
             //处理异常
             e.printStackTrace();
+            conn.rollback(); //回滚事务
+            throw e;
         } finally {
             //释放资源
             JDBCUtils.release(conn, psmt, null);
         }
-        return 0;
     }
 
 
@@ -55,7 +61,7 @@ public class CRUDUtils {
      * @param <T>    具体操作的实体类
      * @return 返回特定的泛型
      */
-    public static <T> T query(String sql, Class<T> clazz, Object... params) {
+    public static <T> T query(String sql, Class<T> clazz, Object... params)throws Exception {
         //获取连接
         Connection conn = null;
         //对sql进行预编译
@@ -64,6 +70,10 @@ public class CRUDUtils {
         ResultSet rs = null;
         try {
             conn = JDBCUtils.getConnection();
+
+            //关闭自动提交事务
+            conn.setAutoCommit(false);
+
             psmt = conn.prepareStatement(sql);
             //设置占位符
             if (params != null && params.length > 0) {
@@ -94,11 +104,14 @@ public class CRUDUtils {
                     field.setAccessible(true);
                     field.set(t, value);
                 }
+                conn.commit(); //提交事务
                 return t;
             }
         } catch (Exception e) {
             //处理异常
             e.printStackTrace();
+            conn.rollback(); //回滚事务
+            throw e;
         } finally {
             //释放资源
             JDBCUtils.release(conn, psmt, rs);
@@ -115,12 +128,16 @@ public class CRUDUtils {
      * @param <T>    具体操作的实体类
      * @return 返回特定的泛型
      */
-    public static <T> List<T> queryMore(String sql, Class<T> clazz, Object... params) {
+    public static <T> List<T> queryMore(String sql, Class<T> clazz, Object... params)throws Exception {
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
         try {
             conn = JDBCUtils.getConnection();
+
+            //关闭自动提交事务
+            conn.setAutoCommit(false);
+
             psmt = conn.prepareStatement(sql);
             if (params != null && params.length > 0) {
                 for (int i = 0; i < params.length; i++) {
@@ -140,17 +157,32 @@ public class CRUDUtils {
                     String fieldName = rsmd.getColumnLabel(i + 1);
                     Field field = clazz.getDeclaredField(fieldName);
                     field.setAccessible(true);
-                    field.set(t, value);
+                    Class<?> fieldType = field.getType();
+                    if (value == null) {
+                        if (fieldType == double.class) {
+                            field.setDouble(t, 0.0); // 设置为默认值0.0
+                        } else if (fieldType == Double.class) {
+                            field.set(t, null); // 设置为null
+                        } else {
+                            // 处理其他类型的默认值或null值
+                        }
+                    } else {
+                        field.set(t, value);
+                    }
                 }
+
                 list.add(t);
             }
+            conn.commit(); //提交事务
             return list;
         } catch (Exception e) {
+            //处理异常
             e.printStackTrace();
+            conn.rollback(); //回滚事务
+            throw e;
         } finally {
             JDBCUtils.release(conn, psmt, rs);
         }
-        return null;
     }
 
     /**
@@ -160,12 +192,16 @@ public class CRUDUtils {
      * @param params 占位符的值
      * @return 返回记录总数
      */
-    public static int queryCount(String sql, Object... params) {
+    public static int queryCount(String sql, Object... params) throws Exception{
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
         try {
             conn = JDBCUtils.getConnection();
+
+            //关闭自动提交事务
+            conn.setAutoCommit(false);
+
             psmt = conn.prepareStatement(sql);
             if (params != null && params.length > 0) {
                 for (int i = 0; i < params.length; i++) {
@@ -174,10 +210,14 @@ public class CRUDUtils {
             }
             rs = psmt.executeQuery();
             if (rs.next()) {
+                conn.commit(); //提交事务
                 return rs.getInt(1);
             }
         } catch (Exception e) {
+            //处理异常
             e.printStackTrace();
+            conn.rollback(); //回滚事务
+            throw e;
         } finally {
             JDBCUtils.release(conn, psmt, rs);
         }
