@@ -6,6 +6,7 @@ import com.cc.utils.CRUDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.text.html.CSS;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
@@ -15,7 +16,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void insert(Product product) throws Exception {
         Object[] params = {product.getStoreName(), product.getProductName(), product.getPrice(), product.getProductCount(), product.getDescription()};
-        String sql = "insert into tb_product(storeName,productName,price,productCount,description) values(?,?,?,?,?)";
+        String sql = "insert into tb_product(id,storeId,productName,storeName,description,image,price,productCount,saleCount,createTime,updateTime) values(?,?,?,?,?,?,?,?,?,?,?)";
         int update = CRUDUtils.update(sql, params);
         logger.debug("update:" + update);
     }
@@ -182,13 +183,19 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void deleteByIds(int[] ids) throws Exception {
-        int update = 0;
-        String sql = null;
-        for (int id : ids) {
-            sql = "delete from tb_product where id = ?";
-            CRUDUtils.update(sql, id);
-            update++;
+        StringBuilder sqlBuilder = new StringBuilder("delete from tb_product where id in (");
+
+        for (int i = 0; i < ids.length; i++) {
+            if (i == ids.length - 1) {
+                sqlBuilder.append("? ");
+            } else {
+                sqlBuilder.append("?, ");
+            }
         }
+
+        sqlBuilder.append(")");
+
+        int update = CRUDUtils.update(sqlBuilder.toString(), ids);
         logger.debug("update:" + update);
     }
 
@@ -220,7 +227,7 @@ public class ProductDaoImpl implements ProductDao {
     public void update(Product product) throws Exception {
         Object[] params = {product.getProductName(), product.getDescription(), product.getImage(), product.getPrice(), product.getId()};
         //待修改
-        String sql = "update tb_product set productName = ?,description = ?,image = ?,price = ? where id = ?";
+        String sql = "update tb_product set id = ?,storeId = ?,productName = ?,storeName = ?,description = ?,image = ?,price = ?,productCount = ?,saleCount = ?,createTime = ?,updateTime = ? where id = ?";
         int update = CRUDUtils.update(sql, params);
         logger.debug(String.valueOf(update));
     }
@@ -312,7 +319,6 @@ public class ProductDaoImpl implements ProductDao {
         }
         if (product.getProductCount() != null) {
             params[index] = product.getProductCount();
-            index++;
         }
 
         params[params.length - 1] = product.getId();
