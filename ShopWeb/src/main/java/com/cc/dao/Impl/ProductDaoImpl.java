@@ -11,16 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
-
     private static final Logger logger = LoggerFactory.getLogger(ProductDaoImpl.class);
-
-    @Override
-    public void insert(Product product) throws Exception {
-        Object[] params = {product.getStoreName(), product.getProductName(), product.getPrice(), product.getProductCount(), product.getDescription()};
-        String sql = "insert into tb_product(id,storeId,productName,storeName,description,image,price,productCount,saleCount,createTime,updateTime) values(?,?,?,?,?,?,?,?,?,?,?)";
-        int update = CRUDUtils.update(sql, params);
-        logger.debug("update:" + update);
-    }
 
     @Override
     public void insertSelective(Product product) throws Exception {
@@ -180,6 +171,10 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "delete from tb_product where id = ?";
         int update = CRUDUtils.update(sql, id);
         logger.debug("update:" + update);
+
+        if (update == 0) {
+            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+        }
     }
 
     @Override
@@ -198,6 +193,10 @@ public class ProductDaoImpl implements ProductDao {
 
         int update = CRUDUtils.update(sqlBuilder.toString(), ids);
         logger.debug("update:" + update);
+
+        if (update == 0) {
+            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+        }
     }
 
     @Override
@@ -225,7 +224,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> selectByProductName_List(String productName) throws Exception {
+    public List<Product> selectByProductNameList(String productName) throws Exception {
         String sql = "select * from tb_product where productName LIKE ?";
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, productName);
         logger.debug(String.valueOf(products));
@@ -332,12 +331,11 @@ public class ProductDaoImpl implements ProductDao {
         params[params.length - 1] = product.getId();
 
         int update = CRUDUtils.update(sqlBuilder.toString(), params);
+        logger.debug("update:" + update);
 
         if (update == 0) {
             throw new MyRunTimeException(ResultCode.UPDATE_FAILED);
         }
-
-        logger.debug("update:" + update);
     }
 
     @Override

@@ -2,9 +2,9 @@ package com.cc.po;
 
 import com.cc.contants.OrderStatus;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 
 public class Order {
     /**
@@ -16,9 +16,9 @@ public class Order {
      */
     private String orderNo;
     /**
-     * 所属用户
+     * 所属用户ID
      */
-    private User user;
+    private User userId;
     /**
      * 订单数量
      */
@@ -30,7 +30,7 @@ public class Order {
     /**
      * 订单金额
      */
-    private Double totalPrice;
+    private BigDecimal totalPrice;
     /**
      * 创建时间
      */
@@ -40,7 +40,7 @@ public class Order {
      */
     private Timestamp updateTime;
 
-    private List<OrderItem> orderItemList;
+    //private List<OrderItem> orderItemList;
 
     public Integer getId() {
         return id;
@@ -58,14 +58,6 @@ public class Order {
         this.orderNo = orderNo;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Integer getCount() {
         return count;
     }
@@ -74,25 +66,17 @@ public class Order {
         this.count = count;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
-    public List<OrderItem> getOrderDetailList() {
+   /* public List<OrderItem> getOrderDetailList() {
         return orderItemList;
     }
 
     public void setOrderDetailList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
-    }
+    }*/
 
     public OrderStatus getStatus() {
         return status;
@@ -114,18 +98,33 @@ public class Order {
         this.updateTime = updateTime;
     }
 
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", orderNo='" + orderNo + '\'' +
-                ", user=" + user +
+                ", userId=" + userId +
                 ", count=" + count +
                 ", status=" + status +
                 ", totalPrice=" + totalPrice +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", orderItemList=" + orderItemList +
                 '}';
     }
 }

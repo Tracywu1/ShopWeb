@@ -5,11 +5,6 @@ import com.cc.po.Product;
 import java.util.List;
 
 public interface ProductDao {
-    /**
-     * 添加数据
-     * @param product
-     */
-    void insert(Product product) throws Exception;
 
     /**
      * 选择性地添加数据
@@ -57,7 +52,7 @@ public interface ProductDao {
      * @param productName
      * @return
      */
-    List<Product> selectByProductName_List(String productName) throws Exception;
+    List<Product> selectByProductNameList(String productName) throws Exception;
 
     /**
      * 分页查询

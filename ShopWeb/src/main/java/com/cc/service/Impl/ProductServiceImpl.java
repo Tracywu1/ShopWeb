@@ -20,7 +20,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void add(Product product) throws Exception {
-        productDao.insert(product);
+        productDao.insertSelective(product);
+    }
+
+    @Override
+    public void delete(int id) throws Exception {
+        Product productOld = productDao.select(id);
+
+        //查询不到该数据，无法删除
+        if(productOld == null){
+            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+        }
+
+        productDao.delete(id);
     }
 
     @Override

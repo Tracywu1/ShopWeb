@@ -21,6 +21,8 @@ public interface ProductService {
      */
     void add(Product product) throws Exception;
 
+    void delete(int id) throws Exception;
+
     /**
      * 批量删除
      * @param ids
