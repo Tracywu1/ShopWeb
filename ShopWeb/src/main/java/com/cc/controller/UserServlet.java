@@ -11,22 +11,22 @@ import javax.servlet.annotation.WebServlet;
 public class UserServlet extends BaseServlet {
     private UserService userService = new UserServiceImpl();
 
-    public Result delete(Integer id){
+    public Result delete(Integer id) throws Exception {
         userService.delete(id);
         return Result.success();
     }
 
-    public Result save( User user){
+    public Result save( User user) throws Exception {
         userService.save(user);
         return Result.success();
     }
 
-    public Result getById( Integer id){
+    public Result getById( Integer id) throws Exception {
         User user = userService.getById(id);
         return Result.success(user);
     }
 
-    public Result modify( User user){
+    public Result modify( User user) throws Exception {
         userService.modify(user);
         return Result.success();
     }

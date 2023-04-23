@@ -4,9 +4,18 @@ package com.cc.po;
 import com.cc.contants.ResultCode;
 
 public class Result<T> {
-    private Integer code;//响应码，1 代表成功; 0 代表失败
-    private String message ;  //响应信息 描述字符串
-    private T data; //返回的数据
+    /**
+     * 响应码
+     */
+    private Integer code;
+    /**
+     * 响应信息 描述字符串
+     */
+    private String message ;
+    /**
+     * 返回的数据
+     */
+    private T data;
 
     public Integer getCode() {
         return code;

@@ -12,6 +12,14 @@ public interface ProductDao {
     void insert(Product product) throws Exception;
 
     /**
+     * 选择性地添加数据
+     * @param product
+     * @throws Exception
+     */
+
+    void insertSelective(Product product) throws Exception;
+
+    /**
      * 根据id删除数据
      * @param id
      */

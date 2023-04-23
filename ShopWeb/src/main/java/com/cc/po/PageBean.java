@@ -2,11 +2,17 @@ package com.cc.po;
 
 import java.util.List;
 
-//分页查询的JavaBean
+/**
+ * 分页查询的JavaBean
+ */
 public class PageBean<T> {
-    // 总记录数
+    /**
+     * 总记录数
+     */
     private int totalCount;
-    // 当前页数据
+    /**
+     * 当前页数据
+     */
     private List<T> rows;
 
 

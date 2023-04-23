@@ -14,10 +14,6 @@ public class Product {
      */
     private Integer createId;
     /**
-     * 更新者
-     */
-    private Integer updateId;
-    /**
      * 所属店铺
      */
     private Integer storeId;
@@ -78,20 +74,12 @@ public class Product {
         this.createId = creatId;
     }
 
-    public Integer getUpdateId() {
-        return updateId;
-    }
-
-    public void setUpdateId(Integer updateId) {
-        this.updateId = updateId;
-    }
-
     public String getProductName() {
         return productName;
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
+        this.productName = productName == null ? null : productName.trim();
     }
 
     public String getDescription() {
@@ -99,7 +87,7 @@ public class Product {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description == null ? null : description.trim();
     }
 
     public String getImage() {
@@ -107,7 +95,7 @@ public class Product {
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.image = image == null ? null : image.trim();
     }
 
     public Integer getCreateId() {
@@ -199,7 +187,7 @@ public class Product {
     }
 
     public void setStoreName(String storeName) {
-        this.storeName = storeName;
+        this.storeName = storeName == null ? null : storeName.trim();
     }
 
     @Override
@@ -207,7 +195,6 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", createId=" + createId +
-                ", updateId=" + updateId +
                 ", storeId=" + storeId +
                 ", storeName='" + storeName + '\'' +
                 ", productName='" + productName + '\'' +

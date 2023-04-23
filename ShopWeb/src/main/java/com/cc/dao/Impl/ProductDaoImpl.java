@@ -14,17 +14,79 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void insert(Product product) throws Exception {
-        Object[] params = {product.getProductName(), product.getDescription(), product.getImage(), product.getPrice()};
-        String sql = "insert into tb_product(storeName,productName,description,image,price) values(?,?,?,?)";
+        Object[] params = {product.getStoreName(),product.getProductName(),product.getPrice(),product.getProductCount(),product.getDescription()};
+        String sql = "insert into tb_product(storeName,productName,price,productCount,description) values(?,?,?,?,?)";
         int update = CRUDUtils.update(sql, params);
-        logger.info("update:" + update);
+        logger.debug("update:" + update);
+    }
+
+    public void insertSelective(Product product) throws Exception {
+        StringBuilder sqlBuilder = new StringBuilder("insert into tb_product");
+        StringBuilder columnsBuilder = new StringBuilder("(");
+        StringBuilder valuesBuilder = new StringBuilder("(");
+        if (product.getId() != null) {
+            columnsBuilder.append("`id`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getProductName() != null) {
+            columnsBuilder.append("`name`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getImage() != null) {
+            columnsBuilder.append("`image`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getDescription() != null) {
+            columnsBuilder.append("`description`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getCreateId() != null) {
+            columnsBuilder.append("`creatId`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getPrice() != null) {
+            columnsBuilder.append("`price`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getProductCount() != null) {
+            columnsBuilder.append("`productCount`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getSaleCount() != null) {
+            columnsBuilder.append("`saleCount`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getCreateTime() != null) {
+            columnsBuilder.append("`createTime`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getUpdateTime() != null) {
+            columnsBuilder.append("`updateTime`,");
+            valuesBuilder.append("?,");
+        }
+        
+        //删掉最后一个逗号
+        columnsBuilder.deleteCharAt(columnsBuilder.length() - 1);
+        valuesBuilder.deleteCharAt(valuesBuilder.length() - 1);
+
+        columnsBuilder.append(")");
+        valuesBuilder.append(")");
+
+        sqlBuilder.append(columnsBuilder);
+        sqlBuilder.append(" ");
+        sqlBuilder.append("values");
+        sqlBuilder.append(" ");
+        sqlBuilder.append(valuesBuilder);
+
+        int update = CRUDUtils.update(sqlBuilder.toString(), product);
+        logger.debug("update:" + update);
     }
 
     @Override
     public void delete(Integer id) throws Exception {
         String sql = "delete from tb_product where id = ?";
         int update = CRUDUtils.update(sql, id);
-        logger.info("update:" + update);
+        logger.debug("update:" + update);
     }
 
     @Override
@@ -36,14 +98,14 @@ public class ProductDaoImpl implements ProductDao {
             CRUDUtils.update(sql, id);
             update++;
         }
-        logger.info("update:" + update);
+        logger.debug("update:" + update);
     }
 
     @Override
     public List<Product> selectAll() throws Exception {
         String sql = "select * from tb_product";
         List<Product> products = CRUDUtils.queryMore(sql,Product.class,null);
-        logger.info(products.toString());
+        logger.debug(products.toString());
         return products;
     }
 
@@ -52,7 +114,7 @@ public class ProductDaoImpl implements ProductDao {
     public Product select(Integer id) throws Exception {
         String sql = "select * from tb_product where id =?";
         Product product = CRUDUtils.query(sql, Product.class, id);
-        logger.info(String.valueOf(product));
+        logger.debug(String.valueOf(product));
         return product;
     }
 
@@ -60,7 +122,7 @@ public class ProductDaoImpl implements ProductDao {
     public List<Product> selectByProductName(String productName) throws Exception {
         String sql = "select * from tb_product where productName LIKE ?";
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, productName);
-        logger.info(String.valueOf(products));
+        logger.debug(String.valueOf(products));
         return products;
     }
 
@@ -70,7 +132,7 @@ public class ProductDaoImpl implements ProductDao {
         //待修改
         String sql = "update tb_product set productName = ?,description = ?,image = ?,price = ? where id = ?";
         int update = CRUDUtils.update(sql, params);
-        logger.info(String.valueOf(update));
+        logger.debug(String.valueOf(update));
     }
 
     @Override
@@ -78,7 +140,7 @@ public class ProductDaoImpl implements ProductDao {
         Object[] params = {begin, size};
         String sql = "select * from tb_product limit ?, ?";
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, params);
-        logger.info(products.toString());
+        logger.debug(products.toString());
         return products;
     }
 
@@ -86,7 +148,7 @@ public class ProductDaoImpl implements ProductDao {
     public int selectTotalCount() throws Exception {
         String sql = "select count(*) from tb_product";
         int totalCount = CRUDUtils.queryCount(sql, null);
-        logger.info("totalCount:" + totalCount);
+        logger.debug("totalCount:" + totalCount);
         return totalCount;
     }
 
@@ -120,7 +182,7 @@ public class ProductDaoImpl implements ProductDao {
         params[params.length - 1] = size;
 
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, params);
-        logger.info(products.toString());
+        logger.debug(products.toString());
         return products;
     }
 
@@ -147,7 +209,7 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         int totalCount = CRUDUtils.queryCount(sql, params);
-        logger.info("totalCount:"+ totalCount);
+        logger.debug("totalCount:"+ totalCount);
         return totalCount;
     }
 

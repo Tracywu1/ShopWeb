@@ -1,5 +1,6 @@
 package com.cc.service;
 
+import com.cc.po.PageBean;
 import com.cc.po.Product;
 
 import java.util.List;
@@ -12,5 +13,34 @@ public interface ProductService {
      * 查询所有
      * @return
      */
-    List<Product> getAll();
+    List<Product> getAll() throws Exception;
+
+    /**
+     * 新增商品
+     * @param product
+     */
+    public void add(Product product) throws Exception;
+
+    /**
+     * 批量删除
+     * @param ids
+     */
+    public void deleteInBatches(int[]ids) throws Exception;
+
+    /**
+     * 分页查询
+     * @param currentPage  当前页码
+     * @param pageSize   每页展示条数
+     * @return
+     */
+    PageBean<Product> selectByPage(int currentPage, int pageSize) throws Exception;
+
+    /**
+     * 分页条件查询
+     * @param currentPage
+     * @param pageSize
+     * @param product
+     * @return
+     */
+    PageBean<Product>  selectByPageAndCondition(int currentPage,int pageSize,Product product) throws Exception;
 }

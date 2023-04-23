@@ -15,30 +15,30 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao = new UserDaoImpl();
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws Exception {
         userDao.delete(id);
     }
 
     @Override
-    public void save(User user) {
+    public void save(User user) throws Exception {
         userDao.insert(user);
     }
 
     @Override
-    public User getById(Integer id) {
+    public User getById(Integer id) throws Exception {
         return userDao.select(id);
     }
 
     @Override
-    public void modify(User user) {
+    public void modify(User user) throws Exception {
         userDao.update(user);
     }
 
     @Override
-    public User login(User user) {return userDao.select(user);}
+    public User login(User user) throws Exception {return userDao.select(user);}
 
 
-    public boolean register(User user) {
+    public boolean register(User user) throws Exception {
         if (userDao.select(user.getUsername()) != null) {
             return false;
         }

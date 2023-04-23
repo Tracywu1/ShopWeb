@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class RegisterServlet extends BaseServlet {
     private UserService userService = new UserServiceImpl();
 
-    public void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void register(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
         HttpSession session = request.getSession();

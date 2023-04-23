@@ -37,7 +37,7 @@ public class LoginServlet extends BaseServlet {
      * @param response 响应
      * @throws IOException IO异常
      */
-    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String requestBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         User user = JSON.parseObject(requestBody, User.class);
 
