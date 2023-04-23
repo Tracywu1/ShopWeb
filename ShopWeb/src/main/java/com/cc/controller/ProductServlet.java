@@ -60,6 +60,23 @@ public class ProductServlet extends BaseServlet {
     }
 
     /**
+     * 删除商品
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        //调用service添加
+        productService.delete(id);
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
      * 批量删除
      * @param request
      * @param response

@@ -64,7 +64,7 @@ public class OrderDaoImpl implements OrderDao {
         sqlBuilder.append(" ");
         sqlBuilder.append(valuesBuilder);
 
-        Object[] params = new Object[0];
+        Object[] params;
         int count = 0;
 
         if (order.getId() != null) {
