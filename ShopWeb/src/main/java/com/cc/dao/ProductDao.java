@@ -86,4 +86,11 @@ public interface ProductDao {
      * @param product
      */
     void update(Product product) throws Exception;
+
+    /**
+     * 选择性地修改数据
+     * @param product
+     * @throws Exception
+     */
+    void updateByIdSelective(Product product) throws Exception;
 }

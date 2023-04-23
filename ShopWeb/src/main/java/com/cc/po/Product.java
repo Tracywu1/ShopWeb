@@ -2,17 +2,12 @@ package com.cc.po;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
 public class Product {
     /**
      * 商品ID
      */
     private Integer id;
-    /**
-     * 创建者
-     */
-    private Integer createId;
     /**
      * 所属店铺
      */
@@ -66,14 +61,6 @@ public class Product {
         this.id = id;
     }
 
-    public Integer getCreatId() {
-        return createId;
-    }
-
-    public void setCreatId(Integer creatId) {
-        this.createId = creatId;
-    }
-
     public String getProductName() {
         return productName;
     }
@@ -96,14 +83,6 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image == null ? null : image.trim();
-    }
-
-    public Integer getCreateId() {
-        return createId;
-    }
-
-    public void setCreateId(Integer createId) {
-        this.createId = createId;
     }
 
     public void setStoreId(Integer storeId) {
@@ -166,12 +145,8 @@ public class Product {
         this.updateTime = updateTime;
     }
 
-    public int getStoreId() {
+    public Integer getStoreId() {
         return storeId;
-    }
-
-    public void setStoreId(int storeId) {
-        this.storeId = storeId;
     }
 
     /*public List<OrderItem> getOrderItemList() {
@@ -194,7 +169,6 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", createId=" + createId +
                 ", storeId=" + storeId +
                 ", storeName='" + storeName + '\'' +
                 ", productName='" + productName + '\'' +

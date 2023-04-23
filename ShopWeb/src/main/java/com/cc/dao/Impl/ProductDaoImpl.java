@@ -14,12 +14,13 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void insert(Product product) throws Exception {
-        Object[] params = {product.getStoreName(),product.getProductName(),product.getPrice(),product.getProductCount(),product.getDescription()};
+        Object[] params = {product.getStoreName(), product.getProductName(), product.getPrice(), product.getProductCount(), product.getDescription()};
         String sql = "insert into tb_product(storeName,productName,price,productCount,description) values(?,?,?,?,?)";
         int update = CRUDUtils.update(sql, params);
         logger.debug("update:" + update);
     }
 
+    @Override
     public void insertSelective(Product product) throws Exception {
         StringBuilder sqlBuilder = new StringBuilder("insert into tb_product");
         StringBuilder columnsBuilder = new StringBuilder("(");
@@ -28,20 +29,24 @@ public class ProductDaoImpl implements ProductDao {
             columnsBuilder.append("`id`,");
             valuesBuilder.append("?,");
         }
-        if (product.getProductName() != null) {
-            columnsBuilder.append("`name`,");
+        if (product.getStoreId() != null) {
+            columnsBuilder.append("`storeId`,");
             valuesBuilder.append("?,");
         }
-        if (product.getImage() != null) {
-            columnsBuilder.append("`image`,");
+        if (product.getProductName() != null) {
+            columnsBuilder.append("`productName`,");
+            valuesBuilder.append("?,");
+        }
+        if (product.getStoreName() != null) {
+            columnsBuilder.append("`storeName`,");
             valuesBuilder.append("?,");
         }
         if (product.getDescription() != null) {
             columnsBuilder.append("`description`,");
             valuesBuilder.append("?,");
         }
-        if (product.getCreateId() != null) {
-            columnsBuilder.append("`creatId`,");
+        if (product.getImage() != null) {
+            columnsBuilder.append("`image`,");
             valuesBuilder.append("?,");
         }
         if (product.getPrice() != null) {
@@ -64,7 +69,7 @@ public class ProductDaoImpl implements ProductDao {
             columnsBuilder.append("`updateTime`,");
             valuesBuilder.append("?,");
         }
-        
+
         //删掉最后一个逗号
         columnsBuilder.deleteCharAt(columnsBuilder.length() - 1);
         valuesBuilder.deleteCharAt(valuesBuilder.length() - 1);
@@ -78,7 +83,93 @@ public class ProductDaoImpl implements ProductDao {
         sqlBuilder.append(" ");
         sqlBuilder.append(valuesBuilder);
 
-        int update = CRUDUtils.update(sqlBuilder.toString(), product);
+        Object[] params = new Object[0];
+        int count = 0;
+
+        if (product.getId() != null) {
+            count++;
+        }
+        if (product.getStoreId() != null) {
+            count++;
+        }
+        if (product.getProductName() != null && !product.getProductName().isEmpty()) {
+            count++;
+        }
+        if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
+            count++;
+        }
+        if (product.getDescription() != null && !product.getDescription().isEmpty()) {
+            count++;
+        }
+        if (product.getImage() != null && !product.getImage().isEmpty()) {
+            count++;
+        }
+        if (product.getPrice() != null) {
+            count++;
+        }
+        if (product.getProductCount() != null) {
+            count++;
+        }
+        if (product.getSaleCount() != null) {
+            count++;
+        }
+        if (product.getCreateTime() != null) {
+            count++;
+        }
+        if (product.getUpdateTime() != null) {
+            count++;
+        }
+
+        params = new Object[count];
+
+        int index = 0;
+
+        if (product.getId() != null) {
+            params[index] = product.getId();
+            index++;
+        }
+        if (product.getStoreId() != null) {
+            params[index] = product.getStoreId();
+            index++;
+        }
+        if (product.getProductName() != null && !product.getProductName().isEmpty()) {
+            params[index] = product.getProductName();
+            index++;
+        }
+        if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
+            params[index] = product.getStoreName();
+            index++;
+        }
+        if (product.getDescription() != null && !product.getDescription().isEmpty()) {
+            params[index] = product.getDescription();
+            index++;
+        }
+        if (product.getImage() != null && !product.getImage().isEmpty()) {
+            params[index] = product.getImage();
+            index++;
+        }
+        if (product.getPrice() != null) {
+            params[index] = product.getPrice();
+            index++;
+        }
+        if (product.getProductCount() != null) {
+            params[index] = product.getProductCount();
+            index++;
+        }
+        if (product.getSaleCount() != null) {
+            params[index] = product.getSaleCount();
+            index++;
+        }
+        if (product.getCreateTime() != null) {
+            params[index] = product.getCreateTime();
+            index++;
+        }
+        if (product.getUpdateTime() != null) {
+            params[index] = product.getUpdateTime();
+            index++;
+        }
+
+        int update = CRUDUtils.update(sqlBuilder.toString(), params);
         logger.debug("update:" + update);
     }
 
@@ -104,11 +195,10 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public List<Product> selectAll() throws Exception {
         String sql = "select * from tb_product";
-        List<Product> products = CRUDUtils.queryMore(sql,Product.class,null);
+        List<Product> products = CRUDUtils.queryMore(sql, Product.class, null);
         logger.debug(products.toString());
         return products;
     }
-
 
     @Override
     public Product select(Integer id) throws Exception {
@@ -133,6 +223,102 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "update tb_product set productName = ?,description = ?,image = ?,price = ? where id = ?";
         int update = CRUDUtils.update(sql, params);
         logger.debug(String.valueOf(update));
+    }
+
+    @Override
+    public void updateByIdSelective(Product product) throws Exception {
+        StringBuilder sqlBuilder = new StringBuilder("update tb_product");
+        sqlBuilder.append(" ");
+        sqlBuilder.append("<set>");
+        if (product.getStoreId() != null) {
+            sqlBuilder.append("`storeId` = ?,");
+        }
+        if (product.getProductName() != null) {
+            sqlBuilder.append("`productName` = ?,");
+        }
+        if (product.getStoreName() != null) {
+            sqlBuilder.append("`storeName` = ?,");
+        }
+        if (product.getDescription() != null) {
+            sqlBuilder.append("`description` = ?,");
+        }
+        if (product.getImage() != null) {
+            sqlBuilder.append("`image` = ?,");
+        }
+        if (product.getPrice() != null) {
+            sqlBuilder.append("`price` = ?,");
+        }
+        if (product.getProductCount() != null) {
+            sqlBuilder.append("`productCount` = ?,");
+        }
+        if (product.getSaleCount() != null) {
+            sqlBuilder.append("`saleCount` = ?,");
+        }
+        if (product.getCreateTime() != null) {
+            sqlBuilder.append("`createTime` = ?,");
+        }
+        if (product.getUpdateTime() != null) {
+            sqlBuilder.append("`updateTime` = ?,");
+        }
+
+        // 删除最后一个逗号
+        sqlBuilder.deleteCharAt(sqlBuilder.length() - 1);
+        sqlBuilder.append("</set>");
+        sqlBuilder.append(" ");
+        sqlBuilder.append("where id = ?");
+
+        Object[] params = new Object[0];
+        int count = 0;
+
+        if (product.getProductName() != null && !product.getProductName().isEmpty()) {
+            count++;
+        }
+        if (product.getDescription() != null && !product.getDescription().isEmpty()) {
+            count++;
+        }
+        if (product.getImage() != null && !product.getImage().isEmpty()) {
+            count++;
+        }
+        if (product.getPrice() != null) {
+            count++;
+        }
+        if (product.getProductCount() != null) {
+            count++;
+        }
+
+        params = new Object[count + 1];
+
+        int index = 0;
+
+        if (product.getProductName() != null && !product.getProductName().isEmpty()) {
+            params[index] = product.getProductName();
+            index++;
+        }
+        if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
+            params[index] = product.getStoreName();
+            index++;
+        }
+        if (product.getDescription() != null && !product.getDescription().isEmpty()) {
+            params[index] = product.getDescription();
+            index++;
+        }
+        if (product.getImage() != null && !product.getImage().isEmpty()) {
+            params[index] = product.getImage();
+            index++;
+        }
+        if (product.getPrice() != null) {
+            params[index] = product.getPrice();
+            index++;
+        }
+        if (product.getProductCount() != null) {
+            params[index] = product.getProductCount();
+            index++;
+        }
+
+        params[params.length - 1] = product.getId();
+
+        int update = CRUDUtils.update(sqlBuilder.toString(), params);
+        logger.debug("update:" + update);
     }
 
     @Override
@@ -209,7 +395,7 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         int totalCount = CRUDUtils.queryCount(sql, params);
-        logger.debug("totalCount:"+ totalCount);
+        logger.debug("totalCount:" + totalCount);
         return totalCount;
     }
 
