@@ -1,13 +1,12 @@
 package com.cc.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.cc.po.Result;
+import com.cc.exception.Result;
 import com.cc.po.User;
 import com.cc.service.Impl.UserServiceImpl;
 import com.cc.service.UserService;
 import com.cc.utils.JwtUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

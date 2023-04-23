@@ -19,13 +19,19 @@ public interface ProductService {
      * 新增商品
      * @param product
      */
-    public void add(Product product) throws Exception;
+    void add(Product product) throws Exception;
 
     /**
      * 批量删除
      * @param ids
      */
-    public void deleteInBatches(int[]ids) throws Exception;
+    void deleteInBatches(int[]ids) throws Exception;
+
+    /**
+     * 修改商品信息
+     * @param updateproduct
+     */
+    void update(Product updateproduct) throws Exception;
 
     /**
      * 分页查询

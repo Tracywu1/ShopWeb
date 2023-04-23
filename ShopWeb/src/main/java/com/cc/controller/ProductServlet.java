@@ -3,7 +3,7 @@ package com.cc.controller;
 import com.alibaba.fastjson.JSON;
 import com.cc.po.PageBean;
 import com.cc.po.Product;
-import com.cc.po.Result;
+import com.cc.exception.Result;
 import com.cc.service.Impl.ProductServiceImpl;
 import com.cc.service.ProductService;
 
@@ -19,59 +19,87 @@ import java.util.List;
  * @author 32119
  */
 @WebServlet("/product/*")
-public class ProductServlet extends BaseServlet{
-private ProductService productService = new ProductServiceImpl();
+public class ProductServlet extends BaseServlet {
+    private final ProductService productService = new ProductServiceImpl();
 
-public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    //调用service查询
-    List<Product> products = productService.getAll();
+    /**
+     * 查询所有
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //调用service查询
+        List<Product> products = productService.getAll();
 
-    Result result = Result.success(products);
-    response.setContentType("application/json;charset=UTF-8");
-    response.getWriter().write(JSON.toJSONString(result));
-}
+        Result result = Result.success(products);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
 
-public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    //1.接收数据
-    BufferedReader br = request.getReader();
-    String params=br.readLine();//json字符串
+    /**
+     * 添加数据
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //1.接收数据
+        BufferedReader br = request.getReader();
+        String params = br.readLine();//json字符串
 
-    //转为Product对象
-    Product product = JSON.parseObject(params,Product.class);
+        //转为Product对象
+        Product product = JSON.parseObject(params, Product.class);
 
-    //调用service添加
-    productService.add(product);
+        //调用service添加
+        productService.add(product);
 
-    Result result = Result.success();
-    response.setContentType("application/json;charset=UTF-8");
-    response.getWriter().write(JSON.toJSONString(result));
-}
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
 
-public void deleteInBatches(HttpServletRequest request, HttpServletResponse response)throws Exception {
-    //1.接收数据
-    BufferedReader br = request.getReader();
-    String params = br.readLine();//json字符串
+    /**
+     * 批量删除
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void deleteInBatches(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //1.接收数据
+        BufferedReader br = request.getReader();
+        String params = br.readLine();//json字符串
 
-    //转为int[]
-    int[] ids = JSON.parseObject(params,int[].class);
+        //转为int[]
+        int[] ids = JSON.parseObject(params, int[].class);
 
-    //调用service批量删除
-    productService.deleteInBatches(ids);
+        //调用service批量删除
+        productService.deleteInBatches(ids);
 
-    //响应成功标识
-    Result result = Result.success();
-    response.setContentType("application/json;charset=UTF-8");
-    response.getWriter().write(JSON.toJSONString(result));
-}
+        //响应成功标识
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
+     * 修改
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void update(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+    }
 
     /**
      * 分页查询
+     *
      * @param request
      * @param response
      * @throws ServletException
      * @throws IOException
      */
-
     public void selectByPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 接收 当前页码 和 每页展示条数    url?currentPage=1&pageSize=5
         String _currentPage = request.getParameter("currentPage");
@@ -91,6 +119,7 @@ public void deleteInBatches(HttpServletRequest request, HttpServletResponse resp
 
     /**
      * 分页条件查询
+     *
      * @param request
      * @param response
      * @throws ServletException
@@ -110,9 +139,9 @@ public void deleteInBatches(HttpServletRequest request, HttpServletResponse resp
 
         // 转为 Product
         Product brand = JSON.parseObject(params, Product.class);
-        
+
         // 调用service查询
-        PageBean<Product> pageBean = productService.selectByPageAndCondition(currentPage,pageSize,brand);
+        PageBean<Product> pageBean = productService.selectByPageAndCondition(currentPage, pageSize, brand);
 
         //响应成功标识
         Result result = Result.success(pageBean);

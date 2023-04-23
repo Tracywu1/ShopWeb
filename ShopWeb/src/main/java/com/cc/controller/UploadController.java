@@ -1,11 +1,5 @@
 package com.cc.controller;
 
-import com.cc.po.Result;
-
-
-import javax.servlet.annotation.WebServlet;
-import java.io.IOException;
-
 /*
 @WebServlet("/upload")
 public class UploadServlet extends BaseServlet {

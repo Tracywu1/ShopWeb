@@ -1,17 +1,15 @@
-package com.cc.po;
+package com.cc.exception;
 
-
-import com.cc.contants.ResultCode;
 
 public class Result<T> {
     /**
-     * 响应码
+     * 响应码    0:客户端请求有语法错误，不能被服务器所理解
      */
     private Integer code;
     /**
      * 响应信息 描述字符串
      */
-    private String message ;
+    private String msg ;
     /**
      * 返回的数据
      */
@@ -25,12 +23,12 @@ public class Result<T> {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public T getData() {
@@ -45,14 +43,14 @@ public class Result<T> {
     public String toString() {
         return "Result{" +
                 "code=" + code +
-                ", message='" + message + '\'' +
+                ", msg='" + msg + '\'' +
                 ", data=" + data +
                 '}';
     }
 
-    public Result(Integer code, String message, T data) {
+    public Result(Integer code, String msg, T data) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
         this.data = data;
     }
 
@@ -60,7 +58,7 @@ public class Result<T> {
      * 查询 成功响应
      */
     public static <T> Result<T> success(T data) {
-        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data);
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), data);
     }
 
     /**
@@ -71,14 +69,14 @@ public class Result<T> {
     }
 
     public static Result error(ResultCode resultCode) {
-        return new Result<>(resultCode.getCode(), resultCode.getMessage(), null);
+        return new Result<>(resultCode.getCode(), resultCode.getMsg(), null);
     }
 
     /**
      *  客户端请求有语法错误，不能被服务器所理解
      */
-    public static <T> Result error(String message) {
-        return new Result<>(ResultCode.FAIL.getCode(), message, null);
+    public static <T> Result error(Integer code , String message) {
+        return new Result<>(code, message, null);
     }
 
 }

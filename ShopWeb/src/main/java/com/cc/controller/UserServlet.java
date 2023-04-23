@@ -1,6 +1,6 @@
 package com.cc.controller;
 
-import com.cc.po.Result;
+import com.cc.exception.Result;
 import com.cc.po.User;
 import com.cc.service.Impl.UserServiceImpl;
 import com.cc.service.UserService;

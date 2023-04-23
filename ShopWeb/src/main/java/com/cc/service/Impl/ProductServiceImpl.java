@@ -2,6 +2,8 @@ package com.cc.service.Impl;
 
 import com.cc.dao.Impl.ProductDaoImpl;
 import com.cc.dao.ProductDao;
+import com.cc.exception.MyRunTimeException;
+import com.cc.exception.ResultCode;
 import com.cc.po.PageBean;
 import com.cc.po.Product;
 import com.cc.service.ProductService;
@@ -16,6 +18,7 @@ public class ProductServiceImpl implements ProductService {
         return productDao.selectAll();
     }
 
+    @Override
     public void add(Product product) throws Exception {
         productDao.insert(product);
     }
@@ -23,6 +26,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteInBatches(int[] ids) throws Exception {
         productDao.deleteByIds(ids);
+    }
+
+    @Override
+    public void update(Product updateProduct) throws Exception {
+        Product productOld = productDao.selectByProductName(updateProduct.getProductName());
+        //同名且不同id，不能继续修改
+        if (productOld != null && !productOld.getId().equals(updateProduct.getId())) {
+            throw new MyRunTimeException(ResultCode.NAME_EXISTED);
+        }
+        productDao.updateByIdSelective(updateProduct);
     }
 
     @Override

@@ -1,12 +1,13 @@
 package com.cc.dao.Impl;
 
 import com.cc.dao.ProductDao;
+import com.cc.exception.MyRunTimeException;
+import com.cc.exception.ResultCode;
 import com.cc.po.Product;
 import com.cc.utils.CRUDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.text.html.CSS;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
@@ -216,7 +217,15 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> selectByProductName(String productName) throws Exception {
+    public Product selectByProductName(String productName) throws Exception {
+        String sql = "select * from tb_product where productName =?";
+        Product product = CRUDUtils.query(sql, Product.class, productName);
+        logger.debug(String.valueOf(product));
+        return product;
+    }
+
+    @Override
+    public List<Product> selectByProductName_List(String productName) throws Exception {
         String sql = "select * from tb_product where productName LIKE ?";
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, productName);
         logger.debug(String.valueOf(products));
@@ -226,7 +235,6 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void update(Product product) throws Exception {
         Object[] params = {product.getProductName(), product.getDescription(), product.getImage(), product.getPrice(), product.getId()};
-        //待修改
         String sql = "update tb_product set id = ?,storeId = ?,productName = ?,storeName = ?,description = ?,image = ?,price = ?,productCount = ?,saleCount = ?,createTime = ?,updateTime = ? where id = ?";
         int update = CRUDUtils.update(sql, params);
         logger.debug(String.valueOf(update));
@@ -324,6 +332,11 @@ public class ProductDaoImpl implements ProductDao {
         params[params.length - 1] = product.getId();
 
         int update = CRUDUtils.update(sqlBuilder.toString(), params);
+
+        if (update == 0) {
+            throw new MyRunTimeException(ResultCode.UPDATE_FAILED);
+        }
+
         logger.debug("update:" + update);
     }
 

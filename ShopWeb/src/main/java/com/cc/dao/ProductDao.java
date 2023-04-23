@@ -45,11 +45,19 @@ public interface ProductDao {
     Product select(Integer id) throws Exception;
 
     /**
+     * 根据商品名称查询商品（精确查询）
+     * @param productName
+     * @return
+     * @throws Exception
+     */
+    Product selectByProductName(String productName)throws Exception;
+
+    /**
      * 根据商品名称查询商品（模糊查询）
      * @param productName
      * @return
      */
-    List<Product> selectByProductName(String productName) throws Exception;
+    List<Product> selectByProductName_List(String productName) throws Exception;
 
     /**
      * 分页查询

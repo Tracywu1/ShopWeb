@@ -1,27 +1,29 @@
-package com.cc.filter;
+package com.cc.exception;
 
-import com.cc.po.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 //@WebFilter("/*")
-public class GlobalExceptionHandlerFilter implements Filter {
+public class RunTimeExceptionFilter implements Filter {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandlerFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // 初始化操作
+
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
             filterChain.doFilter(servletRequest, servletResponse);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Result result = Result.error("对不起,操作失败,请联系管理员");
+        } catch (MyRunTimeException ex) {
+            log.error("RuntimeException: ", ex);
+            Result result = Result.error(ex.getCode(),ex.getMsg());
             servletResponse.setContentType("application/json;charset=UTF-8");
             servletResponse.getWriter().write(new ObjectMapper().writeValueAsString(result));
         }
@@ -29,6 +31,6 @@ public class GlobalExceptionHandlerFilter implements Filter {
 
     @Override
     public void destroy() {
-        // 销毁操作
+
     }
 }
