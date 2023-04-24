@@ -36,7 +36,7 @@ public interface UserDao {
      * 修改数据
      * @param user
      */
-    void update(User user) throws Exception;
+    void updateByIdSelective(User user) throws Exception;
 
     /**
      * 删除用户（注销）

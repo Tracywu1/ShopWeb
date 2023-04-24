@@ -192,11 +192,110 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void update(User user) throws Exception {
-        Object[] params = {user.getUsername(), user.getPassword(), user.getId()};
-        String sql = "update tb_user set username = ?,password = ? where id = ?";
-        int update = CRUDUtils.update(sql, params);
+    public void updateByIdSelective(User user) throws Exception {
+        StringBuilder sqlBuilder = new StringBuilder("update tb_user");
+        sqlBuilder.append(" ");
+        sqlBuilder.append("<set>");
+        if (user.getUsername() != null) {
+            sqlBuilder.append("`username` = ?,");
+        }
+        if (user.getNickname() != null) {
+            sqlBuilder.append("`nickname` = ?,");
+        }
+        if (user.getPassword() != null) {
+            sqlBuilder.append("`password` = ?,");
+        }
+        if (user.getAddress() != null) {
+            sqlBuilder.append("`address` = ?,");
+        }
+        if (user.getEmail() != null) {
+            sqlBuilder.append("`email` = ?,");
+        }
+        if (user.getCreateTime() != null) {
+            sqlBuilder.append("`createTime` = ?,");
+        }
+        if (user.getUpdateTime() != null) {
+            sqlBuilder.append("`updateTime` = ?,");
+        }
+
+        // 删除最后一个逗号
+        sqlBuilder.deleteCharAt(sqlBuilder.length() - 1);
+        sqlBuilder.append("</set>");
+        sqlBuilder.append(" ");
+        sqlBuilder.append("where id = ?");
+
+        Object[] params;
+        int count = 0;
+
+        if (user.getUsername() != null && !user.getUsername().isEmpty()) {
+            count++;
+        }
+        if (user.getNickname() != null && !user.getNickname().isEmpty()) {
+            count++;
+        }
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            count++;
+        }
+        if (user.getAddress() != null && !user.getAddress().isEmpty()) {
+            count++;
+        }
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            count++;
+        }
+        if(user.getPhoneNum() != null && !user.getPhoneNum().isEmpty()){
+            count++;
+        }
+        if (user.getImage() != null && !user.getImage().isEmpty()){
+            count++;
+        }
+        if (user.getUserRole() != null){
+            count++;
+        }
+
+        params = new Object[count + 1];
+
+        int index = 0;
+
+        if (user.getUsername() != null && !user.getUsername().isEmpty()) {
+            params[index] = user.getUsername();
+            index++;
+        }
+        if (user.getNickname() != null && !user.getNickname().isEmpty()) {
+            params[index] = user.getNickname();
+            index++;
+        }
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            params[index] = user.getPassword();
+            index++;
+        }
+        if (user.getAddress() != null && !user.getAddress().isEmpty()) {
+            params[index] = user.getAddress();
+            index++;
+        }
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            params[index] = user.getEmail();
+            index++;
+        }
+        if(user.getPhoneNum() != null && !user.getPhoneNum().isEmpty()){
+            params[index] = user.getPhoneNum();
+            index++;
+        }
+        if (user.getImage() != null && !user.getImage().isEmpty()){
+            params[index] = user.getImage();
+            index++;
+        }
+        if (user.getUserRole() != null){
+            params[index] = user.getUserRole();
+        }
+
+        params[params.length - 1] = user.getId();
+
+        int update = CRUDUtils.update(sqlBuilder.toString(), params);
         logger.debug("update:" + update);
+
+        if (update == 0) {
+            throw new MyException(ResultCode.UPDATE_FAILED);
+        }
     }
 
     @Override

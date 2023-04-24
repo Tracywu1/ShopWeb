@@ -16,11 +16,6 @@ public interface UserService {
      */
     User getById(Integer id) throws Exception;
 
-    /**
-     * 更新用户
-     * @param user
-     */
-    void modify(User user) throws Exception;
 
     /**
      * 用户登录
@@ -35,4 +30,23 @@ public interface UserService {
      * @param user
      */
     void register(User user) throws Exception;
+
+    /**
+     * 检查是否为店铺管理员
+     * @param user
+     * @return
+     */
+    boolean checkManager(User user);
+
+    /**
+     * 检查是否为网络管理员
+     * @param user
+     * @return
+     */
+    boolean checkWebMaster(User user);
+
+    /**
+     * 修改个人信息
+     */
+    void updateInfo(User user) throws Exception;
 }

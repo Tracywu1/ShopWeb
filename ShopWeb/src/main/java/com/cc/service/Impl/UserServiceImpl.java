@@ -1,15 +1,15 @@
 package com.cc.service.Impl;
 
+import com.cc.contants.UserRole;
 import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.UserDao;
-import com.cc.exception.MyException;
-import com.cc.exception.ResultCode;
 import com.cc.po.User;
 import com.cc.service.UserService;
 
-import java.security.NoSuchAlgorithmException;
 
-
+/**
+ * @author 32119
+ */
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao = new UserDaoImpl();
@@ -24,19 +24,30 @@ public class UserServiceImpl implements UserService {
         return userDao.select(id);
     }
 
-    @Override
-    public void modify(User user) throws Exception {
-        userDao.update(user);
-    }
 
     @Override
     public User login(String username, String password) throws Exception {
-        return userDao.select(user);
+        return userDao.select(username,password);
     }
 
-
+    @Override
     public void register(User user) throws Exception {
         userDao.insertSelective(user);
+    }
+
+    @Override
+    public boolean checkManager(User user) {
+        return user.getUserRole().equals(UserRole.STORE_MANAGER);
+    }
+
+    @Override
+    public boolean checkWebMaster(User user) {
+        return user.getUserRole().equals(UserRole.WEBMASTER);
+    }
+
+    @Override
+    public void updateInfo(User user) throws Exception {
+        userDao.updateByIdSelective(user);
     }
 
 }

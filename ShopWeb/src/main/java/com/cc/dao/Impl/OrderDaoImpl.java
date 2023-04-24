@@ -177,19 +177,19 @@ public class OrderDaoImpl implements OrderDao {
         sqlBuilder.append(" ");
         sqlBuilder.append("<set>");
         if (order.getOrderNo() != null) {
-            sqlBuilder.append("`storeId` = ?,");
+            sqlBuilder.append("`orderNo` = ?,");
         }
         if (order.getUserId() != null) {
-            sqlBuilder.append("`orderName` = ?,");
+            sqlBuilder.append("`userId` = ?,");
         }
         if (order.getCount() != null) {
-            sqlBuilder.append("`storeName` = ?,");
+            sqlBuilder.append("`count` = ?,");
         }
         if (order.getStatus() != null) {
-            sqlBuilder.append("`description` = ?,");
+            sqlBuilder.append("`status` = ?,");
         }
         if (order.getTotalPrice() != null) {
-            sqlBuilder.append("`image` = ?,");
+            sqlBuilder.append("`totalPrice` = ?,");
         }
         if (order.getCreateTime() != null) {
             sqlBuilder.append("`createTime` = ?,");
