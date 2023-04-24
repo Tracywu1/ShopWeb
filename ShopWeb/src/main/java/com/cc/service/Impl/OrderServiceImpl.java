@@ -2,7 +2,7 @@ package com.cc.service.Impl;
 
 import com.cc.dao.Impl.OrderDaoImpl;
 import com.cc.dao.OrderDao;
-import com.cc.exception.MyRunTimeException;
+import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
 import com.cc.po.PageBean;
 import com.cc.po.Order;
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
 
         //查询不到该数据，无法删除
         if(orderOld == null){
-            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+            throw new MyException(ResultCode.DELETE_FAILED);
         }
 
         orderDao.delete(id);

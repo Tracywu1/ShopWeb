@@ -24,15 +24,15 @@ public interface UserService {
 
     /**
      * 用户登录
-     * @param user
+     * @param username
+     * @param password
      * @return
      */
-    User login(User user) throws Exception;
+    User login(String username,String password) throws Exception;
 
     /**
      * 用户注册
      * @param user
-     * @return
      */
-    boolean register(User user) throws Exception;
+    void register(User user) throws Exception;
 }

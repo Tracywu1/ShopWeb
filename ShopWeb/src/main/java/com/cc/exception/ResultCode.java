@@ -8,6 +8,8 @@ public enum ResultCode {
      * 客户端请求成功，即处理成功
      */
     SUCCESS(200, "操作成功"),
+
+
     NEED_USER_NAME(1, "用户名不能为空"),
     NEED_PASSWORD(2, "密码不能为空"),
     PASSWORD_TOO_SHORT(3, "密码长度不能小于8位"),
@@ -28,8 +30,6 @@ public enum ResultCode {
     CART_EMPTY(18, "购物车已勾选的商品为空"),
     NO_ENUM(19, "未找到对应的枚举"),
     NO_ORDER(20, "订单不存在"),
-    NOT_YOUR_ORDER(21, "订单不属于你"),
-    WRONG_ORDER_STATUS(22, "订单状态不符"),
     SYSTEM_ERROR(30, "系统异常，请从控制台或日志中查看具体错误信息");
 
     /**

@@ -1,7 +1,7 @@
 package com.cc.dao.Impl;
 
 import com.cc.dao.OrderDao;
-import com.cc.exception.MyRunTimeException;
+import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
 import com.cc.po.Order;
 import com.cc.utils.CRUDUtils;
@@ -64,7 +64,6 @@ public class OrderDaoImpl implements OrderDao {
         sqlBuilder.append(" ");
         sqlBuilder.append(valuesBuilder);
 
-        Object[] params;
         int count = 0;
 
         if (order.getId() != null) {
@@ -92,7 +91,7 @@ public class OrderDaoImpl implements OrderDao {
             count++;
         }
 
-        params = new Object[count];
+        Object[] params = new Object[count];
 
         int index = 0;
 
@@ -126,10 +125,14 @@ public class OrderDaoImpl implements OrderDao {
         }
         if (order.getUpdateTime() != null) {
             params[index] = order.getUpdateTime();
-            index++;
         }
 
         int update = CRUDUtils.update(sqlBuilder.toString(), params);
+
+        if(update == 0 ){
+            throw new MyException(ResultCode.CREATE_FAILED);
+        }
+
         logger.debug("update:" + update);
     }
 
@@ -140,7 +143,7 @@ public class OrderDaoImpl implements OrderDao {
         logger.debug("update:" + update);
 
         if (update == 0) {
-            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+            throw new MyException(ResultCode.DELETE_FAILED);
         }
     }
 
@@ -251,7 +254,7 @@ public class OrderDaoImpl implements OrderDao {
         logger.debug("update:" + update);
 
         if (update == 0) {
-            throw new MyRunTimeException(ResultCode.UPDATE_FAILED);
+            throw new MyException(ResultCode.UPDATE_FAILED);
         }
     }
 

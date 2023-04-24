@@ -1,15 +1,18 @@
 package com.cc.exception;
 
-public class MyRunTimeException extends RuntimeException {
+/**
+ * 统一异常描述类
+ */
+public class MyException extends RuntimeException {
     private final Integer code;
     private final String msg;
 
-    public MyRunTimeException(Integer code, String msg) {
+    public MyException(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public MyRunTimeException(ResultCode resultCode) {
+    public MyException(ResultCode resultCode) {
          this(resultCode.getCode(),resultCode.getMsg());
     }
 

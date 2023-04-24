@@ -11,7 +11,7 @@ public class User {
      */
     private Integer id;
     /**
-     *用户名
+     *用户名  （5-25位中英文、数字、下划线或组合）
      */
     private String username;
     /**

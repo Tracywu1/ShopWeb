@@ -10,7 +10,7 @@ import java.io.IOException;
 //@WebFilter("/*")
 public class RunTimeExceptionFilter implements Filter {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandlerFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(RunTimeExceptionFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -21,7 +21,7 @@ public class RunTimeExceptionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
             filterChain.doFilter(servletRequest, servletResponse);
-        } catch (MyRunTimeException ex) {
+        } catch (MyException ex) {
             log.error("RuntimeException: ", ex);
             Result result = Result.error(ex.getCode(),ex.getMsg());
             servletResponse.setContentType("application/json;charset=UTF-8");

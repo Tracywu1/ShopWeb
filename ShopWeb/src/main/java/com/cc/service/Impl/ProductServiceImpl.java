@@ -2,7 +2,7 @@ package com.cc.service.Impl;
 
 import com.cc.dao.Impl.ProductDaoImpl;
 import com.cc.dao.ProductDao;
-import com.cc.exception.MyRunTimeException;
+import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
 import com.cc.po.PageBean;
 import com.cc.po.Product;
@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
         //查询不到该数据，无法删除
         if(productOld == null){
-            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+            throw new MyException(ResultCode.DELETE_FAILED);
         }
 
         productDao.delete(id);
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
         Product productOld = productDao.selectByProductName(updateProduct.getProductName());
         //同名且不同id，不能继续修改
         if (productOld != null && !productOld.getId().equals(updateProduct.getId())) {
-            throw new MyRunTimeException(ResultCode.NAME_EXISTED);
+            throw new MyException(ResultCode.NAME_EXISTED);
         }
         productDao.updateByIdSelective(updateProduct);
     }

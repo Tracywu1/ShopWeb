@@ -1,7 +1,7 @@
 package com.cc.dao.Impl;
 
 import com.cc.dao.CartDao;
-import com.cc.exception.MyRunTimeException;
+import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
 import com.cc.po.Cart;
 import com.cc.utils.CRUDUtils;
@@ -19,7 +19,7 @@ public class CartDaoImpl implements CartDao {
         logger.debug("update:" + update);
 
         if (update == 0) {
-            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+            throw new MyException(ResultCode.DELETE_FAILED);
         }
     }
 
@@ -30,7 +30,7 @@ public class CartDaoImpl implements CartDao {
         logger.debug("update:" + update);
 
         if (update == 0) {
-            throw new MyRunTimeException(ResultCode.CREATE_FAILED);
+            throw new MyException(ResultCode.CREATE_FAILED);
         }
     }
 
@@ -50,7 +50,7 @@ public class CartDaoImpl implements CartDao {
         logger.debug("update:" + update);
 
         if (update == 0) {
-            throw new MyRunTimeException(ResultCode.UPDATE_FAILED);
+            throw new MyException(ResultCode.UPDATE_FAILED);
         }
     }
 
@@ -72,7 +72,7 @@ public class CartDaoImpl implements CartDao {
         logger.debug("update:" + update);
 
         if (update == 0) {
-            throw new MyRunTimeException(ResultCode.DELETE_FAILED);
+            throw new MyException(ResultCode.DELETE_FAILED);
         }
     }
 }

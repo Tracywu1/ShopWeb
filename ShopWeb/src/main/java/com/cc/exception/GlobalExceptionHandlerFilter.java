@@ -6,8 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 //@WebFilter("/*")
 public class GlobalExceptionHandlerFilter implements Filter {
@@ -20,7 +18,7 @@ public class GlobalExceptionHandlerFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException {
         try {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception ex) {
