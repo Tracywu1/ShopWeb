@@ -10,10 +10,10 @@ import java.lang.reflect.Method;
 
 /**
  * 替换HttpServlet,根据请求的最后一段路径来进行方法分发
+ * @author 32119
  */
 @WebServlet("/baseServlet")
 public class BaseServlet extends HttpServlet {
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

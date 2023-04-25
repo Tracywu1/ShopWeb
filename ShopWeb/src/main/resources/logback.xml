@@ -5,7 +5,7 @@
     -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!--输出流对象 默认 System.out 改为 System.err-->
-        <target>System.out</target>
+        <target>System.err</target>
         <encoder>
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度
                 %msg：日志消息，%n是换行符-->

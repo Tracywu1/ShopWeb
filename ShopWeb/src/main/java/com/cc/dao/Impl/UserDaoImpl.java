@@ -117,9 +117,13 @@ public class UserDaoImpl implements UserDao {
             index++;
         }
 
-        //用户名
-        params[index] = RandomUsernameGenerator.generate();
-        index++;
+        String username;
+        do {
+            // 生成随机用户名（保证其不重复）
+            username = RandomUsernameGenerator.generate();
+        } while (selectByUsername(username) != null);
+        params[index] = username;
+
 
         if (user.getNickname() != null && !user.getNickname().isEmpty()) {
             params[index] = user.getNickname();
@@ -167,7 +171,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User select(Integer id) throws Exception {
+    public User selectById(Integer id) throws Exception {
         String sql = "select * from tb_user where id =?";
         User user = CRUDUtils.query(sql, User.class, id);
         logger.debug(String.valueOf(user));
@@ -175,7 +179,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User select(String username) throws Exception {
+    public User selectByUsername(String username) throws Exception {
         String sql = "select * from tb_user where username =?";
         User user = CRUDUtils.query(sql, User.class, username);
         logger.debug(String.valueOf(user));
@@ -183,7 +187,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User select(String username,String password) throws Exception {
+    public User selectByUsernameAndPwd(String username,String password) throws Exception {
         Object[] params = {username, password};
         String sql = "select * from tb_user where username = ? and password = md5(?)";
         User user1 = CRUDUtils.query(sql, User.class, params);
@@ -195,7 +199,7 @@ public class UserDaoImpl implements UserDao {
     public void updateByIdSelective(User user) throws Exception {
         StringBuilder sqlBuilder = new StringBuilder("update tb_user");
         sqlBuilder.append(" ");
-        sqlBuilder.append("<set>");
+        sqlBuilder.append("set");
         if (user.getUsername() != null) {
             sqlBuilder.append("`username` = ?,");
         }
@@ -220,7 +224,6 @@ public class UserDaoImpl implements UserDao {
 
         // 删除最后一个逗号
         sqlBuilder.deleteCharAt(sqlBuilder.length() - 1);
-        sqlBuilder.append("</set>");
         sqlBuilder.append(" ");
         sqlBuilder.append("where id = ?");
 

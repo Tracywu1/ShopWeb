@@ -72,17 +72,19 @@ public interface ProductDao {
      * 分页条件查询
      * @param begin
      * @param size
-     * @param product
+     * @param productName
+     * @param storeName
      * @return
      */
-    List<Product> selectByPageAndCondition(int begin, int size, Product product) throws Exception;
+    List<Product> selectByPageAndCondition(int begin, int size, String productName,String storeName) throws Exception;
 
     /**
      * 根据条件查询总记录数
-     * @param product
+     * @param productName
+     * @param storeName
      * @return
      */
-    int selectTotalCountByCondition(Product product) throws Exception;
+    int selectTotalCountByCondition(String productName , String storeName) throws Exception;
 
     /**
      * 修改数据

@@ -72,28 +72,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageBean<Product> selectByPageAndCondition(int currentPage, int pageSize, Product product) throws Exception {
+    public PageBean<Product> selectByPageAndCondition(int currentPage, int pageSize, String productName, String storeName) throws Exception {
         // 计算开始索引
         int begin = (currentPage - 1) * pageSize;
         // 计算查询条目数
         int size = pageSize;
 
-        // 处理brand条件，模糊表达式
-        String productName = product.getProductName();
-        if (productName != null && productName.length() > 0) {
-            product.setProductName("%" + productName + "%");
-        }
-
-        String storeName = product.getStoreName();
-        if (storeName != null && storeName.length() > 0) {
-            product.setStoreName("%" + storeName + "%");
-        }
-
         // 查询当前页数据
-        List<Product> rows = productDao.selectByPageAndCondition(begin, size, product);
+        List<Product> rows = productDao.selectByPageAndCondition(begin, size,productName,storeName);
 
         // 查询总记录数
-        int totalCount = productDao.selectTotalCountByCondition(product);
+        int totalCount = productDao.selectTotalCountByCondition(productName,storeName);
 
         // 封装PageBean对象
         PageBean<Product> pageBean = new PageBean<>();

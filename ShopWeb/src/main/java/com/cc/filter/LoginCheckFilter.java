@@ -2,6 +2,7 @@ package com.cc.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cc.exception.Result;
+import com.cc.exception.ResultCode;
 import com.cc.utils.JwtUtils;
 
 import javax.servlet.*;
@@ -46,7 +47,7 @@ public class LoginCheckFilter implements Filter {
 
         //4.判断令牌是否存在，如果不存在，返回错误结果（未登录）。
         if (jwt == null) {
-            Result error = Result.error("NOT_LOGIN");
+            Result error = Result.error(ResultCode.ERROR);
             //手动转换 对象--json --------> 阿里巴巴fastJSON
             String notLogin = JSONObject.toJSONString(error);
             resp.getWriter().write(notLogin);
@@ -57,7 +58,7 @@ public class LoginCheckFilter implements Filter {
             JwtUtils.parseJWT(jwt);
         } catch (Exception e) {//jwt解析失败
             e.printStackTrace();
-            Result error = Result.error("NOT_LOGIN");
+            Result error = Result.error(ResultCode.ERROR);
             //手动转换 对象--json --------> 阿里巴巴fastJSON
             String notLogin = JSONObject.toJSONString(error);
             resp.getWriter().write(notLogin);

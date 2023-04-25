@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Integer id) throws Exception {
-        return userDao.select(id);
+        return userDao.selectById(id);
     }
 
 
     @Override
     public User login(String username, String password) throws Exception {
-        return userDao.select(username,password);
+        return userDao.selectByUsernameAndPwd(username,password);
     }
 
     @Override

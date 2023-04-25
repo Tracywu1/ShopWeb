@@ -175,7 +175,7 @@ public class OrderDaoImpl implements OrderDao {
     public void updateByIdSelective(Order order) throws Exception {
         StringBuilder sqlBuilder = new StringBuilder("update tb_order");
         sqlBuilder.append(" ");
-        sqlBuilder.append("<set>");
+        sqlBuilder.append("set");
         if (order.getOrderNo() != null) {
             sqlBuilder.append("`orderNo` = ?,");
         }
@@ -200,7 +200,6 @@ public class OrderDaoImpl implements OrderDao {
 
         // 删除最后一个逗号
         sqlBuilder.deleteCharAt(sqlBuilder.length() - 1);
-        sqlBuilder.append("</set>");
         sqlBuilder.append(" ");
         sqlBuilder.append("where id = ?");
 
@@ -245,7 +244,6 @@ public class OrderDaoImpl implements OrderDao {
         }
         if (order.getTotalPrice() != null ) {
             params[index] = order.getTotalPrice();
-            index++;
         }
 
         params[params.length - 1] = order.getId();

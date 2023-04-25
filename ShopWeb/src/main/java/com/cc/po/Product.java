@@ -2,6 +2,7 @@ package com.cc.po;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Product {
     /**
@@ -51,8 +52,7 @@ public class Product {
 
    /* private List<OrderItem> orderItemList;
 
-    private List<Comment> commentList;
-*/
+    private List<Comment> commentList;*/
     public Integer getId() {
         return id;
     }
@@ -113,7 +113,7 @@ public class Product {
         this.saleCount = saleCount;
     }
 
-    /*public List<OrderItem> getOrderDetailList() {
+   /* public List<OrderItem> getOrderDetailList() {
         return orderItemList;
     }
 
@@ -155,8 +155,7 @@ public class Product {
 
     public void setOrderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
-    }
-*/
+    }*/
     public String getStoreName() {
         return storeName;
     }

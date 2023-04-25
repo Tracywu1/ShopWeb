@@ -15,14 +15,14 @@ public interface UserDao {
      * @param id
      * @return
      */
-    User select(Integer id) throws Exception;
+    User selectById(Integer id) throws Exception;
 
     /**
      * 根据用户名查询
      * @param username
      * @return
      */
-    User select(String username) throws Exception;
+    User selectByUsername(String username) throws Exception;
 
     /**
      * 根据用户名和密码查询
@@ -30,7 +30,7 @@ public interface UserDao {
      * @param password
      * @return
      */
-    User select(String username,String password) throws Exception;
+    User selectByUsernameAndPwd(String username,String password) throws Exception;
 
     /**
      * 修改数据

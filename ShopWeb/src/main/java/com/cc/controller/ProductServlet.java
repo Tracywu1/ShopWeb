@@ -6,6 +6,10 @@ import com.cc.po.Product;
 import com.cc.exception.Result;
 import com.cc.service.Impl.ProductServiceImpl;
 import com.cc.service.ProductService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,6 +26,8 @@ import java.util.List;
 @WebServlet("/product/*")
 public class ProductServlet extends BaseServlet {
     private final ProductService productService = new ProductServiceImpl();
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductServlet.class);
 
     /**
      * 查询所有
@@ -31,6 +38,8 @@ public class ProductServlet extends BaseServlet {
     public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //调用service查询
         List<Product> products = productService.getAll();
+
+        logger.debug(products.toString());
 
         Result result = Result.success(products);
         response.setContentType("application/json;charset=UTF-8");
@@ -46,7 +55,14 @@ public class ProductServlet extends BaseServlet {
     public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //1.接收数据
         BufferedReader br = request.getReader();
-        String params = br.readLine();//json字符串
+        String line;
+        StringBuilder sb = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String params = sb.toString(); // 获取完整的请求体字符串
+
+        logger.debug(params);
 
         //转为Product对象
         Product product = JSON.parseObject(params, Product.class);
@@ -68,6 +84,8 @@ public class ProductServlet extends BaseServlet {
     public void delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
         int id = Integer.parseInt(request.getParameter("id"));
 
+        logger.debug(String.valueOf(id));
+
         //调用service添加
         productService.delete(id);
 
@@ -83,12 +101,21 @@ public class ProductServlet extends BaseServlet {
      * @throws Exception
      */
     public void deleteInBatches(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //1.接收数据
         BufferedReader br = request.getReader();
-        String params = br.readLine();//json字符串
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String params = sb.toString();
 
-        //转为int[]
-        int[] ids = JSON.parseObject(params, int[].class);
+        logger.debug(params);
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(params);
+        int[] ids = mapper.treeToValue(node.get("ids"), int[].class);
+
+        logger.debug(Arrays.toString(ids));
 
         //调用service批量删除
         productService.deleteInBatches(ids);
@@ -106,9 +133,15 @@ public class ProductServlet extends BaseServlet {
      * @throws Exception
      */
     public void update(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        //1.接收数据
         BufferedReader br = request.getReader();
-        String params = br.readLine();//json字符串
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String params = sb.toString();
+
+        logger.debug(params);
 
         //转为Product对象
         Product product = JSON.parseObject(params, Product.class);
@@ -138,6 +171,9 @@ public class ProductServlet extends BaseServlet {
         int currentPage = Integer.parseInt(_currentPage);
         int pageSize = Integer.parseInt(_pageSize);
 
+        logger.debug("currentPage"+currentPage);
+        logger.debug("pageSize"+pageSize);
+
         // 调用service查询
         PageBean<Product> pageBean = productService.selectByPage(currentPage, pageSize);
 
@@ -163,15 +199,17 @@ public class ProductServlet extends BaseServlet {
         int currentPage = Integer.parseInt(_currentPage);
         int pageSize = Integer.parseInt(_pageSize);
 
-        // 获取查询条件对象
-        BufferedReader br = request.getReader();
-        String params = br.readLine();//json字符串
+        logger.debug("currentPage:"+currentPage);
+        logger.debug("pageSize:"+pageSize);
 
-        // 转为 Product
-        Product product = JSON.parseObject(params, Product.class);
+        String productName = request.getParameter("productName");
+        String storeName = request.getParameter("storeName");
+
+        logger.debug("productName:"+productName);
+        logger.debug("storeName:"+storeName);
 
         // 调用service查询
-        PageBean<Product> pageBean = productService.selectByPageAndCondition(currentPage, pageSize, product);
+        PageBean<Product> pageBean = productService.selectByPageAndCondition(currentPage, pageSize, productName,storeName);
 
         //响应成功标识
         Result result = Result.success(pageBean);

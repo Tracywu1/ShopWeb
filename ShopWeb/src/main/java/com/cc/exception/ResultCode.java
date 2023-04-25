@@ -31,6 +31,7 @@ public enum ResultCode {
     CART_EMPTY(19, "购物车已勾选的商品为空"),
     NO_ENUM(20, "未找到对应的枚举"),
     NO_ORDER(21, "订单不存在"),
+    ERROR(22,"失败"),
     SYSTEM_ERROR(30, "系统异常，请从控制台或日志中查看具体错误信息");
 
     /**

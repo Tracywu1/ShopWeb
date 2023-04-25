@@ -5,6 +5,7 @@ import com.cc.contants.OrderStatus;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class Order {
     /**
@@ -40,7 +41,7 @@ public class Order {
      */
     private Timestamp updateTime;
 
-    //private List<OrderItem> orderItemList;
+    private List<OrderItem> orderItemList;
 
     public Integer getId() {
         return id;
@@ -70,13 +71,13 @@ public class Order {
         return createTime;
     }
 
-   /* public List<OrderItem> getOrderDetailList() {
+    public List<OrderItem> getOrderDetailList() {
         return orderItemList;
     }
 
     public void setOrderDetailList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
-    }*/
+    }
 
     public OrderStatus getStatus() {
         return status;
@@ -125,6 +126,7 @@ public class Order {
                 ", totalPrice=" + totalPrice +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", orderItemList=" + orderItemList +
                 '}';
     }
 }

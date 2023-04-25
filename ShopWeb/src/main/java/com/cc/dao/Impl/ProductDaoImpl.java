@@ -8,6 +8,7 @@ import com.cc.utils.CRUDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
@@ -76,7 +77,7 @@ public class ProductDaoImpl implements ProductDao {
         sqlBuilder.append(" ");
         sqlBuilder.append(valuesBuilder);
 
-        Object[] params = new Object[0];
+
         int count = 0;
 
         if (product.getId() != null) {
@@ -113,7 +114,7 @@ public class ProductDaoImpl implements ProductDao {
             count++;
         }
 
-        params = new Object[count];
+        Object[] params = new Object[count];
 
         int index = 0;
 
@@ -190,8 +191,13 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         sqlBuilder.append(")");
+        String sql = sqlBuilder.toString();
+        logger.debug(sql);
 
-        int update = CRUDUtils.update(sqlBuilder.toString(), ids);
+        // 将int[]转换为Object[]
+        Object[] params = Arrays.stream(ids).boxed().toArray();
+
+        int update = CRUDUtils.update(sql, params);
         logger.debug("update:" + update);
 
         if (update == 0) {
@@ -236,14 +242,14 @@ public class ProductDaoImpl implements ProductDao {
         Object[] params = {product.getProductName(), product.getDescription(), product.getImage(), product.getPrice(), product.getId()};
         String sql = "update tb_product set id = ?,storeId = ?,productName = ?,storeName = ?,description = ?,image = ?,price = ?,productCount = ?,saleCount = ?,createTime = ?,updateTime = ? where id = ?";
         int update = CRUDUtils.update(sql, params);
-        logger.debug(String.valueOf(update));
+        logger.debug("update" + update);
     }
 
     @Override
     public void updateByIdSelective(Product product) throws Exception {
         StringBuilder sqlBuilder = new StringBuilder("update tb_product");
         sqlBuilder.append(" ");
-        sqlBuilder.append("<set>");
+        sqlBuilder.append("set");
         if (product.getStoreId() != null) {
             sqlBuilder.append("`storeId` = ?,");
         }
@@ -277,11 +283,9 @@ public class ProductDaoImpl implements ProductDao {
 
         // 删除最后一个逗号
         sqlBuilder.deleteCharAt(sqlBuilder.length() - 1);
-        sqlBuilder.append("</set>");
         sqlBuilder.append(" ");
         sqlBuilder.append("where id = ?");
 
-        Object[] params = new Object[0];
         int count = 0;
 
         if (product.getProductName() != null && !product.getProductName().isEmpty()) {
@@ -300,7 +304,7 @@ public class ProductDaoImpl implements ProductDao {
             count++;
         }
 
-        params = new Object[count + 1];
+        Object[] params = new Object[count + 1];
 
         int index = 0;
 
@@ -356,30 +360,26 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> selectByPageAndCondition(int begin, int size, Product product) throws Exception {
-        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM tb_product WHERE 1=1");
+    public List<Product> selectByPageAndCondition(int begin, int size, String productName, String storeName) throws Exception {
+        StringBuilder sqlBuilder = new StringBuilder("select * from tb_product where 1=1");
 
-        fuzzyQuery(product, sqlBuilder);
+        fuzzyQuery(productName, storeName, sqlBuilder);
 
-        sqlBuilder.append(" LIMIT ?, ?");
+        sqlBuilder.append(" limit ?, ?");
         String sql = sqlBuilder.toString();
 
-        Object[] params;
-        if (product != null) {
-            int count = 0;
-            if (product.getProductName() != null && !product.getProductName().isEmpty()) {
-                count++;
-            }
-            if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
-                count++;
-            }
+        logger.debug(sql);
 
-            params = new Object[count + 2];
-            fuzzyQuery2(product, params);
-
-        } else {
-            params = new Object[2];
+        int count = 0;
+        if (productName != null && !productName.isEmpty()) {
+            count++;
         }
+        if (storeName != null && !storeName.isEmpty()) {
+            count++;
+        }
+
+        Object[] params = new Object[count + 2];
+        fuzzyQuery2(productName, storeName, params);
 
         params[params.length - 2] = begin;
         params[params.length - 1] = size;
@@ -390,54 +390,50 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public int selectTotalCountByCondition(Product product) throws Exception {
-        StringBuilder sqlBuilder = new StringBuilder("SELECT COUNT(*) FROM tb_product WHERE 1=1 ");
+    public int selectTotalCountByCondition(String productName, String storeName) throws Exception {
+        StringBuilder sqlBuilder = new StringBuilder("select count(*) from tb_product where 1=1 ");
 
-        fuzzyQuery(product, sqlBuilder);
+        fuzzyQuery(productName, storeName, sqlBuilder);
         String sql = sqlBuilder.toString();
 
-        Object[] params = new Object[0];
-        if (product != null) {
-            int count = 0;
-            if (product.getProductName() != null && !product.getProductName().isEmpty()) {
-                count++;
-            }
-            if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
-                count++;
-            }
+        logger.debug(sql);
 
-            params = new Object[count];
-            fuzzyQuery2(product, params);
-
+        int count = 0;
+        if (productName != null && !productName.isEmpty()) {
+            count++;
         }
+        if (storeName != null && !storeName.isEmpty()) {
+            count++;
+        }
+
+        Object[] params = new Object[count];
+        fuzzyQuery2(productName, storeName, params);
 
         int totalCount = CRUDUtils.queryCount(sql, params);
         logger.debug("totalCount:" + totalCount);
         return totalCount;
     }
 
-    private void fuzzyQuery2(Product product, Object[] params) {
+    private void fuzzyQuery2(String productName, String storeName, Object[] params) {
         int index = 0;
 
-        if (product.getProductName() != null && !product.getProductName().isEmpty()) {
-            params[index] = "%" + product.getProductName() + "%";
+        if (productName != null && !productName.isEmpty()) {
+            params[index] = "%" + productName + "%";
             index++;
         }
 
-        if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
-            params[index] = "%" + product.getStoreName() + "%";
+        if (storeName != null && !storeName.isEmpty()) {
+            params[index] = "%" + storeName + "%";
         }
     }
 
-    private void fuzzyQuery(Product product, StringBuilder sqlBuilder) {
-        if (product != null) {
-            if (product.getProductName() != null && !product.getProductName().isEmpty()) {
-                sqlBuilder.append(" AND productName LIKE ?");
-            }
+    private void fuzzyQuery(String productName, String storeName, StringBuilder sqlBuilder) {
+        if (productName != null && !productName.isEmpty()) {
+            sqlBuilder.append(" and productName like ?");
+        }
 
-            if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
-                sqlBuilder.append(" AND storeName LIKE ?");
-            }
+        if (storeName != null && !storeName.isEmpty()) {
+            sqlBuilder.append(" and storeName like ?");
         }
     }
 
