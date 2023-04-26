@@ -5,6 +5,7 @@ import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
 import com.cc.po.Order;
 import com.cc.utils.CRUDUtils;
+import com.cc.vo.OrderVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,12 +31,32 @@ public class OrderDaoImpl implements OrderDao {
             columnsBuilder.append("`userId`,");
             valuesBuilder.append("?,");
         }
+        if (order.getStoreId() != null) {
+            columnsBuilder.append("`storeId`,");
+            valuesBuilder.append("?,");
+        }
+        if (order.getAddressId() != null) {
+            columnsBuilder.append("`addressId`,");
+            valuesBuilder.append("?,");
+        }
         if (order.getStatus() != null) {
             columnsBuilder.append("`status`,");
             valuesBuilder.append("?,");
         }
         if (order.getTotalPrice() != null) {
             columnsBuilder.append("`totalPrice`,");
+            valuesBuilder.append("?,");
+        }
+        if (order.getReceiverName() != null) {
+            columnsBuilder.append("`receiverName`,");
+            valuesBuilder.append("?,");
+        }
+        if (order.getReceiverPhone() != null) {
+            columnsBuilder.append("`receiverPhone`,");
+            valuesBuilder.append("?,");
+        }
+        if (order.getReceiverAddress() != null) {
+            columnsBuilder.append("`receiverAddress`,");
             valuesBuilder.append("?,");
         }
         if (order.getCreateTime() != null) {
@@ -71,10 +92,25 @@ public class OrderDaoImpl implements OrderDao {
         if (order.getUserId() != null) {
             count++;
         }
+        if (order.getStoreId() != null) {
+            count++;
+        }
+        if (order.getAddressId() != null) {
+            count++;
+        }
         if (order.getStatus() != null) {
             count++;
         }
         if (order.getTotalPrice() != null) {
+            count++;
+        }
+        if (order.getReceiverName() != null && !order.getReceiverName().isEmpty()) {
+            count++;
+        }
+        if (order.getReceiverPhone() != null && !order.getReceiverPhone().isEmpty()) {
+            count++;
+        }
+        if (order.getReceiverAddress() != null && !order.getReceiverAddress().isEmpty()) {
             count++;
         }
         if (order.getCreateTime() != null) {
@@ -100,12 +136,32 @@ public class OrderDaoImpl implements OrderDao {
             params[index] = order.getUserId();
             index++;
         }
+        if (order.getStoreId() != null) {
+            params[index] = order.getStoreId();
+            index++;
+        }
+        if (order.getAddressId() != null) {
+            params[index] = order.getAddressId();
+            index++;
+        }
         if (order.getStatus() != null) {
             params[index] = order.getStatus();
             index++;
         }
         if (order.getTotalPrice() != null) {
             params[index] = order.getTotalPrice();
+            index++;
+        }
+        if (order.getReceiverName() != null && !order.getReceiverName().isEmpty()) {
+            params[index] = order.getReceiverName();
+            index++;
+        }
+        if (order.getReceiverPhone() != null && !order.getReceiverPhone().isEmpty()) {
+            params[index] = order.getReceiverPhone();
+            index++;
+        }
+        if (order.getReceiverAddress() != null && !order.getReceiverAddress().isEmpty()) {
+            params[index] = order.getReceiverAddress();
             index++;
         }
         if (order.getCreateTime() != null) {
@@ -137,19 +193,43 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> selectAll() throws Exception {
-        String sql = "select * from tb_order";
-        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, null);
+    public List<Order> selectAllForManager(Integer storeId) throws Exception {
+        String sql = "select * from tb_order where storeId = ? oder by createTime desc";
+        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, storeId);
         logger.debug(orders.toString());
         return orders;
     }
 
     @Override
-    public Order select(Integer id) throws Exception {
-        String sql = "select * from tb_order where id =?";
-        Order order = CRUDUtils.query(sql, Order.class, id);
-        logger.debug(String.valueOf(order));
-        return order;
+    public List<Order> selectNotShippedForCustomer(Integer userId) throws Exception {
+        String sql = "select * from tb_order where userId = ? and status = 1 oder by createTime desc";
+        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, userId);
+        logger.debug(orders.toString());
+        return orders;
+    }
+
+    @Override
+    public List<Order> selectDeliveredForCustomer(Integer userId) throws Exception {
+        String sql = "select * from tb_order where userId = ? and status = 2 oder by createTime desc";
+        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, userId);
+        logger.debug(orders.toString());
+        return orders;
+    }
+
+    @Override
+    public List<Order> selectReceivedForCustomer(Integer userId) throws Exception {
+        String sql = "select * from tb_order where userId = ? and status = 3 oder by createTime desc";
+        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, userId);
+        logger.debug(orders.toString());
+        return orders;
+    }
+
+    @Override
+    public List<Order> selectAfterSalesService(Integer userId) throws Exception {
+        String sql = "select * from tb_order where userId = ? and status = 4 oder by createTime desc";
+        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, userId);
+        logger.debug(orders.toString());
+        return orders;
     }
 
     @Override
@@ -232,33 +312,34 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> selectByPage(int begin, int size) throws Exception {
-        Object[] params = {begin, size};
-        String sql = "select * from tb_order limit ?, ?";
-        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, params);
-        logger.debug(orders.toString());
-        return orders;
+    public List<OrderVO> selectByPage(Integer begin, Integer size,Integer storeId) throws Exception {
+        Object[] params = {storeId,begin, size};
+        String sql = "select * from tb_order where storeId = ? limit ?, ?";
+        List<OrderVO> orderVOList = CRUDUtils.queryMore(sql, OrderVO.class, params);
+        logger.debug(orderVOList.toString());
+        return orderVOList;
     }
 
     @Override
     public int selectTotalCount() throws Exception {
-        String sql = "select count(*) from tb_order";
+        String sql = "select count(*) from tb_order where storeId = ?";
         int totalCount = CRUDUtils.queryCount(sql, null);
         logger.debug("totalCount:" + totalCount);
         return totalCount;
     }
 
     @Override
-    public List<Order> selectByPageAndCondition(int begin, int size, String orderNo) throws Exception {
-        String sql = "SELECT * FROM tb_order WHERE orderNo = ? ";
-        List<Order> orders = CRUDUtils.queryMore(sql, Order.class, orderNo);
-        logger.debug(orders.toString());
-        return orders;
+    public List<OrderVO> selectByPageAndCondition(int begin, int size, Integer storeId, String orderNo) throws Exception {
+        Object[] params = {storeId,orderNo};
+        String sql = "select * from tb_order where storeId = ? and orderNo = ? ";
+        List<OrderVO> orderVOList = CRUDUtils.queryMore(sql, OrderVO.class, params);
+        logger.debug(orderVOList.toString());
+        return orderVOList;
     }
 
     @Override
     public int selectTotalCountByCondition(String orderNo) throws Exception {
-        String sql = "SELECT COUNT(*) FROM tb_order WHERE orderNo = ? ";
+        String sql = "select count(*) from tb_order where storeId = ? and orderNo = ? ";
         int totalCount = CRUDUtils.queryCount(sql, orderNo);
         logger.debug("totalCount:" + totalCount);
         return totalCount;

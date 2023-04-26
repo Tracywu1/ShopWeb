@@ -241,9 +241,7 @@ public class ProductDaoImpl implements ProductDao {
         StringBuilder sqlBuilder = new StringBuilder("update tb_product");
         sqlBuilder.append(" ");
         sqlBuilder.append("set");
-        if (product.getStoreId() != null) {
-            sqlBuilder.append("`storeId` = ?,");
-        }
+
         if (product.getProductName() != null) {
             sqlBuilder.append("`productName` = ?,");
         }

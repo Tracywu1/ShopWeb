@@ -25,10 +25,8 @@ import com.cc.vo.OrderItemVO;
 import com.cc.vo.OrderVO;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao = new OrderDaoImpl();
@@ -39,8 +37,54 @@ public class OrderServiceImpl implements OrderService {
     private UserService userService = new UserServiceImpl();
 
     @Override
-    public List<Order> getAll() throws Exception {
-        return orderDao.selectAll();
+    public List<OrderVO> listForManager() throws Exception {
+        List<Order> orderList = orderDao.selectAllForManager(LoginCheckFilter.currentUser.getStoreId());
+        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+        return orderVOList;
+    }
+
+    @Override
+    public List<OrderVO> listNotShippedForCustomer() throws Exception {
+        List<Order> orderList = orderDao.selectNotShippedForCustomer(LoginCheckFilter.currentUser.getId());
+        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+        return orderVOList;
+    }
+
+    @Override
+    public List<OrderVO> listDeliveredForCustomer() throws Exception {
+        List<Order> orderList = orderDao.selectDeliveredForCustomer(LoginCheckFilter.currentUser.getId());
+        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+        return orderVOList;
+    }
+
+    @Override
+    public List<OrderVO> listReceivedForCustomer() throws Exception {
+        List<Order> orderList = orderDao.selectReceivedForCustomer(LoginCheckFilter.currentUser.getId());
+        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+        return orderVOList;
+    }
+
+    @Override
+    public List<OrderVO> listAfterSalesService() throws Exception {
+        List<Order> orderList = orderDao.selectAfterSalesService(LoginCheckFilter.currentUser.getId());
+        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+        return orderVOList;
+    }
+
+    @Override
+    public OrderVO detail(String orderNo) throws Exception {
+        Order order = orderDao.selectByOrderNo(orderNo);
+        //订单不存在，则报错
+        if (order == null) {
+            throw new MyException(ResultCode.NO_ORDER);
+        }
+        //订单存在，需要判断所属
+        Integer userId = LoginCheckFilter.currentUser.getId();
+        if (!order.getUserId().equals(userId)) {
+            throw new MyException(ResultCode.NOT_YOUR_ORDER);
+        }
+        OrderVO orderVO = getOrderVO(order);
+        return orderVO;
     }
 
     @Override
@@ -128,8 +172,13 @@ public class OrderServiceImpl implements OrderService {
     private OrderVO getOrderVO(Order order) throws Exception {
         OrderVO orderVO = new OrderVO();
         orderVO.setOrderNo(order.getOrderNo());
+        orderVO.setStoreId(order.getStoreId());
         orderVO.setUserId(order.getUserId());
+        orderVO.setAddressId(order.getAddressId());
         orderVO.setTotalPrice(order.getTotalPrice());
+        orderVO.setReceiverName(order.getReceiverName());
+        orderVO.setReceiverPhone(order.getReceiverPhone());
+        orderVO.setReceiverAddress(order.getReceiverAddress());
         orderVO.setCreateTime(order.getCreateTime());
         orderVO.setUpdateTime(order.getUpdateTime());
         orderVO.setStatus(order.getStatus());
@@ -188,37 +237,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void delete(int id) throws Exception {
-        Order orderOld = orderDao.select(id);
-
-        //查询不到该数据，无法删除
-        if (orderOld == null) {
-            throw new MyException(ResultCode.DELETE_FAILED);
-        }
-
-        orderDao.delete(id);
-    }
-
-    @Override
     public void update(Order updateOrder) throws Exception {
         orderDao.updateByIdSelective(updateOrder);
     }
 
     @Override
-    public PageBean<Order> selectByPage(int currentPage, int pageSize) throws Exception {
+    public PageBean<OrderVO> selectByPage(int currentPage, int pageSize) throws Exception {
         // 计算开始索引
         int begin = (currentPage - 1) * pageSize;
         // 计算查询条目数
         int size = pageSize;
 
         // 查询当前页数据
-        List<Order> rows = orderDao.selectByPage(begin, size);
+        List<OrderVO> rows = orderDao.selectByPage(begin, size,LoginCheckFilter.currentUser.getStoreId());
 
         //查询总记录数
         int totalCount = orderDao.selectTotalCount();
 
         //封装PageBean对象
-        PageBean<Order> pageBean = new PageBean<>();
+        PageBean<OrderVO> pageBean = new PageBean<>();
         pageBean.setRows(rows);
         pageBean.setTotalCount(totalCount);
 
@@ -226,20 +263,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageBean<Order> selectByPageAndCondition(int currentPage, int pageSize, String orderNo) throws Exception {
+    public PageBean<OrderVO> selectByPageAndCondition(int currentPage, int pageSize, String orderNo) throws Exception {
         // 计算开始索引
         int begin = (currentPage - 1) * pageSize;
         // 计算查询条目数
         int size = pageSize;
 
         // 查询当前页数据
-        List<Order> rows = orderDao.selectByPageAndCondition(begin, size, orderNo);
+        List<OrderVO> rows = orderDao.selectByPageAndCondition(begin, size,LoginCheckFilter.currentUser.getStoreId(),orderNo);
 
         // 查询总记录数
         int totalCount = orderDao.selectTotalCountByCondition(orderNo);
 
         // 封装PageBean对象
-        PageBean<Order> pageBean = new PageBean<>();
+        PageBean<OrderVO> pageBean = new PageBean<>();
         pageBean.setRows(rows);
         pageBean.setTotalCount(totalCount);
 
@@ -263,6 +300,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void receive(String orderNo) throws Exception {
+        Order order = orderDao.selectByOrderNo(orderNo);
+        //查询不到订单，报错
+        if (order == null) {
+            throw new MyException(ResultCode.NO_ORDER);
+        }
+        if (order.getStatus() == Constants.OrderStatus.DELIVERED.getNum()) {
+            order.setStatus(Constants.OrderStatus.RECEIVED.getNum());
+            orderDao.updateByIdSelective(order);
+        } else {
+            throw new MyException(ResultCode.WRONG_ORDER_STATUS);
+        }
+    }
+
+    @Override
     public void pay(String orderNo) throws Exception {
         Order order = orderDao.selectByOrderNo(orderNo);
         //查不到订单，报错
@@ -276,26 +328,5 @@ public class OrderServiceImpl implements OrderService {
             throw new MyException(ResultCode.WRONG_ORDER_STATUS);
         }
     }
-
-    @Override
-    public void finish(String orderNo) throws Exception {
-        Order order = orderDao.selectByOrderNo(orderNo);
-        //查不到订单，报错
-        if (order == null) {
-            throw new MyException(ResultCode.NO_ORDER);
-        }
-        //普通用户无法完结订单
-        if(!userService.checkManager(LoginCheckFilter.currentUser)){
-            throw new MyException(ResultCode.NOT_YOUR_ORDER);
-        }
-        //发货后可以完结订单
-        if (order.getStatus() == Constants.OrderStatus.DELIVERED.getNum()) {
-            order.setStatus(Constants.OrderStatus.AFTER_SALES_SERVICE.getNum());
-            orderDao.updateByIdSelective(order);
-        } else {
-            throw new MyException(ResultCode.WRONG_ORDER_STATUS);
-        }
-    }
-
 
 }

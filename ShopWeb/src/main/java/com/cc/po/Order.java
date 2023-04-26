@@ -19,13 +19,33 @@ public class Order {
      */
     private Integer userId;
     /**
+     * 店铺ID
+     */
+    private Integer storeId;
+    /**
+     * 地址ID
+     */
+    private Integer addressId;
+    /**
      * 订单状态
      */
-    private Integer status = 1;
+    private Integer status;
     /**
      * 订单金额
      */
     private BigDecimal totalPrice;
+    /**
+     * 收货人
+     */
+    private String receiverName;
+    /**
+     * 收货人电话号码
+     */
+    private String receiverPhone;
+    /**
+     * 收货人地址
+     */
+    private String receiverAddress;
     /**
      * 创建时间
      */
@@ -34,8 +54,6 @@ public class Order {
      * 更新时间
      */
     private Timestamp updateTime;
-
-    private List<OrderItem> orderItemList;
 
     public Integer getId() {
         return id;
@@ -55,14 +73,6 @@ public class Order {
 
     public Timestamp getCreateTime() {
         return createTime;
-    }
-
-    public List<OrderItem> getOrderDetailList() {
-        return orderItemList;
-    }
-
-    public void setOrderDetailList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
     }
 
     public Integer getStatus() {
@@ -101,17 +111,61 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
+    public String getReceiverAddress() {
+        return receiverAddress;
+    }
+
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", orderNo='" + orderNo + '\'' +
                 ", userId=" + userId +
+                ", storeId=" + storeId +
+                ", addressId=" + addressId +
                 ", status=" + status +
                 ", totalPrice=" + totalPrice +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverPhone='" + receiverPhone + '\'' +
+                ", receiverAddress='" + receiverAddress + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", orderItemList=" + orderItemList +
                 '}';
     }
 }

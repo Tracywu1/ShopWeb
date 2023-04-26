@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -24,11 +23,11 @@ import java.util.stream.Collectors;
 /**
  * @author 32119
  */
-@WebServlet("/product/*")
-public class ProductServlet extends BaseServlet {
+@WebServlet("/product/manager/*")
+public class ProductManagerServlet extends BaseServlet {
     private final ProductService productService = new ProductServiceImpl();
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductManagerServlet.class);
 
     /**
      * 查询所有

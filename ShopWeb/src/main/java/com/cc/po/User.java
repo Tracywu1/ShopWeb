@@ -12,6 +12,10 @@ public class User {
      */
     private Integer id;
     /**
+     * 店铺的id（只有店铺管理员有，普通用户默认为0）
+     */
+    private Integer storeId;
+    /**
      *用户名  （5-25位中英文、数字、下划线或组合）
      */
     private String username;
@@ -229,10 +233,19 @@ public class User {
         this.email = email;
     }
 
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", storeId=" + storeId +
                 ", username='" + username + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", password='" + password + '\'' +

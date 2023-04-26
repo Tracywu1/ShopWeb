@@ -2,12 +2,14 @@ package com.cc.dao;
 
 import com.cc.po.Order;
 import com.cc.po.Product;
+import com.cc.vo.OrderVO;
 
 import java.util.List;
 
 public interface OrderDao {
     /**
      * 删除数据
+     *
      * @param id
      * @return
      */
@@ -16,26 +18,58 @@ public interface OrderDao {
 
     /**
      * 有选择性地添加数据
+     *
      * @param order
      * @return
      */
     void insertSelective(Order order) throws Exception;
 
     /**
-     * 查询所有
+     * 为店铺店员查询所有订单
+     *
      * @return
      */
-    List<Order> selectAll() throws Exception;
+    List<Order> selectAllForManager(Integer storeId) throws Exception;
 
     /**
-     * 根据id查询订单
-     * @param id
+     * 为用户查询未发货订单
+     *
+     * @param userId
      * @return
+     * @throws Exception
      */
-    Order select(Integer id) throws Exception;
+    List<Order> selectNotShippedForCustomer(Integer userId) throws Exception;
+
+    /**
+     * 为用户查询已发货订单
+     *
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    List<Order> selectDeliveredForCustomer(Integer userId) throws Exception;
+
+    /**
+     * 为用户查询已收货订单
+     *
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    List<Order> selectReceivedForCustomer(Integer userId) throws Exception;
+
+    /**
+     * 为用户查询售后订单
+     *
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    List<Order> selectAfterSalesService(Integer userId) throws Exception;
 
     /**
      * 根据订单编号查询订单
+     *
      * @param orderNo
      * @return
      */
@@ -43,6 +77,7 @@ public interface OrderDao {
 
     /**
      * 有选择性地修改数据
+     *
      * @param order
      * @return
      */
@@ -50,29 +85,34 @@ public interface OrderDao {
 
     /**
      * 分页查询
+     *
      * @param begin
      * @param size
      * @return
      */
-    List<Order> selectByPage(int begin, int size) throws Exception;
+    List<OrderVO> selectByPage(Integer begin, Integer size, Integer storeId) throws Exception;
 
     /**
      * 查询总记录数
+     *
      * @return
      */
     int selectTotalCount() throws Exception;
 
     /**
      * 分页条件查询
+     *
      * @param begin
      * @param size
      * @param orderNo
+     * @param storeId
      * @return
      */
-    List<Order> selectByPageAndCondition(int begin, int size, String orderNo) throws Exception;
+    List<OrderVO> selectByPageAndCondition(int begin, int size, Integer storeId, String orderNo) throws Exception;
 
     /**
      * 根据条件查询总记录数
+     *
      * @param orderNo
      * @return
      */

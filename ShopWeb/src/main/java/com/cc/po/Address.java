@@ -1,7 +1,5 @@
 package com.cc.po;
 
-import com.cc.common.Constants;
-
 import java.sql.Timestamp;
 
 public class Address {
@@ -24,7 +22,7 @@ public class Address {
     /**
      * 详细地址
      */
-    private String detail;
+    private String receiverAddress;
     /**
      * 创建时间
      */
@@ -42,12 +40,12 @@ public class Address {
         this.id = id;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getReceiverAddress() {
+        return receiverAddress;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
     }
 
     public Timestamp getCreateTime() {
@@ -97,7 +95,7 @@ public class Address {
                 ", userId=" + userId +
                 ", receiverName='" + receiverName + '\'' +
                 ", receiverPhone='" + receiverPhone + '\'' +
-                ", detail='" + detail + '\'' +
+                ", receiverAddress='" + receiverAddress + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';

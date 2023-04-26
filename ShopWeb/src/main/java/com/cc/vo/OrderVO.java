@@ -2,7 +2,6 @@ package com.cc.vo;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 public class OrderVO {
@@ -10,7 +9,17 @@ public class OrderVO {
 
     private Integer userId;
 
+    private Integer storeId;
+
+    private Integer addressId;
+
     private BigDecimal totalPrice;
+
+    private String receiverName;
+
+    private String receiverPhone;
+
+    private String receiverAddress;
 
     private Integer status;
 
@@ -84,5 +93,45 @@ public class OrderVO {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
+    public String getReceiverAddress() {
+        return receiverAddress;
+    }
+
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
     }
 }

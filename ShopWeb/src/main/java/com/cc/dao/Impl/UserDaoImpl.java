@@ -21,6 +21,10 @@ public class UserDaoImpl implements UserDao {
             columnsBuilder.append("`id`,");
             valuesBuilder.append("?,");
         }
+        if (user.getStoreId() != null) {
+            columnsBuilder.append("`storeId`,");
+            valuesBuilder.append("?,");
+        }
         if (user.getUsername() != null) {
             columnsBuilder.append("`username`,");
             valuesBuilder.append("?,");
@@ -80,6 +84,9 @@ public class UserDaoImpl implements UserDao {
         if (user.getId() != null) {
             count++;
         }
+        if (user.getStoreId() != null) {
+            count++;
+        }
         if (user.getNickname() != null && !user.getNickname().isEmpty()) {
             count++;
         }
@@ -116,6 +123,10 @@ public class UserDaoImpl implements UserDao {
             params[index] = user.getId();
             index++;
         }
+        if (user.getStoreId() != null) {
+            params[index] = user.getStoreId();
+            index++;
+        }
 
         String username;
         do {
@@ -123,7 +134,6 @@ public class UserDaoImpl implements UserDao {
             username = RandomUsernameGenerator.generate();
         } while (selectByUsername(username) != null);
         params[index] = username;
-
 
         if (user.getNickname() != null && !user.getNickname().isEmpty()) {
             params[index] = user.getNickname();
@@ -187,7 +197,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User selectByUsernameAndPwd(String username,String password) throws Exception {
+    public User selectByUsernameAndPwd(String username, String password) throws Exception {
         Object[] params = {username, password};
         String sql = "select * from tb_user where username = ? and password = md5(?)";
         User user1 = CRUDUtils.query(sql, User.class, params);
@@ -200,6 +210,7 @@ public class UserDaoImpl implements UserDao {
         StringBuilder sqlBuilder = new StringBuilder("update tb_user");
         sqlBuilder.append(" ");
         sqlBuilder.append("set");
+
         if (user.getUsername() != null) {
             sqlBuilder.append("`username` = ?,");
         }
@@ -245,13 +256,13 @@ public class UserDaoImpl implements UserDao {
         if (user.getEmail() != null && !user.getEmail().isEmpty()) {
             count++;
         }
-        if(user.getPhoneNum() != null && !user.getPhoneNum().isEmpty()){
+        if (user.getPhoneNum() != null && !user.getPhoneNum().isEmpty()) {
             count++;
         }
-        if (user.getImage() != null && !user.getImage().isEmpty()){
+        if (user.getImage() != null && !user.getImage().isEmpty()) {
             count++;
         }
-        if (user.getUserRole() != null){
+        if (user.getUserRole() != null) {
             count++;
         }
 
@@ -279,15 +290,15 @@ public class UserDaoImpl implements UserDao {
             params[index] = user.getEmail();
             index++;
         }
-        if(user.getPhoneNum() != null && !user.getPhoneNum().isEmpty()){
+        if (user.getPhoneNum() != null && !user.getPhoneNum().isEmpty()) {
             params[index] = user.getPhoneNum();
             index++;
         }
-        if (user.getImage() != null && !user.getImage().isEmpty()){
+        if (user.getImage() != null && !user.getImage().isEmpty()) {
             params[index] = user.getImage();
             index++;
         }
-        if (user.getUserRole() != null){
+        if (user.getUserRole() != null) {
             params[index] = user.getUserRole();
         }
 
