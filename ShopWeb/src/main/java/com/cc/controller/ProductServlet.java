@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 32119
@@ -39,7 +40,7 @@ public class ProductServlet extends BaseServlet {
         //调用service查询
         List<Product> products = productService.getAll();
 
-        logger.debug(products.toString());
+        logger.debug("products"+products.toString());
 
         Result result = Result.success(products);
         response.setContentType("application/json;charset=UTF-8");
@@ -53,16 +54,9 @@ public class ProductServlet extends BaseServlet {
      * @throws Exception
      */
     public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //1.接收数据
-        BufferedReader br = request.getReader();
-        String line;
-        StringBuilder sb = new StringBuilder();
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        String params = sb.toString(); // 获取完整的请求体字符串
+        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
-        logger.debug(params);
+        logger.debug("params"+params);
 
         //转为Product对象
         Product product = JSON.parseObject(params, Product.class);
@@ -76,7 +70,7 @@ public class ProductServlet extends BaseServlet {
     }
 
     /**
-     * 删除商品
+     * 下架商品
      * @param request
      * @param response
      * @throws Exception
@@ -101,13 +95,7 @@ public class ProductServlet extends BaseServlet {
      * @throws Exception
      */
     public void deleteInBatches(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BufferedReader br = request.getReader();
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        String params = sb.toString();
+        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         logger.debug(params);
 
@@ -133,13 +121,7 @@ public class ProductServlet extends BaseServlet {
      * @throws Exception
      */
     public void update(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        BufferedReader br = request.getReader();
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-        String params = sb.toString();
+        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         logger.debug(params);
 

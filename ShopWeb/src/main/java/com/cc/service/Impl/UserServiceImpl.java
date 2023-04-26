@@ -1,6 +1,6 @@
 package com.cc.service.Impl;
 
-import com.cc.contants.UserRole;
+import com.cc.common.Constants;
 import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.UserDao;
 import com.cc.po.User;
@@ -37,12 +37,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkManager(User user) {
-        return user.getUserRole().equals(UserRole.STORE_MANAGER);
+        return user.getUserRole().equals(Constants.UserRole.STORE_MANAGER);
     }
 
     @Override
     public boolean checkWebMaster(User user) {
-        return user.getUserRole().equals(UserRole.WEBMASTER);
+        return user.getUserRole().equals(Constants.UserRole.WEBMASTER);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.cc.po;
 
-import com.cc.contants.ReportStatus;
+import com.cc.common.Constants;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Report {
     /**
@@ -25,7 +24,7 @@ public class Report {
     /**
      * 处理状态
      */
-    private ReportStatus status = ReportStatus.TO_BE_PROCESSED;
+    private Constants.ReportStatus status = Constants.ReportStatus.TO_BE_PROCESSED;
 
     public Integer getId() {
         return id;
@@ -59,11 +58,11 @@ public class Report {
         this.time = time;
     }
 
-    public ReportStatus getStatus() {
+    public Constants.ReportStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ReportStatus status) {
+    public void setStatus(Constants.ReportStatus status) {
         this.status = status;
     }
 

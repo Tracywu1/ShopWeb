@@ -1,6 +1,6 @@
 package com.cc.po;
 
-import com.cc.contants.IsSelected;
+import com.cc.common.Constants;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,29 +11,21 @@ public class Cart {
      */
     private Integer id;
     /**
-     * 所属用户
+     * 所属用户ID
      */
-    private User user;
+    private Integer userId;
     /**
-     * 商品
+     * 商品ID
      */
-    private Product product;
+    private Integer productId;
     /**
      * 购买数量
      */
     private Integer count;
     /**
-     *商品单价
-     */
-    private Double price;
-    /**
-     *总价
-     */
-    private Double totalPrice;
-    /**
      * 是否勾选，默认未勾选
      */
-    private IsSelected isSelected=IsSelected.NO;
+    private Integer isSelected= 2;
     /**
      * 创建时间
      */
@@ -53,20 +45,20 @@ public class Cart {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Product getProduct() {
-        return product;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public Integer getCount() {
@@ -75,22 +67,6 @@ public class Cart {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public List<Product> getProductList() {
@@ -117,11 +93,11 @@ public class Cart {
         this.updateTime = updateTime;
     }
 
-    public IsSelected getIsSelected() {
+    public Integer getIsSelected() {
         return isSelected;
     }
 
-    public void setIsSelected(IsSelected isSelected) {
+    public void setIsSelected(Integer isSelected) {
         this.isSelected = isSelected;
     }
 
@@ -129,11 +105,9 @@ public class Cart {
     public String toString() {
         return "Cart{" +
                 "id=" + id +
-                ", user=" + user +
-                ", product=" + product +
+                ", userId=" + userId +
+                ", productId=" + productId +
                 ", count=" + count +
-                ", price=" + price +
-                ", totalPrice=" + totalPrice +
                 ", isSelected=" + isSelected +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +

@@ -160,7 +160,6 @@ public class ProductDaoImpl implements ProductDao {
         }
         if (product.getUpdateTime() != null) {
             params[index] = product.getUpdateTime();
-            index++;
         }
 
         int update = CRUDUtils.update(sqlBuilder.toString(), params);
@@ -235,14 +234,6 @@ public class ProductDaoImpl implements ProductDao {
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, productName);
         logger.debug(String.valueOf(products));
         return products;
-    }
-
-    @Override
-    public void update(Product product) throws Exception {
-        Object[] params = {product.getProductName(), product.getDescription(), product.getImage(), product.getPrice(), product.getId()};
-        String sql = "update tb_product set id = ?,storeId = ?,productName = ?,storeName = ?,description = ?,image = ?,price = ?,productCount = ?,saleCount = ?,createTime = ?,updateTime = ? where id = ?";
-        int update = CRUDUtils.update(sql, params);
-        logger.debug("update" + update);
     }
 
     @Override

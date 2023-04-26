@@ -1,6 +1,6 @@
 package com.cc.po;
 
-import com.cc.contants.MsgType;
+import com.cc.common.Constants;
 
 import java.sql.Timestamp;
 
@@ -20,7 +20,7 @@ public class Message {
     /**
      * 消息类型
      */
-    private MsgType type;
+    private Constants.MsgType type;
     /**
      * 消息内容
      */
@@ -54,11 +54,11 @@ public class Message {
         this.receiver = receiver;
     }
 
-    public MsgType getType() {
+    public Constants.MsgType getType() {
         return type;
     }
 
-    public void setType(MsgType type) {
+    public void setType(Constants.MsgType type) {
         this.type = type;
     }
 

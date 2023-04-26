@@ -87,12 +87,6 @@ public interface ProductDao {
     int selectTotalCountByCondition(String productName , String storeName) throws Exception;
 
     /**
-     * 修改数据
-     * @param product
-     */
-    void update(Product product) throws Exception;
-
-    /**
      * 选择性地修改数据
      * @param product
      * @throws Exception

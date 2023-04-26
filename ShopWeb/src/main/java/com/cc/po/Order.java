@@ -1,7 +1,5 @@
 package com.cc.po;
 
-import com.cc.contants.OrderStatus;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,15 +17,11 @@ public class Order {
     /**
      * 所属用户ID
      */
-    private User userId;
-    /**
-     * 订单数量
-     */
-    private Integer count;
+    private Integer userId;
     /**
      * 订单状态
      */
-    private OrderStatus status = OrderStatus.NOT_SHIPPED;
+    private Integer status = 1;
     /**
      * 订单金额
      */
@@ -59,15 +53,7 @@ public class Order {
         this.orderNo = orderNo;
     }
 
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
@@ -79,11 +65,11 @@ public class Order {
         this.orderItemList = orderItemList;
     }
 
-    public OrderStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -99,11 +85,11 @@ public class Order {
         this.updateTime = updateTime;
     }
 
-    public User getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -121,7 +107,6 @@ public class Order {
                 "id=" + id +
                 ", orderNo='" + orderNo + '\'' +
                 ", userId=" + userId +
-                ", count=" + count +
                 ", status=" + status +
                 ", totalPrice=" + totalPrice +
                 ", createTime=" + createTime +

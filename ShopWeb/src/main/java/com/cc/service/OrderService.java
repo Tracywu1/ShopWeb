@@ -13,10 +13,9 @@ public interface OrderService {
     List<Order> getAll() throws Exception;
 
     /**
-     * 新增订单
-     * @param order
+     * 创建订单
      */
-    void add(Order order) throws Exception;
+    String create() throws Exception;
 
     /**
      * 删除订单
@@ -47,4 +46,23 @@ public interface OrderService {
      * @return
      */
     PageBean<Order>  selectByPageAndCondition(int currentPage,int pageSize,String orderNo) throws Exception;
+
+    /**
+     * 发货
+     * @param orderNo
+     */
+    void deliver(String orderNo) throws Exception;
+
+    /**
+     * 支付
+     * @param orderNo
+     * @throws Exception
+     */
+    void pay(String orderNo)throws Exception;
+
+    /**
+     * 订单完成
+     * @param orderNo
+     */
+    void finish(String orderNo) throws Exception;
 }

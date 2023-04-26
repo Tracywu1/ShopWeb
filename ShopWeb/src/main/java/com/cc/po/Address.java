@@ -1,10 +1,8 @@
 package com.cc.po;
 
-import com.cc.contants.IsDefault;
+import com.cc.common.Constants;
 
 import java.sql.Timestamp;
-
-import static com.cc.contants.IsDefault.NO;
 
 public class Address {
     /**
@@ -12,25 +10,21 @@ public class Address {
      */
     private Integer id;
     /**
-     * 所属用户
+     * 所属用户ID
      */
-    private User user;
+    private Integer userId;
     /**
      * 收货人
      */
-    private String consignee;
+    private String receiverName;
     /**
      * 电话号码
      */
-    private String phoneNum;
+    private String receiverPhone;
     /**
      * 详细地址
      */
     private String detail;
-    /**
-     * 是否设为默认地址
-     */
-    private IsDefault isDefault = NO;
     /**
      * 创建时间
      */
@@ -46,30 +40,6 @@ public class Address {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getConsignee() {
-        return consignee;
-    }
-
-    public void setConsignee(String consignee) {
-        this.consignee = consignee;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
     }
 
     public String getDetail() {
@@ -96,23 +66,38 @@ public class Address {
         this.updateTime = updateTime;
     }
 
-    public IsDefault getIsDefault() {
-        return isDefault;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setIsDefault(IsDefault isDefault) {
-        this.isDefault = isDefault;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 
     @Override
     public String toString() {
         return "Address{" +
                 "id=" + id +
-                ", user=" + user +
-                ", consignee='" + consignee + '\'' +
-                ", phoneNum='" + phoneNum + '\'' +
+                ", userId=" + userId +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverPhone='" + receiverPhone + '\'' +
                 ", detail='" + detail + '\'' +
-                ", isDefault=" + isDefault +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';

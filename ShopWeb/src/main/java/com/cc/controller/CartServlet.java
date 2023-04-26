@@ -2,14 +2,14 @@ package com.cc.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.cc.exception.Result;
-import com.cc.po.Cart;
+import com.cc.filter.LoginCheckFilter;
 import com.cc.service.CartService;
 import com.cc.service.Impl.CartServiceImpl;
+import com.cc.vo.CartVO;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.util.List;
 
 @WebServlet("/cart/*")
@@ -17,16 +17,16 @@ public class CartServlet extends BaseServlet{
     private CartService cartService = new CartServiceImpl();
 
     /**
-     * 查询所有
+     * 购物车列表
      * @param request
      * @param response
      * @throws Exception
      */
-    public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void list(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //调用service查询
-        List<Cart> carts = cartService.getAll();
+        List<CartVO> cartVOS = cartService.list(LoginCheckFilter.currentUser.getId());
 
-        Result result = Result.success(carts);
+        Result result = Result.success(cartVOS);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }
@@ -38,15 +38,11 @@ public class CartServlet extends BaseServlet{
      * @throws Exception
      */
     public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //1.接收数据
-        BufferedReader br = request.getReader();
-        String params = br.readLine();//json字符串
-
-        //转为Cart对象
-        Cart cart = JSON.parseObject(params, Cart.class);
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int count = Integer.parseInt(request.getParameter("count"));
 
         //调用service添加
-        cartService.add(cart);
+        cartService.add(LoginCheckFilter.currentUser.getId(),productId,count);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -60,36 +56,13 @@ public class CartServlet extends BaseServlet{
      * @throws Exception
      */
     public void update(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        //接收购买数量和购物车项的id
+        //接收购买数量和商品的id
         int count = Integer.parseInt(request.getParameter("count"));
-        int id = Integer.parseInt(request.getParameter("id"));
+        int productId = Integer.parseInt(request.getParameter("productId"));
 
-        //调用service添加
-        cartService.update(count,id);
+        //调用service更新数据
+        cartService.update(count,LoginCheckFilter.currentUser.getId(),productId);
 
-        Result result = Result.success();
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(result));
-    }
-
-    /**
-     * 批量删除
-     * @param request
-     * @param response
-     * @throws Exception
-     */
-    public void deleteInBatches(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //1.接收数据
-        BufferedReader br = request.getReader();
-        String params = br.readLine();//json字符串
-
-        //转为int[]
-        int[] ids = JSON.parseObject(params, int[].class);
-
-        //调用service批量删除
-        cartService.deleteInBatches(ids);
-
-        //响应成功标识
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
@@ -102,10 +75,46 @@ public class CartServlet extends BaseServlet{
      * @throws Exception
      */
     public void delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        int id = Integer.parseInt(request.getParameter("id"));
+        //不能传入userId和cartId否则可以删除别人的购物车
+        int productId = Integer.parseInt(request.getParameter("productId"));
 
-        //调用service添加
-        cartService.delete(id);
+        //调用service删除
+        cartService.delete(LoginCheckFilter.currentUser.getId(),productId);
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
+     * 选择/不选择购物车中某商品
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void select(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int selected = Integer.parseInt(request.getParameter("selected"));
+
+        //调用service
+        cartService.selectOrNot(LoginCheckFilter.currentUser.getId(),productId,selected);
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
+     * 全选择/全部选择购物车中的商品
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        int selected = Integer.parseInt(request.getParameter("selected"));
+
+        //调用service
+        cartService.selectAllOrNot(LoginCheckFilter.currentUser.getId(),selected);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");

@@ -1,6 +1,7 @@
 package com.cc.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.cc.common.Constants;
 import com.cc.exception.Result;
 import com.cc.exception.ResultCode;
 import com.cc.po.User;
@@ -63,15 +64,13 @@ public class UserServlet extends BaseServlet {
             //jwt包含了当前登录的用户信息
             String token = JwtUtils.generateJwt(claims);
 
-            //设置cookie，将令牌保存到cookie中，不要使用localStorage，因为它容易受到XSS攻击
-            Cookie cookie = new Cookie("token", token);
-            cookie.setMaxAge(60 * 60 * 24 * 7);//保存七天
-            cookie.setPath("/");
-            response.addCookie(cookie);
+            //设置自定义 header，将令牌保存到 header 中
+            response.setHeader("Authorization", "Bearer " + token);
 
-            //将登录成功后的user对象存储到session-->前端页面：XXX,欢迎您
+            //保存用户信息时，不保存密码
+            u.setPassword(null);
             HttpSession session = request.getSession();
-            session.setAttribute("username", u.getUsername());
+            session.setAttribute(Constants.QG_MALL_USER,u);
 
             //登录成功，跳转页面
             String contextPath = request.getContextPath();
@@ -98,8 +97,8 @@ public class UserServlet extends BaseServlet {
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
         }
-
     }
+
 
     /**
      * 生成验证码
@@ -124,8 +123,8 @@ public class UserServlet extends BaseServlet {
     public void register(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
 
-        String requestBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        User user = JSON.parseObject(requestBody, User.class);
+        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        User user = JSON.parseObject(params, User.class);
 
         if(user.getPassword().isEmpty()){
             Result result = Result.error(ResultCode.NEED_PASSWORD);
@@ -164,7 +163,7 @@ public class UserServlet extends BaseServlet {
      */
     public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
         // 清除 session
-        request.getSession().invalidate();
+        request.getSession().removeAttribute(Constants.QG_MALL_USER);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -188,8 +187,11 @@ public class UserServlet extends BaseServlet {
         String newPhoneNum =request.getParameter("newPhoneNum");
         String newEmail = request.getParameter("newEmail");
         String newPassword = request.getParameter("newPassword");
+
         //获取当前用户的ID
-        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute(Constants.QG_MALL_USER);
+        int id = currentUser.getId();
 
         User user = new User();
         user.setId(id);

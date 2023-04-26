@@ -1,26 +1,49 @@
 package com.cc.po;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 public class OrderItem {
     /**
      * 订单详情ID
      */
     private Integer id;
     /**
-     * 商品
+     * 订单编号
      */
-    private Product product;
+    private String orderNo;
     /**
-     * 订单
+     * 商品ID
      */
-    private Order order;
+    private Integer productId;
     /**
      * 商品单价
      */
-    private Double price;
+    private String productName;
+    /**
+     * 商品图片
+     */
+    private String productImage;
+    /**
+     * 商品单价
+     */
+    private BigDecimal unitPrice;
+    /**
+     * 总价
+     */
+    private BigDecimal totalPrice;
     /**
      * 商品数量
      */
     private Integer count;
+    /**
+     * 创建时间
+     */
+    private Timestamp createTime;
+    /**
+     * 更新时间
+     */
+    private Timestamp updateTime;
 
     public Integer getId() {
         return id;
@@ -28,30 +51,6 @@ public class OrderItem {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public Integer getCount() {
@@ -62,14 +61,84 @@ public class OrderItem {
         this.count = count;
     }
 
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "OrderItem{" +
                 "id=" + id +
-                ", product=" + product +
-                ", order=" + order +
-                ", price=" + price +
+                ", orderNo='" + orderNo + '\'' +
+                ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", productImage='" + productImage + '\'' +
+                ", unitPrice=" + unitPrice +
+                ", totalPrice=" + totalPrice +
                 ", count=" + count +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

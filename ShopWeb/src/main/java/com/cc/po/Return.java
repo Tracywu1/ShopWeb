@@ -1,6 +1,6 @@
 package com.cc.po;
 
-import com.cc.contants.ReturnStatus;
+import com.cc.common.Constants;
 
 import java.sql.Timestamp;
 
@@ -24,7 +24,7 @@ public class Return {
     /**
      * 退货状态
      */
-    private ReturnStatus status = ReturnStatus.TO_BE_PROCESSED;
+    private Constants.ReturnStatus status = Constants.ReturnStatus.TO_BE_PROCESSED;
     /**
      * 退货时间
      */
@@ -62,11 +62,11 @@ public class Return {
         this.reason = reason;
     }
 
-    public ReturnStatus getStatus() {
+    public Constants.ReturnStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ReturnStatus status) {
+    public void setStatus(Constants.ReturnStatus status) {
         this.status = status;
     }
 

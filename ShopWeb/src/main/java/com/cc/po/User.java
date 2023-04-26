@@ -1,6 +1,7 @@
 package com.cc.po;
 
-import com.cc.contants.UserRole;
+
+import com.cc.common.Constants;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -41,7 +42,7 @@ public class User {
     /**
      * 用户角色
      */
-    private UserRole userRole;
+    private Constants.UserRole userRole;
     /**
      * 创建时间
      */
@@ -196,11 +197,11 @@ public class User {
         this.subscribeList = subscribeList;
     }
 
-    public UserRole getUserRole() {
+    public Constants.UserRole getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(UserRole userRole) {
+    public void setUserRole(Constants.UserRole userRole) {
         this.userRole = userRole;
     }
 
