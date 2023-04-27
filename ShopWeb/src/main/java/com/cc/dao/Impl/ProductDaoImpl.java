@@ -171,10 +171,6 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "delete from tb_product where id = ?";
         int update = CRUDUtils.update(sql, id);
         logger.debug("update:" + update);
-
-        if (update == 0) {
-            throw new MyException(ResultCode.DELETE_FAILED);
-        }
     }
 
     @Override
@@ -198,7 +194,6 @@ public class ProductDaoImpl implements ProductDao {
 
         int update = CRUDUtils.update(sql, params);
         logger.debug("update:" + update);
-
         if (update == 0) {
             throw new MyException(ResultCode.DELETE_FAILED);
         }

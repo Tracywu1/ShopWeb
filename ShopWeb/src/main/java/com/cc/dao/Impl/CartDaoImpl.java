@@ -161,6 +161,10 @@ public class CartDaoImpl implements CartDao {
         String sql = "select * from tb_cart where userId =? and productId =?";
         Cart cart = CRUDUtils.query(sql, Cart.class, params);
         logger.debug(String.valueOf(cart));
+        if (cart == null) {
+            //该商品之前不在购物车内，无法更新
+            throw new MyException(ResultCode.UPDATE_FAILED);
+        }
         return cart;
     }
 

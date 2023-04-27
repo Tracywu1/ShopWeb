@@ -2,6 +2,9 @@ package com.cc.vo;
 
 import java.math.BigDecimal;
 
+/**
+ * @author 32119
+ */
 public class CartVO {
 
     private Integer id;
@@ -92,5 +95,20 @@ public class CartVO {
 
     public void setProductImage(String productImage) {
         this.productImage = productImage;
+    }
+
+    @Override
+    public String toString() {
+        return "CartVO{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", userId=" + userId +
+                ", count=" + count +
+                ", isSelected=" + isSelected +
+                ", price=" + price +
+                ", totalPrice=" + totalPrice +
+                ", productName='" + productName + '\'' +
+                ", productImage='" + productImage + '\'' +
+                '}';
     }
 }

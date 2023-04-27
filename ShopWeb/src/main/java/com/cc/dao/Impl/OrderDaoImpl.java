@@ -237,6 +237,10 @@ public class OrderDaoImpl implements OrderDao {
         String sql = "select * from tb_order where orderNo =?";
         Order order = CRUDUtils.query(sql, Order.class, orderNo);
         logger.debug(String.valueOf(order));
+        //订单不存在，则报错
+        if (order == null) {
+            throw new MyException(ResultCode.NO_ORDER);
+        }
         return order;
     }
 

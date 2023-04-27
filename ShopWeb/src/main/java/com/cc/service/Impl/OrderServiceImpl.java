@@ -74,10 +74,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderVO detail(String orderNo) throws Exception {
         Order order = orderDao.selectByOrderNo(orderNo);
-        //订单不存在，则报错
-        if (order == null) {
-            throw new MyException(ResultCode.NO_ORDER);
-        }
         //订单存在，需要判断所属
         Integer userId = LoginCheckFilter.currentUser.getId();
         if (!order.getUserId().equals(userId)) {
@@ -114,6 +110,10 @@ public class OrderServiceImpl implements OrderService {
         for (int i = 0; i < orderItemList.size(); i++) {
             OrderItem orderItem = orderItemList.get(i);
             Product product = productDao.select(orderItem.getProductId());
+            //判断商品是否存在，商品是否上架
+            if (product == null) {
+                throw new MyException(ResultCode.NOT_SALE);
+            }
             int stock = product.getProductCount() - orderItem.getCount();
             if (stock < 0) {
                 throw new MyException(ResultCode.NOT_ENOUGH);
@@ -286,10 +286,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deliver(String orderNo) throws Exception {
         Order order = orderDao.selectByOrderNo(orderNo);
-        //查询不到订单，报错
-        if (order == null) {
-            throw new MyException(ResultCode.NO_ORDER);
-        }
         if (order.getStatus() == Constants.OrderStatus.NOT_SHIPPED.getNum()) {
             order.setStatus(Constants.OrderStatus.DELIVERED.getNum());
             orderDao.updateByIdSelective(order);
@@ -302,10 +298,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void receive(String orderNo) throws Exception {
         Order order = orderDao.selectByOrderNo(orderNo);
-        //查询不到订单，报错
-        if (order == null) {
-            throw new MyException(ResultCode.NO_ORDER);
-        }
         if (order.getStatus() == Constants.OrderStatus.DELIVERED.getNum()) {
             order.setStatus(Constants.OrderStatus.RECEIVED.getNum());
             orderDao.updateByIdSelective(order);
@@ -317,10 +309,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void pay(String orderNo) throws Exception {
         Order order = orderDao.selectByOrderNo(orderNo);
-        //查不到订单，报错
-        if (order == null) {
-            throw new MyException(ResultCode.NO_ORDER);
-        }
         if (order.getStatus() == Constants.OrderStatus.NOT_PAID.getNum()) {
             order.setStatus(Constants.OrderStatus.NOT_SHIPPED.getNum());
             orderDao.updateByIdSelective(order);

@@ -34,7 +34,7 @@ public class AddressDaoImpl implements AddressDao {
             columnsBuilder.append("`receiverPhone`,");
             valuesBuilder.append("?,");
         }
-        if (address.getDetail() != null) {
+        if (address.getReceiverAddress() != null) {
             columnsBuilder.append("`detail`,");
             valuesBuilder.append("?,");
         }
@@ -74,7 +74,7 @@ public class AddressDaoImpl implements AddressDao {
         if (address.getReceiverPhone() != null && !address.getReceiverPhone().isEmpty()) {
             count++;
         }
-        if (address.getDetail() != null && !address.getDetail().isEmpty()) {
+        if (address.getReceiverAddress() != null && !address.getReceiverAddress().isEmpty()) {
             count++;
         }
         if (address.getCreateTime() != null) {
@@ -104,8 +104,8 @@ public class AddressDaoImpl implements AddressDao {
             params[index] = address.getReceiverPhone();
             index++;
         }
-        if (address.getDetail() != null && !address.getDetail().isEmpty()) {
-            params[index] = address.getDetail();
+        if (address.getReceiverAddress() != null && !address.getReceiverAddress().isEmpty()) {
+            params[index] = address.getReceiverAddress();
             index++;
         }
         if (address.getCreateTime() != null) {
@@ -150,7 +150,7 @@ public class AddressDaoImpl implements AddressDao {
         if (address.getReceiverPhone() != null) {
             sqlBuilder.append("`receiverPhone` = ?,");
         }
-        if (address.getDetail() != null) {
+        if (address.getReceiverAddress() != null) {
             sqlBuilder.append("`detail` = ?,");
         }
         if (address.getCreateTime() != null) {
@@ -177,7 +177,7 @@ public class AddressDaoImpl implements AddressDao {
         if (address.getReceiverPhone() != null && !address.getReceiverPhone().isEmpty()) {
             count++;
         }
-        if (address.getDetail() != null && !address.getDetail().isEmpty()) {
+        if (address.getReceiverAddress() != null && !address.getReceiverAddress().isEmpty()) {
             count++;
         }
 
@@ -193,8 +193,8 @@ public class AddressDaoImpl implements AddressDao {
             params[index] = address.getReceiverPhone();
             index++;
         }
-        if (address.getDetail() != null) {
-            params[index] = address.getDetail();
+        if (address.getReceiverAddress() != null) {
+            params[index] = address.getReceiverAddress();
         }
 
         params[params.length - 1] = address.getId();

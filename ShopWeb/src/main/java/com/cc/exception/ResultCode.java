@@ -27,14 +27,16 @@ public enum ResultCode {
     DELETE_FAILED(15, "删除失败"),
     MKDIR_FAILED(16, "文件夹创建失败"),
     UPLOAD_FAILED(17, "图片上传失败"),
-    NOT_SALE(18, "商品状态不可售"),
-    NOT_ENOUGH(19, "商品库存不足"),
-    CART_EMPTY(20, "购物车已勾选的商品为空"),
-    NO_ENUM(21, "未找到对应的枚举"),
-    NO_ORDER(22, "订单不存在"),
-    WRONG_ORDER_STATUS(23,"订单状态不符"),
-    NOT_YOUR_ORDER(24,"该订单不属于你" ),
-    SYSTEM_ERROR(30, "系统异常，请从控制台或日志中查看具体错误信息");
+    WRONG_FILE_TYPE(18,"文件类型不符"),
+    EMPTY_FILE(19,"文件为空"),
+    NOT_SALE(20, "商品状态不可售"),
+    NOT_ENOUGH(21, "商品库存不足"),
+    CART_EMPTY(22, "购物车已勾选的商品为空"),
+    NO_ENUM(23, "未找到对应的枚举"),
+    NO_ORDER(24, "订单不存在"),
+    WRONG_ORDER_STATUS(25,"订单状态不符"),
+    NOT_YOUR_ORDER(26,"该订单不属于你" ),
+    SYSTEM_ERROR(27, "系统异常，请从控制台或日志中查看具体错误信息");
 
     /**
      * 异常码
