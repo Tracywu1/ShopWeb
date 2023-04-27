@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet("/cart/*")
 public class CartServlet extends BaseServlet{
-    private CartService cartService = new CartServiceImpl();
+    private final CartService cartService = new CartServiceImpl();
 
     /**
      * 购物车列表

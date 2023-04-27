@@ -1,5 +1,6 @@
 package com.cc.dao.Impl;
 
+import com.cc.common.Constants;
 import com.cc.dao.OrderDao;
 import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
@@ -144,10 +145,9 @@ public class OrderDaoImpl implements OrderDao {
             params[index] = order.getAddressId();
             index++;
         }
-        if (order.getStatus() != null) {
-            params[index] = order.getStatus();
-            index++;
-        }
+        //设置订单初始状态
+        params[index] = Constants.OrderStatus.NOT_PAID.getNum();
+        index++;
         if (order.getTotalPrice() != null) {
             params[index] = order.getTotalPrice();
             index++;

@@ -36,7 +36,8 @@ public enum ResultCode {
     NO_ORDER(24, "订单不存在"),
     WRONG_ORDER_STATUS(25,"订单状态不符"),
     NOT_YOUR_ORDER(26,"该订单不属于你" ),
-    SYSTEM_ERROR(27, "系统异常，请从控制台或日志中查看具体错误信息");
+    WRONG_USER_ROLE(27, "用户角色不符"),
+    SYSTEM_ERROR(40, "系统异常，请从控制台或日志中查看具体错误信息");
 
     /**
      * 异常码

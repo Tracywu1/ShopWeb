@@ -2,19 +2,18 @@ package com.cc.po;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
-public class Product {
+public class ProductApplication {
     /**
-     * 商品ID
+     * 商品申请ID
      */
     private Integer id;
     /**
-     * 所属店铺
+     * 申请店铺ID
      */
     private Integer storeId;
     /**
-     * 所属店铺名称
+     * 申请店铺名称
      */
     private String storeName;
     /**
@@ -38,9 +37,9 @@ public class Product {
      */
     private Integer productCount;
     /**
-     * 总销售量
+     * 申请状态
      */
-    private Integer saleCount;
+    private Integer status;
     /**
      * 创建时间
      */
@@ -102,14 +101,6 @@ public class Product {
         this.productCount = productCount;
     }
 
-    public Integer getSaleCount() {
-        return saleCount;
-    }
-
-    public void setSaleCount(Integer saleCount) {
-        this.saleCount = saleCount;
-    }
-
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -138,9 +129,17 @@ public class Product {
         this.storeName = storeName == null ? null : storeName.trim();
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Product{" +
+        return "ProductApplication{" +
                 "id=" + id +
                 ", storeId=" + storeId +
                 ", storeName='" + storeName + '\'' +
@@ -149,7 +148,7 @@ public class Product {
                 ", image='" + image + '\'' +
                 ", price=" + price +
                 ", productCount=" + productCount +
-                ", saleCount=" + saleCount +
+                ", status=" + status +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';

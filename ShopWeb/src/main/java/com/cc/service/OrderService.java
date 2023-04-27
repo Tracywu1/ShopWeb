@@ -35,7 +35,7 @@ public interface OrderService {
      * 用户的售后订单列表
      * @return
      */
-    List<OrderVO> listAfterSalesService() throws Exception;
+    List<OrderVO> listAfterSalesServiceForCustomer() throws Exception;
 
     /**
      * 订单详情
@@ -82,7 +82,14 @@ public interface OrderService {
      * 收货
      * @param orderNo
      */
-    void receive(String orderNo) throws Exception;
+    void received(String orderNo) throws Exception;
+
+    /**
+     * 售后
+     * @param orderNo
+     * @throws Exception
+     */
+    void afterSaleService(String orderNo)throws Exception;
 
     /**
      * 支付

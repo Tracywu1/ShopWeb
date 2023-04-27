@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class CartServiceImpl implements CartService {
-    private CartDao cartDao = new CartDaoImpl();
-    private ProductDao productDao = new ProductDaoImpl();
+    private final CartDao cartDao = new CartDaoImpl();
+    private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
     public List<CartVO> list(Integer userId) throws Exception {
@@ -51,7 +51,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void validProduct(Integer userId, Integer count) throws Exception {
-        Product product = productDao.select(userId);
+        Product product = productDao.selectProductById(userId);
         //判断商品是否存在，商品是否上架
         if (product == null) {
             throw new MyException(ResultCode.NOT_SALE);

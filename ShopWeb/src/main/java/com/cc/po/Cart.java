@@ -25,7 +25,7 @@ public class Cart {
     /**
      * 是否勾选，默认未勾选
      */
-    private Integer isSelected= 2;
+    private Integer isSelected= Constants.IsSelected.UN_SELECTED;
     /**
      * 创建时间
      */

@@ -1,9 +1,12 @@
-package com.cc.po;
+package com.cc.vo;
+
+import com.cc.po.Blog;
+import com.cc.po.Product;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Store {
+public class StoreVO {
     /**
      * 店铺ID
      */
@@ -40,6 +43,14 @@ public class Store {
      * 更新时间
      */
     private Timestamp updateTime;
+    /**
+     * 店铺的商品列表
+     */
+    private List<Product> productList;
+    /**
+     * 店铺的动态列表
+     */
+    private List<Blog> blogList;
 
     public Integer getId() {
         return id;
@@ -97,6 +108,22 @@ public class Store {
         this.aveMonthSales = aveMonthSales;
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    public List<Blog> getBlogList() {
+        return blogList;
+    }
+
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
+    }
+
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -113,5 +140,20 @@ public class Store {
         this.updateTime = updateTime;
     }
 
-
+    @Override
+    public String toString() {
+        return "StoreVO{" +
+                "id=" + id +
+                ", managerId=" + managerId +
+                ", storeName='" + storeName + '\'' +
+                ", description='" + description + '\'' +
+                ", logo='" + logo + '\'' +
+                ", fansNum=" + fansNum +
+                ", aveMonthSales=" + aveMonthSales +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", productList=" + productList +
+                ", blogList=" + blogList +
+                '}';
+    }
 }

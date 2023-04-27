@@ -1,8 +1,6 @@
 package com.cc.po;
 
 
-import com.cc.common.Constants;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class User {
     /**
      * 用户角色
      */
-    private Constants.UserRole userRole;
+    private Integer userRole;
     /**
      * 创建时间
      */
@@ -67,7 +65,7 @@ public class User {
 
     private List<Order> orderList;
 
-    private List<Return> returnList;
+    private List<ReturnApplication> returnApplicationList;
 
     private List<Comment> commentList;
 
@@ -177,12 +175,12 @@ public class User {
         this.orderList = orderList;
     }
 
-    public List<Return> getReturnList() {
-        return returnList;
+    public List<ReturnApplication> getReturnList() {
+        return returnApplicationList;
     }
 
-    public void setReturnList(List<Return> returnList) {
-        this.returnList = returnList;
+    public void setReturnList(List<ReturnApplication> returnApplicationList) {
+        this.returnApplicationList = returnApplicationList;
     }
 
     public List<Comment> getCommentList() {
@@ -201,11 +199,11 @@ public class User {
         this.subscribeList = subscribeList;
     }
 
-    public Constants.UserRole getUserRole() {
+    public Integer getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(Constants.UserRole userRole) {
+    public void setUserRole(Integer userRole) {
         this.userRole = userRole;
     }
 
@@ -262,7 +260,7 @@ public class User {
                 ", messageList=" + messageList +
                 ", cartList=" + cartList +
                 ", orderList=" + orderList +
-                ", returnList=" + returnList +
+                ", returnApplicationList=" + returnApplicationList +
                 ", commentList=" + commentList +
                 ", subscribeList=" + subscribeList +
                 '}';

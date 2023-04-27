@@ -1,10 +1,12 @@
-package com.cc.po;
+package com.cc.vo;
+
+import com.cc.po.Comment;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Product {
+public class ProductVO {
     /**
      * 商品ID
      */
@@ -42,6 +44,10 @@ public class Product {
      */
     private Integer saleCount;
     /**
+     * 月销售量
+     */
+    private Integer monthlySaleCount;
+    /**
      * 创建时间
      */
     private Timestamp createTime;
@@ -49,6 +55,10 @@ public class Product {
      * 更新时间
      */
     private Timestamp updateTime;
+    /**
+     * 评论
+     */
+    private List<Comment> commentList;
 
     public Integer getId() {
         return id;
@@ -138,9 +148,17 @@ public class Product {
         this.storeName = storeName == null ? null : storeName.trim();
     }
 
+    public Integer getMonthlySaleCount() {
+        return monthlySaleCount;
+    }
+
+    public void setMonthlySaleCount(Integer monthlySaleCount) {
+        this.monthlySaleCount = monthlySaleCount;
+    }
+
     @Override
     public String toString() {
-        return "Product{" +
+        return "ProductVO{" +
                 "id=" + id +
                 ", storeId=" + storeId +
                 ", storeName='" + storeName + '\'' +
@@ -150,8 +168,10 @@ public class Product {
                 ", price=" + price +
                 ", productCount=" + productCount +
                 ", saleCount=" + saleCount +
+                ", monthlySaleCount=" + monthlySaleCount +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", commentList=" + commentList +
                 '}';
     }
 }

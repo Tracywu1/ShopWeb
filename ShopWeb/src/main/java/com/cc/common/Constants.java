@@ -102,7 +102,8 @@ public class Constants {
             throw new IllegalArgumentException("Invalid OrderStatus value: " + num);
         }
     }
-    public enum ReportStatus {
+
+    public enum ApplyStatus {
         /**
          * 待处理
          */
@@ -112,15 +113,15 @@ public class Constants {
          */
         PROCESSED(2,"已处理"),
         /**
-         * 已驳回
+         * 已拒绝
          */
-        REJECTED(3,"已驳回");
+        REFUSED(3,"已拒绝");
 
         private int num;
 
         private String status;
 
-        ReportStatus(int num, String status) {
+        ApplyStatus(int num, String status) {
             this.num = num;
             this.status = status;
         }
@@ -140,50 +141,16 @@ public class Constants {
         public void setStatus(String status) {
             this.status = status;
         }
-    }
 
-    public enum ReturnStatus {
-        /**
-         * 待处理
-         */
-        TO_BE_PROCESSED(1,"待处理"),
-        /**
-         * 已处理
-         */
-        PROCESSED(2,"已处理"),
-        /**
-         * 已退款
-         */
-        REFUNDED(3,"已退款"),
-        /**
-         * 已取消
-         */
-        CANCELLED(4,"已取消");
-
-        private int num;
-
-        private String sstatus;
-
-        ReturnStatus(int num, String sstatus) {
-            this.num = num;
-            this.sstatus = sstatus;
+        public static String fromValue(int num) {
+            for (ApplyStatus applyStatus : values()) {
+                if (applyStatus.getNum() == num) {
+                    return applyStatus.getStatus();
+                }
+            }
+            throw new IllegalArgumentException("Invalid ApplyStatus value: " + num);
         }
 
-        public int getNum() {
-            return num;
-        }
-
-        public void setNum(int num) {
-            this.num = num;
-        }
-
-        public String getSstatus() {
-            return sstatus;
-        }
-
-        public void setSstatus(String sstatus) {
-            this.sstatus = sstatus;
-        }
     }
 
     public enum UserRole {
@@ -223,6 +190,15 @@ public class Constants {
 
         public void setRole(String role) {
             this.role = role;
+        }
+
+        public static String fromValue(int num) {
+            for (UserRole userRole : values()) {
+                if (userRole.getNum() == num) {
+                    return userRole.getRole();
+                }
+            }
+            throw new IllegalArgumentException("Invalid UserRole value: " + num);
         }
     }
 

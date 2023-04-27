@@ -9,11 +9,11 @@ public class Blog {
      */
     private Integer id;
     /**
-     * 所属商品
+     * 所属商品ID
      */
-    private Product product;
+    private Integer productId;
     /**
-     * 所属店铺
+     * 所属店铺ID
      */
     private Store store;
     /**
@@ -28,10 +28,6 @@ public class Blog {
      * 更新时间
      */
     private Timestamp updateTime;
-    /**
-     * 一个动态可对应多个商品
-     */
-    private List<Product> products;
 
     public Integer getId() {
         return id;
@@ -41,12 +37,12 @@ public class Blog {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public Store getStore() {
@@ -81,24 +77,15 @@ public class Blog {
         this.updateTime = updateTime;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
     @Override
     public String toString() {
         return "Blog{" +
                 "id=" + id +
-                ", product=" + product +
+                ", productId=" + productId +
                 ", store=" + store +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", products=" + products +
                 '}';
     }
 }

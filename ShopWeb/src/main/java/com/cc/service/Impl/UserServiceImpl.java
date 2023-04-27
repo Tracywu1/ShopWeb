@@ -3,6 +3,10 @@ package com.cc.service.Impl;
 import com.cc.common.Constants;
 import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.UserDao;
+import com.cc.exception.MyException;
+import com.cc.exception.ResultCode;
+import com.cc.filter.LoginCheckFilter;
+import com.cc.po.Order;
 import com.cc.po.User;
 import com.cc.service.UserService;
 
@@ -12,7 +16,7 @@ import com.cc.service.UserService;
  */
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao = new UserDaoImpl();
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
     public void delete(Integer id) throws Exception {
@@ -20,8 +24,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(Integer id) throws Exception {
-        return userDao.selectById(id);
+    public User getById() throws Exception {
+        return userDao.selectById(LoginCheckFilter.currentUser.getId());
     }
 
 
@@ -48,6 +52,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateInfo(User user) throws Exception {
         userDao.updateByIdSelective(user);
+    }
+
+    @Override
+    public void beManager() throws Exception {
+        User user = userDao.selectById(LoginCheckFilter.currentUser.getId());
+        if (user.getUserRole() == Constants.UserRole.ORDINARY_USERS.getNum()) {
+            user.setUserRole(Constants.UserRole.STORE_MANAGER.getNum());
+            userDao.updateByIdSelective(user);
+        } else {
+            throw new MyException(ResultCode.WRONG_USER_ROLE);
+        }
     }
 
 }

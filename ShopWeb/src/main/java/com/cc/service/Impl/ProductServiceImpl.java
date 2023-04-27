@@ -1,5 +1,6 @@
 package com.cc.service.Impl;
 
+import com.cc.common.Constants;
 import com.cc.dao.Impl.ProductDaoImpl;
 import com.cc.dao.ProductDao;
 import com.cc.exception.MyException;
@@ -12,10 +13,10 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private ProductDao productDao = new ProductDaoImpl();
+    private final ProductDao productDao = new ProductDaoImpl();
     @Override
-    public List<Product> getAll() throws Exception {
-        return productDao.selectAll();
+    public List<Product> getAllProduct() throws Exception {
+        return productDao.selectAllProduct();
     }
 
     @Override
@@ -23,9 +24,11 @@ public class ProductServiceImpl implements ProductService {
         productDao.insertSelective(product);
     }
 
+
+
     @Override
-    public void delete(int id) throws Exception {
-        Product productOld = productDao.select(id);
+    public void delete(Integer id) throws Exception {
+        Product productOld = productDao.selectProductById(id);
         //查询不到该数据，无法删除
         if(productOld == null){
             throw new MyException(ResultCode.DELETE_FAILED);

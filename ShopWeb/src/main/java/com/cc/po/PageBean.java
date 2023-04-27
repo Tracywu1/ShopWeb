@@ -9,18 +9,18 @@ public class PageBean<T> {
     /**
      * 总记录数
      */
-    private int totalCount;
+    private Integer totalCount;
     /**
      * 当前页数据
      */
     private List<T> rows;
 
 
-    public int getTotalCount() {
+    public Integer getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(int totalCount) {
+    public void setTotalCount(Integer totalCount) {
         this.totalCount = totalCount;
     }
 

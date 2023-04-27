@@ -2,6 +2,7 @@ package com.cc.service;
 
 import com.cc.po.PageBean;
 import com.cc.po.Product;
+import com.cc.po.ProductApplication;
 
 import java.util.List;
 
@@ -10,11 +11,11 @@ import java.util.List;
  */
 public interface ProductService {
     /**
-     * 查询所有
+     * 查询所有商品
      *
      * @return
      */
-    List<Product> getAll() throws Exception;
+    List<Product> getAllProduct() throws Exception;
 
     /**
      * 新增商品
@@ -23,11 +24,15 @@ public interface ProductService {
      */
     void add(Product product) throws Exception;
 
-    void delete(int id) throws Exception;
+    /**
+     * 下架商品（店铺管理员）
+     * @param id
+     * @throws Exception
+     */
+    void delete(Integer id) throws Exception;
 
     /**
-     * 批量删除
-     *
+     * 批量下架
      * @param ids
      */
     void deleteInBatches(int[] ids) throws Exception;

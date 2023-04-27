@@ -9,7 +9,7 @@ import com.cc.service.AddressService;
 import java.util.List;
 
 public class AddressServiceImpl implements AddressService {
-    AddressDao addressDao = new AddressDaoImpl();
+    private final AddressDao addressDao = new AddressDaoImpl();
 
     @Override
     public List<Address> getAddressList() throws Exception {

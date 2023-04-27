@@ -9,13 +9,13 @@ public class Chat {
      */
     private Integer id;
     /**
-     * 发送者
+     * 发送者ID
      */
-    private User sender;
+    private Integer senderId;
     /**
-     * 接收者
+     * 接收者ID
      */
-    private User receiver;
+    private Integer receiverId;
     /**
      * 聊天内容
      */
@@ -25,8 +25,6 @@ public class Chat {
      */
     private Timestamp sendTime;
 
-    private List<User> userList;
-
     public Integer getId() {
         return id;
     }
@@ -35,20 +33,20 @@ public class Chat {
         this.id = id;
     }
 
-    public User getSender() {
-        return sender;
+    public Integer getSenderId() {
+        return senderId;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
     }
 
-    public User getReceiver() {
-        return receiver;
+    public Integer getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
     }
 
     public String getContent() {
@@ -67,23 +65,14 @@ public class Chat {
         this.sendTime = sendTime;
     }
 
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
-
     @Override
     public String toString() {
         return "Chat{" +
                 "id=" + id +
-                ", sender=" + sender +
-                ", receiver=" + receiver +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
                 ", content='" + content + '\'' +
                 ", sendTime=" + sendTime +
-                ", userList=" + userList +
                 '}';
     }
 }

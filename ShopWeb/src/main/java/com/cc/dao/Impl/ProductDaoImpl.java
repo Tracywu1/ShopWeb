@@ -200,7 +200,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> selectAll() throws Exception {
+    public List<Product> selectAllProduct() throws Exception {
         String sql = "select * from tb_product";
         List<Product> products = CRUDUtils.queryMore(sql, Product.class, null);
         logger.debug(products.toString());
@@ -208,7 +208,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Product select(Integer id) throws Exception {
+    public Product selectProductById(Integer id) throws Exception {
         String sql = "select * from tb_product where id =?";
         Product product = CRUDUtils.query(sql, Product.class, id);
         logger.debug(String.valueOf(product));

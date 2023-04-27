@@ -20,7 +20,7 @@ public class Message {
     /**
      * 消息类型
      */
-    private Constants.MsgType type;
+    private Integer type;
     /**
      * 消息内容
      */
@@ -28,7 +28,7 @@ public class Message {
     /**
      * 接收时间
      */
-    private Timestamp time;
+    private Timestamp receiveTime;
 
     public Integer getId() {
         return id;
@@ -54,16 +54,20 @@ public class Message {
         this.receiver = receiver;
     }
 
-    public Constants.MsgType getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Constants.MsgType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public Timestamp getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(Timestamp receiveTime) {
+        this.receiveTime = receiveTime;
     }
 
     public String getContent() {
@@ -82,7 +86,7 @@ public class Message {
                 ", receiver=" + receiver +
                 ", type=" + type +
                 ", content='" + content + '\'' +
-                ", time=" + time +
+                ", receiveTime=" + receiveTime +
                 '}';
     }
 }

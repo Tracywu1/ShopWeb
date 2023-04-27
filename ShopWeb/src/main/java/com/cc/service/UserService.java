@@ -8,14 +8,11 @@ public interface UserService {
      */
     void delete(Integer id) throws Exception;
 
-
     /**
      * 根据ID查询用户
-     * @param id
      * @return
      */
-    User getById(Integer id) throws Exception;
-
+    User getById() throws Exception;
 
     /**
      * 用户登录
@@ -49,4 +46,9 @@ public interface UserService {
      * 修改个人信息
      */
     void updateInfo(User user) throws Exception;
+
+    /**
+     * 成为店铺管理员
+     */
+    void beManager() throws Exception;
 }

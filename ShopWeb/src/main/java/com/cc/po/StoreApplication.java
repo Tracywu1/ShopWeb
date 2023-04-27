@@ -1,17 +1,16 @@
 package com.cc.po;
 
 import java.sql.Timestamp;
-import java.util.List;
 
-public class Store {
+public class StoreApplication {
     /**
      * 店铺ID
      */
     private Integer id;
     /**
-     * 店铺管理员
+     * 申请用户ID
      */
-    private Integer managerId;
+    private Integer userId;
     /**
      * 店铺名称
      */
@@ -21,17 +20,13 @@ public class Store {
      */
     private String description;
     /**
+     * 申请状态
+     */
+    private Integer status;
+    /**
      * 店铺头像地址
      */
     private String logo;
-    /**
-     * 粉丝数量
-     */
-    private Integer fansNum;
-    /**
-     * 月均销量
-     */
-    private Integer aveMonthSales;
     /**
      * 创建时间
      */
@@ -47,14 +42,6 @@ public class Store {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
     }
 
     public String getStoreName() {
@@ -81,22 +68,6 @@ public class Store {
         this.logo = logo;
     }
 
-    public Integer getFansNum() {
-        return fansNum;
-    }
-
-    public void setFansNum(Integer fansNum) {
-        this.fansNum = fansNum;
-    }
-
-    public Integer getAveMonthSales() {
-        return aveMonthSales;
-    }
-
-    public void setAveMonthSales(Integer aveMonthSales) {
-        this.aveMonthSales = aveMonthSales;
-    }
-
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -113,5 +84,33 @@ public class Store {
         this.updateTime = updateTime;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "StoreApplication{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", storeName='" + storeName + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", logo='" + logo + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

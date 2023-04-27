@@ -29,12 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
-    private OrderDao orderDao = new OrderDaoImpl();
-    private OrderItemDao orderItemDao = new OderItemDaoImpl();
-    private ProductDao productDao = new ProductDaoImpl();
-    private CartDao cartDao = new CartDaoImpl();
-    private CartService cartService = new CartServiceImpl();
-    private UserService userService = new UserServiceImpl();
+    private final OrderDao orderDao = new OrderDaoImpl();
+    private final OrderItemDao orderItemDao = new OderItemDaoImpl();
+    private final ProductDao productDao = new ProductDaoImpl();
+    private final CartDao cartDao = new CartDaoImpl();
+    private final CartService cartService = new CartServiceImpl();
 
     @Override
     public List<OrderVO> listForManager() throws Exception {
@@ -65,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderVO> listAfterSalesService() throws Exception {
+    public List<OrderVO> listAfterSalesServiceForCustomer() throws Exception {
         List<Order> orderList = orderDao.selectAfterSalesService(LoginCheckFilter.currentUser.getId());
         List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
         return orderVOList;
@@ -109,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
         //扣库存
         for (int i = 0; i < orderItemList.size(); i++) {
             OrderItem orderItem = orderItemList.get(i);
-            Product product = productDao.select(orderItem.getProductId());
+            Product product = productDao.selectProductById(orderItem.getProductId());
             //判断商品是否存在，商品是否上架
             if (product == null) {
                 throw new MyException(ResultCode.NOT_SALE);
@@ -130,7 +129,6 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderNo(orderNo);
         order.setUserId(userId);
         order.setTotalPrice(totalPrice(orderItemList));
-        order.setStatus(Constants.OrderStatus.NOT_SHIPPED.getNum());
         //插入到Order表
         orderDao.insertSelective(order);
 
@@ -147,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
     private void validSaleStatusAndStock(List<CartVO> cartVOList) throws Exception {
         for (int i = 0; i < cartVOList.size(); i++) {
             CartVO cartVO = cartVOList.get(i);
-            Product product = productDao.select(cartVO.getProductId());
+            Product product = productDao.selectProductById(cartVO.getProductId());
             //判断商品是否存在，商品是否上架
             if (product == null) {
                 throw new MyException(ResultCode.NOT_SALE);
@@ -296,15 +294,43 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void receive(String orderNo) throws Exception {
+    public void received(String orderNo) throws Exception {
         Order order = orderDao.selectByOrderNo(orderNo);
+        List<OrderItem> orderItemList = orderItemDao.selectByOrderNo(orderNo);
         if (order.getStatus() == Constants.OrderStatus.DELIVERED.getNum()) {
             order.setStatus(Constants.OrderStatus.RECEIVED.getNum());
+            //到货后商品销量同步更新
+            for (int i = 0; i < orderItemList.size(); i++) {
+                OrderItem orderItem = orderItemList.get(i);
+                Product product = productDao.selectProductById(orderItem.getProductId());
+                product.setSaleCount(product.getSaleCount()+orderItem.getCount());
+                productDao.updateByIdSelective(product);
+            }
             orderDao.updateByIdSelective(order);
         } else {
             throw new MyException(ResultCode.WRONG_ORDER_STATUS);
         }
     }
+
+    @Override
+    public void afterSaleService(String orderNo) throws Exception {
+        Order order = orderDao.selectByOrderNo(orderNo);
+        List<OrderItem> orderItemList = orderItemDao.selectByOrderNo(orderNo);
+        if (order.getStatus() == Constants.OrderStatus.RECEIVED.getNum()) {
+            order.setStatus(Constants.OrderStatus.AFTER_SALES_SERVICE.getNum());
+            //到货后商品销量同步更新
+            for (int i = 0; i < orderItemList.size(); i++) {
+                OrderItem orderItem = orderItemList.get(i);
+                Product product = productDao.selectProductById(orderItem.getProductId());
+                product.setSaleCount(product.getSaleCount()-orderItem.getCount());
+                productDao.updateByIdSelective(product);
+            }
+            orderDao.updateByIdSelective(order);
+        } else {
+            throw new MyException(ResultCode.WRONG_ORDER_STATUS);
+        }
+    }
+
 
     @Override
     public void pay(String orderNo) throws Exception {

@@ -11,7 +11,6 @@ public interface ProductDao {
      * @param product
      * @throws Exception
      */
-
     void insertSelective(Product product) throws Exception;
 
     /**
@@ -27,17 +26,17 @@ public interface ProductDao {
     void deleteByIds(int[] ids) throws Exception;
 
     /**
-     * 查询所有
+     * 查询所有商品
      * @return
      */
-    List<Product> selectAll() throws Exception;
+    List<Product> selectAllProduct() throws Exception;
 
     /**
-     * 根据id查询数据
+     * 根据id查询商品
      * @param id
      * @return
      */
-    Product select(Integer id) throws Exception;
+    Product selectProductById(Integer id) throws Exception;
 
     /**
      * 根据商品名称查询商品（精确查询）
@@ -87,7 +86,7 @@ public interface ProductDao {
     int selectTotalCountByCondition(String productName , String storeName) throws Exception;
 
     /**
-     * 选择性地修改数据
+     * 选择性地修改商品数据
      * @param product
      * @throws Exception
      */

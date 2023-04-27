@@ -5,7 +5,9 @@ import com.cc.common.Constants;
 import com.cc.exception.Result;
 import com.cc.exception.ResultCode;
 import com.cc.po.User;
+import com.cc.service.Impl.OrderServiceImpl;
 import com.cc.service.Impl.UserServiceImpl;
+import com.cc.service.OrderService;
 import com.cc.service.UserService;
 import com.cc.utils.CheckCodeUtil;
 import com.cc.utils.JwtUtils;
@@ -23,7 +25,9 @@ import java.util.stream.Collectors;
 
 @WebServlet("/user/*")
 public class UserServlet extends BaseServlet {
-    private UserService userService = new UserServiceImpl();
+    private final UserService userService = new UserServiceImpl();
+
+    private final OrderService orderService = new OrderServiceImpl();
 
     /**
      * 存储输入密码错误的次数
@@ -32,7 +36,6 @@ public class UserServlet extends BaseServlet {
 
     /**
      * 执行用户登录功能
-     *
      * @param request  请求
      * @param response 响应
      * @throws IOException IO异常
@@ -99,6 +102,20 @@ public class UserServlet extends BaseServlet {
         }
     }
 
+    /**
+     * 查看用户个人信息
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void selectPersonalInfo(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        User user = userService.getById();
+        user.setPassword(null);
+
+        Result result = Result.success(user);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
 
     /**
      * 生成验证码
@@ -213,5 +230,47 @@ public class UserServlet extends BaseServlet {
         // 跳转到用户信息页面
         response.sendRedirect(request.getContextPath() + "/user.html");
 
+    }
+
+   /* *//**
+     * 申请注册店铺
+     * @param request
+     * @param response
+     * @throws Exception
+     *//*
+    public void RegistrationStore(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        userService.beManager();
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }*/
+
+    /**
+     * 确认已收货
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void Received(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        orderService.received(request.getParameter("orderNo"));
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
+     * 退货
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void returnProduct(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        orderService.afterSaleService(request.getParameter("orderNo"));
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
     }
 }

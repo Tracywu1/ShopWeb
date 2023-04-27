@@ -6,7 +6,10 @@ import com.cc.exception.ResultCode;
 import com.cc.po.PageBean;
 import com.cc.po.Product;
 import com.cc.exception.Result;
+import com.cc.po.ProductApplication;
+import com.cc.service.Impl.ProductApplicationServiceImpl;
 import com.cc.service.Impl.ProductServiceImpl;
+import com.cc.service.ProductApplicationService;
 import com.cc.service.ProductService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +36,7 @@ public class ProductManagerServlet extends BaseServlet {
     private static final Logger logger = LoggerFactory.getLogger(ProductManagerServlet.class);
     private static final String FILE_UPLOAD_DIR = "/path/to/file/upload/dir/";
     private final ProductService productService = new ProductServiceImpl();
+    private final ProductApplicationService productApplicationService = new ProductApplicationServiceImpl();
 
     /**
      * 查询所有
@@ -43,7 +47,7 @@ public class ProductManagerServlet extends BaseServlet {
      */
     public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //调用service查询
-        List<Product> products = productService.getAll();
+        List<Product> products = productService.getAllProduct();
 
         logger.debug("products" + products.toString());
 
@@ -53,7 +57,7 @@ public class ProductManagerServlet extends BaseServlet {
     }
 
     /**
-     * 添加数据
+     * 申请上架
      *
      * @param request
      * @param response
@@ -64,11 +68,11 @@ public class ProductManagerServlet extends BaseServlet {
 
         logger.debug("params" + params);
 
-        //转为Product对象
-        Product product = JSON.parseObject(params, Product.class);
+        //转为ProductApplication对象
+        ProductApplication productApplication = JSON.parseObject(params, ProductApplication.class);
 
         //调用service添加
-        productService.add(product);
+        productApplicationService.addApplication(productApplication);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");

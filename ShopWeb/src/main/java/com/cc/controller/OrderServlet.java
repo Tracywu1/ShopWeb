@@ -115,9 +115,9 @@ public class OrderServlet extends BaseServlet {
      * @param response
      * @throws Exception
      */
-    public void listAfterSaleService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void listAfterSalesService(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //调用service查询
-        List<OrderVO> orderVOList = orderService.listAfterSalesService();
+        List<OrderVO> orderVOList = orderService.listAfterSalesServiceForCustomer();
 
         logger.debug("orderVOList:" + orderVOList.toString());
 

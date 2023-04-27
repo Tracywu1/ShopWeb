@@ -1,7 +1,5 @@
 package com.cc.po;
 
-import com.cc.common.Constants;
-
 import java.sql.Timestamp;
 
 public class Report {
@@ -10,9 +8,9 @@ public class Report {
      */
     private Integer id;
     /**
-     * 举报用户
+     * 举报用户ID
      */
-    private User user;
+    private Integer userId;
     /**
      * 举报内容
      */
@@ -20,11 +18,11 @@ public class Report {
     /**
      * 举报时间
      */
-    private Timestamp time;
+    private Timestamp reportTime;
     /**
      * 处理状态
      */
-    private Constants.ReportStatus status = Constants.ReportStatus.TO_BE_PROCESSED;
+    private Integer status = 1;
 
     public Integer getId() {
         return id;
@@ -32,14 +30,6 @@ public class Report {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getContent() {
@@ -50,19 +40,27 @@ public class Report {
         this.content = content;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public Timestamp getReportTime() {
+        return reportTime;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setReportTime(Timestamp reportTime) {
+        this.reportTime = reportTime;
     }
 
-    public Constants.ReportStatus getStatus() {
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Constants.ReportStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -70,9 +68,9 @@ public class Report {
     public String toString() {
         return "Report{" +
                 "id=" + id +
-                ", user=" + user +
+                ", userId=" + userId +
                 ", content='" + content + '\'' +
-                ", time=" + time +
+                ", reportTime=" + reportTime +
                 ", status=" + status +
                 '}';
     }
