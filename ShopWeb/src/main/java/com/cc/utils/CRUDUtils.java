@@ -1,5 +1,7 @@
 package com.cc.utils;
 
+import com.cc.po.PageBean;
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -223,5 +225,4 @@ public class CRUDUtils {
         }
         return 0;
     }
-
 }

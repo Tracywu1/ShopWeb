@@ -1,143 +1,112 @@
-/*
 package com.cc.utils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.*;
+import java.util.concurrent.*;
 
-public class MyConnectionPool{
-    static{
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                release();
-            }
-        },0,1000);
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                send();
-            }
-        },0,1000*10L);
+public class MyConnectionPool {
+    private final String driver;
+    private final String url;
+    private final String username;
+    private final String password;
+    private final int maxConnections;
+    private final BlockingQueue<Connection> availableConnections;
+    private final Set<Connection> usedConnections;
+    private final ScheduledExecutorService reclaimerExecutor;
+    private final ScheduledExecutorService keeperExecutor;
+
+    public MyConnectionPool(String driver, String url, String username, String password, int maxConnections) throws SQLException {
+        this.driver = driver;
+        this.url = url;
+        this.username = username;
+        this.password = password;
+        this.maxConnections = maxConnections;
+        this.availableConnections = new ArrayBlockingQueue<>(maxConnections);
+        this.usedConnections = new HashSet<>();
+        this.reclaimerExecutor = Executors.newSingleThreadScheduledExecutor();
+        this.keeperExecutor = Executors.newSingleThreadScheduledExecutor();
+        initializePool();
+        startReclaimer();
+        startKeeper();
     }
 
-    public static String Driver;
-    public static String url;
-    public static String username;
-    public static String psd;
-    //利用CopyOnWriteArrayList存放MyConnection,初始化池
-    public  static CopyOnWriteArrayList<MyConnection> myConnections=new CopyOnWriteArrayList<MyConnection>();
-    //初始化池内连接数量
-    public static int count=0;
-
-    //读取jdbc配置文件
-    private static void readPro(){
-        try{
-            Properties pro=new Properties();
-            InputStream in= new FileInputStream("src/main/resources/db.properties");
-            pro.load(in);
-            Driver=pro.getProperty("Driver");
-            url=pro.getProperty("url");
-            username=pro.getProperty("username");
-            psd=pro.getProperty("psd");
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-    //在池中获取连接
-    public static synchronized Connection getConnection(){
-        for(int i=0;i<count;i++){      //若池内有空闲的连接则连上
-            if(!myConnections.get(i).isUsed){
-                myConnections.get(i).isUsed=true;
-                System.out.println("我空闲我连上");
-                return myConnections.get(i);
-            };
-        }
-        //若池内连接数超过10个连接（可自定义池内最大连接数），则提示系统繁忙
-        if(count>=10){
-            System.out.println("系统繁忙！");
-            return null;
-        }
-        //若池内没有连接空闲，且连接数不超过池可以承载的最大数量，则创建一个新连接
-        readPro();
-        Connection conn=null;
-        try{
-            //--1，加载Driver驱动--
-            Class.forName(Driver);
-            //--2，创建数据库连接对象Connection--
-            conn = DriverManager.getConnection(url, username, psd);
-        }catch (ClassNotFoundException | SQLException e){
-            e.printStackTrace();
-        }
-        MyConnection myconnection=new MyConnection(conn);
-        //标记连接为繁忙
-        myconnection.isUsed=true;
-        //将其加入池中
-        myConnections.add(myconnection);
-        System.out.println("我新建一个");
-        count++; //池内连接数量+1
-        return myconnection;
-    }
-    public static  void release(){
-        int count=0;
-        for(MyConnection myConnection:MyConnectionPool.myConnections){
-            if (!myConnection.isUsed){ //若连接池有6个空闲，则关闭其他空闲
-                if(count>=6){
-                    try {
-                        myConnection.realclose();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    continue;
-                }
-                count++;
-            }
-        }
-    }
-    public static  void send(){
-        Statement stmt = null;
-        String sql="SELECT * FROM account";
-        */
-/**
-         * 定时发送sql语句确保连接
-         *//*
-
-        for(MyConnection myConnection:MyConnectionPool.myConnections){
-            if(myConnection.isUsed) {
-                continue;
-            }
+    private void initializePool() throws SQLException {
+        for (int i = 0; i < maxConnections; i++) {
+            Connection connection = null;
             try {
-                stmt = myConnection.createStatement();
-                stmt.executeQuery(sql);
+                Class.forName(driver);
+                connection = DriverManager.getConnection(url, username, password);
+                availableConnections.put(connection);
+            } catch (ClassNotFoundException | SQLException | InterruptedException e) {
+                if (connection != null) {
+                    connection.close();
+                }
+                throw new SQLException("数据库连接池初始化失败", e);
+            }
+        }
+    }
+
+    public Connection getConnection() throws SQLException {
+        Connection connection = availableConnections.poll();
+        if (connection == null) {
+            throw new SQLException("数据库连接池已达到最大连接数");
+        }
+        if (!connection.isValid(5)) {
+            connection = DriverManager.getConnection(url, username, password);
+        }
+        usedConnections.add(connection);
+        return connection;
+    }
+
+    public void releaseConnection(Connection connection) throws SQLException {
+        if (connection == null || !usedConnections.remove(connection)) {
+            throw new SQLException("该连接无效");
+        }
+        availableConnections.offer(connection);
+    }
+
+    private void startReclaimer() {
+        reclaimerExecutor.scheduleAtFixedRate(() -> {
+            List<Connection> connectionsToRemove = new ArrayList<>();
+            for (Connection connection : availableConnections) {
+                try {
+                    if (!connection.isValid(5)) {
+                        connection.close();
+                        connectionsToRemove.add(connection);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            availableConnections.removeAll(connectionsToRemove);
+        }, 5, 5, TimeUnit.MINUTES);
+    }
+
+    private void startKeeper() {
+        keeperExecutor.scheduleAtFixedRate(() -> {
+            for (Connection connection : availableConnections) {
+                try {
+                    connection.isValid(5);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 5, 5, TimeUnit.MINUTES);
+    }
+
+    public void shutdown() {
+        reclaimerExecutor.shutdownNow();
+        keeperExecutor.shutdownNow();
+        for (Connection connection : availableConnections) {
+            try {
+                connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }finally {
-                if (stmt!=null){
-                    try {
-                        stmt.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if(myConnection!=null){
-                    try {
-                        myConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }
-
+        availableConnections.clear();
+        usedConnections.clear();
     }
-
 }
-*/

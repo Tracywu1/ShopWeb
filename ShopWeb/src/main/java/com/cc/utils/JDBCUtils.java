@@ -9,11 +9,7 @@ import java.util.Properties;
  * @author 32119
  */
 public class JDBCUtils {
-    private static String driver = null;
-    private static String url = null;
-    private static String username = null;
-    private static String password = null;
-
+    private static MyConnectionPool connectionPool = null;
 
     static {
         try {
@@ -21,12 +17,13 @@ public class JDBCUtils {
             Properties properties = new Properties();
             properties.load(in);
 
-            driver = properties.getProperty("driver");
-            url = properties.getProperty("url");
-            username = properties.getProperty("username");
-            password = properties.getProperty("password");
+            String driver = properties.getProperty("driver");
+            String url = properties.getProperty("url");
+            String username = properties.getProperty("username");
+            String password = properties.getProperty("password");
+            int maxConnections = Integer.parseInt(properties.getProperty("maxConnections"));
 
-            Class.forName(driver);
+            connectionPool = new MyConnectionPool(driver, url, username, password, maxConnections);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,7 +35,7 @@ public class JDBCUtils {
      * @return connection
      */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, username, password);
+        return connectionPool.getConnection();
     }
 
     /**
@@ -65,7 +62,7 @@ public class JDBCUtils {
         }
         if (conn != null) {
             try {
-                conn.close();
+                connectionPool.releaseConnection(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
