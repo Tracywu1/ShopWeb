@@ -11,11 +11,11 @@ public class Subscribe {
     /**
      * 用户
      */
-    private User user;
+    private Integer userId;
     /**
      * 店铺
      */
-    private Store store;
+    private Integer storeId;
     /**
      * 关注时间
      */
@@ -29,22 +29,6 @@ public class Subscribe {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -53,12 +37,28 @@ public class Subscribe {
         this.createTime = createTime;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
     @Override
     public String toString() {
         return "Subscribe{" +
                 "id=" + id +
-                ", user=" + user +
-                ", store=" + store +
+                ", userId=" + userId +
+                ", storeId=" + storeId +
                 ", createTime=" + createTime +
                 '}';
     }

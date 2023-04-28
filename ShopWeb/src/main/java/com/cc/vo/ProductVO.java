@@ -48,14 +48,6 @@ public class ProductVO {
      */
     private Integer monthlySaleCount;
     /**
-     * 创建时间
-     */
-    private Timestamp createTime;
-    /**
-     * 更新时间
-     */
-    private Timestamp updateTime;
-    /**
      * 评论
      */
     private List<Comment> commentList;
@@ -120,22 +112,6 @@ public class ProductVO {
         this.saleCount = saleCount;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public Integer getStoreId() {
         return storeId;
     }
@@ -169,8 +145,6 @@ public class ProductVO {
                 ", productCount=" + productCount +
                 ", saleCount=" + saleCount +
                 ", monthlySaleCount=" + monthlySaleCount +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
                 ", commentList=" + commentList +
                 '}';
     }

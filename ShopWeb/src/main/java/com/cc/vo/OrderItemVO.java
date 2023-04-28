@@ -3,6 +3,9 @@ package com.cc.vo;
 
 import java.math.BigDecimal;
 
+/**
+ * @author 32119
+ */
 public class OrderItemVO {
     private String orderNo;
 

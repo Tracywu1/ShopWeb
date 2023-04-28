@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class ProductApplicationDaoImpl implements ProductApplicationDao {
-    private static final Logger logger = LoggerFactory.getLogger(ProductApplicationDao.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductApplicationDaoImpl.class);
 
     @Override
     public void insertApplicationSelective(ProductApplication productApplication) throws Exception {
@@ -51,7 +51,7 @@ public class ProductApplicationDaoImpl implements ProductApplicationDao {
             columnsBuilder.append("`productCount`,");
             valuesBuilder.append("?,");
         }
-        if (productApplication.getStatus() != null) {
+        if (productApplication.getStatus() == null) {
             columnsBuilder.append("`status`,");
             valuesBuilder.append("?,");
         }
@@ -104,7 +104,7 @@ public class ProductApplicationDaoImpl implements ProductApplicationDao {
         if (productApplication.getProductCount() != null) {
             count++;
         }
-        if (productApplication.getStatus() != null) {
+        if (productApplication.getStatus() == null) {
             count++;
         }
         if (productApplication.getCreateTime() != null) {
@@ -184,101 +184,11 @@ public class ProductApplicationDaoImpl implements ProductApplicationDao {
     }
 
     @Override
-    public void updateByIdSelective(ProductApplication productApplication) throws Exception {
-        StringBuilder sqlBuilder = new StringBuilder("update tb_product");
-        sqlBuilder.append(" ");
-        sqlBuilder.append("set");
-
-        if (productApplication.getProductName() != null) {
-            sqlBuilder.append("`productName` = ?,");
-        }
-        if (productApplication.getStoreName() != null) {
-            sqlBuilder.append("`storeName` = ?,");
-        }
-        if (productApplication.getDescription() != null) {
-            sqlBuilder.append("`description` = ?,");
-        }
-        if (productApplication.getImage() != null) {
-            sqlBuilder.append("`image` = ?,");
-        }
-        if (productApplication.getPrice() != null) {
-            sqlBuilder.append("`price` = ?,");
-        }
-        if (productApplication.getProductCount() != null) {
-            sqlBuilder.append("`productCount` = ?,");
-        }
-        if (productApplication.getStatus() != null) {
-            sqlBuilder.append("`status` = ?,");
-        }
-        if (productApplication.getCreateTime() != null) {
-            sqlBuilder.append("`createTime` = ?,");
-        }
-        if (productApplication.getUpdateTime() != null) {
-            sqlBuilder.append("`updateTime` = ?,");
-        }
-
-        // 删除最后一个逗号
-        sqlBuilder.deleteCharAt(sqlBuilder.length() - 1);
-        sqlBuilder.append(" ");
-        sqlBuilder.append("where id = ?");
-
-        int count = 0;
-
-        if (productApplication.getProductName() != null && !productApplication.getProductName().isEmpty()) {
-            count++;
-        }
-        if (productApplication.getDescription() != null && !productApplication.getDescription().isEmpty()) {
-            count++;
-        }
-        if (productApplication.getImage() != null && !productApplication.getImage().isEmpty()) {
-            count++;
-        }
-        if (productApplication.getPrice() != null) {
-            count++;
-        }
-        if (productApplication.getProductCount() != null) {
-            count++;
-        }
-        if (productApplication.getStatus() != null) {
-            count++;
-        }
-
-
-        Object[] params = new Object[count + 1];
-
-        int index = 0;
-
-        if (productApplication.getProductName() != null && !productApplication.getProductName().isEmpty()) {
-            params[index] = productApplication.getProductName();
-            index++;
-        }
-        if (productApplication.getStoreName() != null && !productApplication.getStoreName().isEmpty()) {
-            params[index] = productApplication.getStoreName();
-            index++;
-        }
-        if (productApplication.getDescription() != null && !productApplication.getDescription().isEmpty()) {
-            params[index] = productApplication.getDescription();
-            index++;
-        }
-        if (productApplication.getImage() != null && !productApplication.getImage().isEmpty()) {
-            params[index] = productApplication.getImage();
-            index++;
-        }
-        if (productApplication.getPrice() != null) {
-            params[index] = productApplication.getPrice();
-            index++;
-        }
-        if (productApplication.getProductCount() != null) {
-            params[index] = productApplication.getProductCount();
-        }
-        if (productApplication.getStatus() != null) {
-            params[index] = productApplication.getStatus();
-        }
-
-
+    public void updateStatusById(ProductApplication productApplication) throws Exception {
+        String sql = "update tb_product_application set `status` = ? where id = ?";
+        Object[] params = {productApplication.getStatus(),productApplication.getId()};
         params[params.length - 1] = productApplication.getId();
-
-        int update = CRUDUtils.update(sqlBuilder.toString(), params);
+        int update = CRUDUtils.update(sql, params);
         logger.debug("update:" + update);
 
         if (update == 0) {

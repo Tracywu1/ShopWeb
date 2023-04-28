@@ -24,6 +24,26 @@ public class OrderManagerServlet {
     private static final Logger logger = LoggerFactory.getLogger(OrderManagerServlet.class);
     private final OrderService orderService = new OrderServiceImpl();
 
+    /**
+     * 发货
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void delivered(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        orderService.deliver(request.getParameter("orderNo"));
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
+     * 展示所有订单
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<OrderVO> orderVOList = orderService.listForManager();
 
@@ -92,17 +112,4 @@ public class OrderManagerServlet {
         response.getWriter().write(JSON.toJSONString(result));
     }
 
-    /**
-     * 发货
-     * @param request
-     * @param response
-     * @throws Exception
-     */
-    public void delivered(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        orderService.deliver(request.getParameter("orderNo"));
-
-        Result result = Result.success();
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(result));
-    }
 }

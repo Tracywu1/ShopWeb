@@ -16,12 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@WebServlet("/product/webMaster/*")
+@WebServlet("/product/master/*")
 public class ProductWebMasterServlet extends BaseServlet {
     private final ProductApplicationService productApplicationService = new ProductApplicationServiceImpl();
     private final ProductService productService =new ProductServiceImpl();
     private static final Logger logger = LoggerFactory.getLogger(ProductWebMasterServlet.class);
-
     /**
      * 同意上架（提醒）
      * @param request
@@ -32,7 +31,7 @@ public class ProductWebMasterServlet extends BaseServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         productApplicationService.accept(id);
         ProductApplication productApplication = productApplicationService.getById(id);
-        
+
         Product product =new Product();
         product.setStoreId(productApplication.getStoreId());
         product.setStoreName(productApplication.getStoreName());
@@ -41,7 +40,7 @@ public class ProductWebMasterServlet extends BaseServlet {
         product.setImage(productApplication.getImage());
         product.setPrice(productApplication.getPrice());
         product.setProductCount(productApplication.getProductCount());
-        
+
         productService.add(product);
 
         Result result = Result.success();
@@ -70,7 +69,7 @@ public class ProductWebMasterServlet extends BaseServlet {
      * @param response
      * @throws Exception
      */
-    public void selectAll(HttpServletRequest request,HttpServletResponse response)throws Exception{
+    public void selectAllProductApplication(HttpServletRequest request,HttpServletResponse response)throws Exception{
         //调用service查询
         List<ProductApplication> productApplications = productApplicationService.getAll();
 
@@ -80,4 +79,5 @@ public class ProductWebMasterServlet extends BaseServlet {
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }
+
 }

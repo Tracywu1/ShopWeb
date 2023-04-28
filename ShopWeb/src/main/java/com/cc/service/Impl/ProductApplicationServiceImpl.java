@@ -23,7 +23,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         ProductApplication productApplication = productApplicationDao.selectApplicationById(id);
         if (productApplication.getStatus() == Constants.ApplyStatus.TO_BE_PROCESSED.getNum()) {
             productApplication.setStatus(Constants.ApplyStatus.PROCESSED.getNum());
-            productApplicationDao.updateByIdSelective(productApplication);
+            productApplicationDao.updateStatusById(productApplication);
         } else {
             throw new MyException(ResultCode.WRONG_ORDER_STATUS);
         }
@@ -34,7 +34,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         ProductApplication productApplication = productApplicationDao.selectApplicationById(id);
         if (productApplication.getStatus() == Constants.ApplyStatus.TO_BE_PROCESSED.getNum()) {
             productApplication.setStatus(Constants.ApplyStatus.REFUSED.getNum());
-            productApplicationDao.updateByIdSelective(productApplication);
+            productApplicationDao.updateStatusById(productApplication);
         } else {
             throw new MyException(ResultCode.WRONG_ORDER_STATUS);
         }

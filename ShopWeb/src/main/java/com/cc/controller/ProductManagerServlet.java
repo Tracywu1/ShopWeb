@@ -66,10 +66,12 @@ public class ProductManagerServlet extends BaseServlet {
     public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
-        logger.debug("params" + params);
+        logger.debug("params:" + params);
 
         //转为ProductApplication对象
         ProductApplication productApplication = JSON.parseObject(params, ProductApplication.class);
+
+        logger.debug("productApplication:"+productApplication);
 
         //调用service添加
         productApplicationService.addApplication(productApplication);
@@ -113,7 +115,7 @@ public class ProductManagerServlet extends BaseServlet {
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(params);
-        int[] ids = mapper.treeToValue(node.get("ids"), int[].class);
+        int[] ids = mapper.treeToValue(node, int[].class);
 
         logger.debug(Arrays.toString(ids));
 
@@ -140,6 +142,8 @@ public class ProductManagerServlet extends BaseServlet {
 
         //转为Product对象
         Product product = JSON.parseObject(params, Product.class);
+
+        logger.debug(String.valueOf(product));
 
         //调用service添加
         productService.update(product);
@@ -190,6 +194,9 @@ public class ProductManagerServlet extends BaseServlet {
         // 接收 当前页码 和 每页展示条数    url?currentPage=1&pageSize=5
         String _currentPage = request.getParameter("currentPage");
         String _pageSize = request.getParameter("pageSize");
+
+        logger.debug(_currentPage);
+        logger.debug(_pageSize);
 
         int currentPage = Integer.parseInt(_currentPage);
         int pageSize = Integer.parseInt(_pageSize);

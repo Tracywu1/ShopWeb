@@ -29,10 +29,10 @@ public interface ProductApplicationDao {
     ProductApplication selectApplicationById(Integer id)throws Exception;
 
     /**
-     * 选择性地修改商品申请数据
+     * 选择性地修改商品申请状态
      * @param productApplication
      * @throws Exception
      */
-    void updateByIdSelective(ProductApplication productApplication) throws Exception;
+    void updateStatusById(ProductApplication productApplication) throws Exception;
 
 }

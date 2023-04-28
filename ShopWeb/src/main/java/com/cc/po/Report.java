@@ -22,7 +22,7 @@ public class Report {
     /**
      * 处理状态
      */
-    private Integer status = 1;
+    private Integer status;
 
     public Integer getId() {
         return id;

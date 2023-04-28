@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <style>
         .el-table .warning-row {
             background: oldlace;
@@ -163,6 +159,12 @@
 
 </div>
 
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+
+<script src="js/axios-0.18.0.js"></script>
+
 <script>
     new Vue({
         el: "#app",
@@ -173,17 +175,17 @@
         },
 
         methods: {
-            // 查询分页数据
+            // 查询所有数据
             selectAll() {
                 axios({
                     method: "post",
-                    url: "product/selectByPageAndCondition?currentPage=" + this.currentPage + "&pageSize=" + this.pageSize,
+                    url: "product/manager/selectByPageAndCondition?currentPage=" + this.currentPage + "&pageSize=" + this.pageSize,
                     data: this.product
                 }).then(resp => {
                     //设置表格数据
-                    this.tableData = resp.data.rows; // {rows:[],totalCount:100}
+                    this.tableData = resp.data.data.rows; // {rows:[],totalCount:100}
                     //设置总记录数
-                    this.totalCount = resp.data.totalCount;
+                    this.totalCount = resp.data.data.totalCount;
                 })
             },
 
@@ -209,15 +211,8 @@
                 // 发送ajax请求，添加数据
                 axios({
                     method: "post",
-                    url: "product/add",
-                    data: /*{
-                        productName: _this.product.productName,
-                        storeName: _this.product.storeName,
-                        description: _this.product.description,
-                        price: _this.product.price,
-                        productCount: _this.product.productCount
-                    }*/
-                    this.product
+                    url: "product/manager/add",
+                    data:_this.product
                 }).then(function (resp) {
                     if (resp.code == 200) {
                         //添加成功
@@ -269,10 +264,10 @@
                     // 发送ajax请求，删除数据
                     axios({
                         method: "post",
-                        url: "product/deleteInBatches",
+                        url: "product/manager/deleteInBatches",
                         data: _this.selectedIds
                     }).then(function (resp) {
-                        if (resp.data == "success") {
+                        if (resp.data.code === 200) {
                             //删除成功
                             // 重新查询数据
                             _this.selectAll();
@@ -291,52 +286,73 @@
                         message: '已取消删除'
                     });
                 });
-
             }
 
-        },
-        data() {
-            return {
-                // 每页显示的条数
-                pageSize: 5,
-                // 总记录数
-                totalCount: 100,
-                // 当前页码
-                currentPage: 1,
-                // 添加数据对话框是否展示的标记
-                dialogVisible: false,
+            },
 
-                // 商品模型数据
-                product: {
-                    id: '',
-                    createId: '',
-                    updateId: '',
-                    storeId: '',
-                    productName: '',
-                    storeName: '',
-                    description: '',
-                    image: '',
-                    price: '',
-                    productCount: '',
-                    saleCount: '',
-                    createTime: '',
-                    updateTime: ''
-                },
-                // 被选中的id数组
-                selectedIds: [],
-                // 复选框选中数据集合
-                multipleSelection: [],
-                // 表格数据
-                tableData: [{
-                    productName: product.productName,
-                    storeName: product.storeName,
-                    description: product.description,
-                    price: product.price,
-                    productCount: product.productCount,
-                    saleCount: product.saleCount
-                }]
+            data() {
+                return {
+                    // 每页显示的条数
+                    pageSize: 5,
+                    // 总记录数
+                    totalCount: 100,
+                    // 当前页码
+                    currentPage: 1,
+                    // 添加数据对话框是否展示的标记
+                    dialogVisible: false,
+
+                    // 商品模型数据
+                    product: {
+                        id: '',
+                        createId: '',
+                        updateId: '',
+                        storeId: '',
+                        productName: '',
+                        storeName: '',
+                        description: '',
+                        image: '',
+                        price: '',
+                        productCount: '',
+                        saleCount: '',
+                        createTime: '',
+                        updateTime: ''
+                    },
+                    // 被选中的id数组
+                    selectedIds: [],
+                    // 复选框选中数据集合
+                    multipleSelection: [],
+                    // 表格数据
+                    tableData: [{
+                        productName: "香蕉",
+                        storeName: "水果店",
+                        description: "good",
+                        price: "3.68",
+                        productCount: "56",
+                        saleCount: "22"
+                    },{
+                        productName: "香蕉",
+                        storeName: "水果店",
+                        description: "good",
+                        price: "3.68",
+                        productCount: "56",
+                        saleCount: "22"
+                    },{
+                        productName: "香蕉",
+                        storeName: "水果店",
+                        description: "good",
+                        price: "3.68",
+                        productCount: "56",
+                        saleCount: "22"
+                    },{
+                        productName: "香蕉",
+                        storeName: "水果店",
+                        description: "good",
+                        price: "3.68",
+                        productCount: "56",
+                        saleCount: "22"
+                    }]
+                }
             }
-        }
     })
 
 </script>

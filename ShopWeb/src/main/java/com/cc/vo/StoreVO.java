@@ -2,6 +2,7 @@ package com.cc.vo;
 
 import com.cc.po.Blog;
 import com.cc.po.Product;
+import com.cc.po.Subscribe;
 
 import java.sql.Timestamp;
 import java.util.List;

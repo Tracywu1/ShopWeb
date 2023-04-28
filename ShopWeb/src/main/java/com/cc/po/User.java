@@ -53,23 +53,6 @@ public class User {
      * 更新时间
      */
     private Timestamp updateTime;
-    private List<Address> addressList;
-
-    private List<Chat> chatList;
-
-    private List<Report> reportList;
-
-    private List<Message> messageList;
-
-    private List<Cart> cartList;
-
-    private List<Order> orderList;
-
-    private List<ReturnApplication> returnApplicationList;
-
-    private List<Comment> commentList;
-
-    private List<Subscribe> subscribeList;
 
     public Integer getId() {
         return id;
@@ -127,78 +110,6 @@ public class User {
         this.image = image;
     }
 
-    public List<Address> getAddressList() {
-        return addressList;
-    }
-
-    public void setAddressList(List<Address> addressList) {
-        this.addressList = addressList;
-    }
-
-    public List<Chat> getChatList() {
-        return chatList;
-    }
-
-    public void setChatList(List<Chat> chatList) {
-        this.chatList = chatList;
-    }
-
-    public List<Report> getReportList() {
-        return reportList;
-    }
-
-    public void setReportList(List<Report> reportList) {
-        this.reportList = reportList;
-    }
-
-    public List<Message> getMessageList() {
-        return messageList;
-    }
-
-    public void setMessageList(List<Message> messageList) {
-        this.messageList = messageList;
-    }
-
-    public List<Cart> getCartList() {
-        return cartList;
-    }
-
-    public void setCartList(List<Cart> cartList) {
-        this.cartList = cartList;
-    }
-
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
-    }
-
-    public List<ReturnApplication> getReturnList() {
-        return returnApplicationList;
-    }
-
-    public void setReturnList(List<ReturnApplication> returnApplicationList) {
-        this.returnApplicationList = returnApplicationList;
-    }
-
-    public List<Comment> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(List<Comment> commentList) {
-        this.commentList = commentList;
-    }
-
-    public List<Subscribe> getSubscribeList() {
-        return subscribeList;
-    }
-
-    public void setSubscribeList(List<Subscribe> subscribeList) {
-        this.subscribeList = subscribeList;
-    }
-
     public Integer getUserRole() {
         return userRole;
     }
@@ -254,15 +165,6 @@ public class User {
                 ", userRole=" + userRole +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", addressList=" + addressList +
-                ", chatList=" + chatList +
-                ", reportList=" + reportList +
-                ", messageList=" + messageList +
-                ", cartList=" + cartList +
-                ", orderList=" + orderList +
-                ", returnApplicationList=" + returnApplicationList +
-                ", commentList=" + commentList +
-                ", subscribeList=" + subscribeList +
                 '}';
     }
 }
