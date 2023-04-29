@@ -9,13 +9,17 @@ public class Subscribe {
      */
     private Integer id;
     /**
-     * 用户
+     * 用户ID
      */
     private Integer userId;
     /**
-     * 店铺
+     * 店铺ID
      */
     private Integer storeId;
+    /**
+     * 店铺名称
+     */
+    private String storeName;
     /**
      * 关注时间
      */
@@ -53,12 +57,21 @@ public class Subscribe {
         this.storeId = storeId;
     }
 
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
     @Override
     public String toString() {
         return "Subscribe{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", storeId=" + storeId +
+                ", storeName=" + storeName +
                 ", createTime=" + createTime +
                 '}';
     }

@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.cc.common.Constants;
 import com.cc.exception.Result;
 import com.cc.exception.ResultCode;
+import com.cc.po.Subscribe;
 import com.cc.po.User;
 import com.cc.service.Impl.OrderServiceImpl;
+import com.cc.service.Impl.SubscribeServiceImpl;
 import com.cc.service.Impl.UserServiceImpl;
 import com.cc.service.OrderService;
+import com.cc.service.SubscribeService;
 import com.cc.service.UserService;
 import com.cc.utils.CheckCodeUtil;
 import com.cc.utils.JwtUtils;
@@ -28,6 +31,8 @@ public class UserServlet extends BaseServlet {
     private final UserService userService = new UserServiceImpl();
 
     private final OrderService orderService = new OrderServiceImpl();
+
+    private final SubscribeService subscribeService = new SubscribeServiceImpl();
 
     /**
      * 存储输入密码错误的次数
@@ -268,6 +273,21 @@ public class UserServlet extends BaseServlet {
      */
     public void returnProduct(HttpServletRequest request, HttpServletResponse response) throws Exception{
         orderService.afterSaleService(request.getParameter("orderNo"));
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
+     * 关注
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void follow(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        Integer storeId = Integer.valueOf(request.getParameter("id"));
+        subscribeService.add(storeId);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");

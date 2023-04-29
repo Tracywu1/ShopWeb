@@ -9,13 +9,9 @@ public class Blog {
      */
     private Integer id;
     /**
-     * 所属商品ID
-     */
-    private Integer productId;
-    /**
      * 所属店铺ID
      */
-    private Store store;
+    private Integer storeId;
     /**
      * 动态内容
      */
@@ -24,10 +20,6 @@ public class Blog {
      * 创建时间
      */
     private Timestamp  createTime;
-    /**
-     * 更新时间
-     */
-    private Timestamp updateTime;
 
     public Integer getId() {
         return id;
@@ -37,20 +29,12 @@ public class Blog {
         this.id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     public String getContent() {
@@ -69,23 +53,13 @@ public class Blog {
         this.createTime = createTime;
     }
 
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
     @Override
     public String toString() {
         return "Blog{" +
                 "id=" + id +
-                ", productId=" + productId +
-                ", store=" + store +
+                ", storeId=" + storeId +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
                 '}';
     }
 }

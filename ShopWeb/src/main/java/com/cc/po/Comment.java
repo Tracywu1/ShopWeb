@@ -9,13 +9,21 @@ public class Comment {
      */
     private Integer id;
     /**
-     * 创建者
+     * 发布者ID
      */
-    private User creator;
+    private Integer creatorId;
     /**
-     * 商品
+     * 商品ID
      */
-    private Product product;
+    private Integer productId;
+    /**
+     * 用户昵称
+     */
+    private String nickName;
+    /**
+     * 用户头像
+     */
+    private String image;
     /**
      * 评论内容
      */
@@ -33,12 +41,20 @@ public class Comment {
         this.id = id;
     }
 
-    public User getCreator() {
-        return creator;
+    public Integer getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public Timestamp getCreateTime() {
@@ -49,14 +65,6 @@ public class Comment {
         this.createTime = createTime;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public String getContent() {
         return content;
     }
@@ -65,12 +73,30 @@ public class Comment {
         this.content = content;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
-                ", creator=" + creator +
-                ", product=" + product +
+                ", creatorId=" + creatorId +
+                ", productId=" + productId +
+                ", nickName='" + nickName + '\'' +
+                ", image='" + image + '\'' +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
                 '}';
