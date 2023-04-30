@@ -9,6 +9,8 @@ import com.cc.utils.RandomUsernameGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+
 public class UserDaoImpl implements UserDao {
     private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
@@ -35,7 +37,7 @@ public class UserDaoImpl implements UserDao {
         }
         if (user.getPassword() != null) {
             columnsBuilder.append("`password`,");
-            valuesBuilder.append("md5(?),");
+            valuesBuilder.append("?,");
         }
         if (user.getAddress() != null) {
             columnsBuilder.append("`address`,");
@@ -87,6 +89,9 @@ public class UserDaoImpl implements UserDao {
         if (user.getStoreId() != null) {
             count++;
         }
+        if (user.getUsername() != null && !user.getUsername().isEmpty()) {
+            count++;
+        }
         if (user.getNickname() != null && !user.getNickname().isEmpty()) {
             count++;
         }
@@ -115,7 +120,7 @@ public class UserDaoImpl implements UserDao {
             count++;
         }
 
-        Object[] params = new Object[count + 1];
+        Object[] params = new Object[count ];
 
         int index = 0;
 
@@ -127,14 +132,10 @@ public class UserDaoImpl implements UserDao {
             params[index] = user.getStoreId();
             index++;
         }
-
-        String username;
-        do {
-            // 生成随机用户名（保证其不重复）
-            username = RandomUsernameGenerator.generate();
-        } while (selectByUsername(username) != null);
-        params[index] = username;
-
+        if (user.getUsername() != null && !user.getUsername().isEmpty()) {
+            params[index] = user.getUsername();
+            index++;
+        }
         if (user.getNickname() != null && !user.getNickname().isEmpty()) {
             params[index] = user.getNickname();
             index++;
@@ -147,11 +148,11 @@ public class UserDaoImpl implements UserDao {
             params[index] = user.getAddress();
             index++;
         }
-        if (user.getEmail() != null && user.getEmail().isEmpty()) {
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
             params[index] = user.getEmail();
             index++;
         }
-        if (user.getPhoneNum() != null && user.getPhoneNum().isEmpty()) {
+        if (user.getPhoneNum() != null && !user.getPhoneNum().isEmpty()) {
             params[index] = user.getPhoneNum();
             index++;
         }
@@ -171,7 +172,10 @@ public class UserDaoImpl implements UserDao {
             params[index] = user.getUpdateTime();
         }
 
-        int update = CRUDUtils.update(sqlBuilder.toString(), params);
+        logger.debug(Arrays.toString(params));
+        String sql = sqlBuilder.toString();
+        logger.debug(sql);
+        int update = CRUDUtils.update(sql, params);
 
         if (update == 0) {
             throw new MyException(ResultCode.INSERT_FAILED);
@@ -199,7 +203,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User selectByUsernameAndPwd(String username, String password) throws Exception {
         Object[] params = {username, password};
-        String sql = "select * from tb_user where username = ? and password = md5(?)";
+        String sql = "select * from tb_user where username = ? and password = ?";
         User user1 = CRUDUtils.query(sql, User.class, params);
         logger.debug(String.valueOf(user1));
         return user1;

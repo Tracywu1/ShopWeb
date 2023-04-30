@@ -16,12 +16,6 @@
         </dependency>
 
         <dependency>
-            <groupId>webso</groupId>
-            <artifactId></artifactId>
-        </dependency>
-
-
-        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
@@ -75,7 +69,10 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
         </dependency>
+
     </dependencies>
+
+
 
     <build>
         <finalName>ShopWeb</finalName>

@@ -37,6 +37,7 @@ public enum ResultCode {
     WRONG_ORDER_STATUS(25,"订单状态不符"),
     NOT_YOUR_ORDER(26,"该订单不属于你" ),
     WRONG_USER_ROLE(27, "用户角色不符"),
+    EXPECTED_MULTIPART_REQUEST(28,"不是multipart请求"),
     SYSTEM_ERROR(40, "系统异常，请从控制台或日志中查看具体错误信息");
 
     /**

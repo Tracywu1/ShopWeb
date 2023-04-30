@@ -4,6 +4,7 @@ import com.cc.common.Constants;
 import com.cc.dao.ReportDao;
 import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
+import com.cc.filter.LoginCheckFilter;
 import com.cc.po.Report;
 import com.cc.utils.CRUDUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,10 @@ public class ReportDaoImpl implements ReportDao {
             columnsBuilder.append("`storeId`,");
             valuesBuilder.append("?,");
         }
+        if(report.getUsername()==null){
+            columnsBuilder.append("`username`,");
+            valuesBuilder.append("?,");
+        }
         if (report.getContent() != null) {
             columnsBuilder.append("`content`,");
             valuesBuilder.append("?,");
@@ -35,7 +40,7 @@ public class ReportDaoImpl implements ReportDao {
             columnsBuilder.append("`reportTime`,");
             valuesBuilder.append("?,");
         }
-        if (report.getStatus() != null) {
+        if (report.getStatus() == null) {
             columnsBuilder.append("`status`,");
             valuesBuilder.append("?,");
         }
@@ -62,13 +67,16 @@ public class ReportDaoImpl implements ReportDao {
         if (report.getUserId() != null) {
             count++;
         }
+        if(report.getUsername() ==null && report.getUsername().isEmpty()){
+            count++;
+        }
         if (report.getContent() != null && !report.getContent().isEmpty()) {
             count++;
         }
         if (report.getReportTime() != null ) {
             count++;
         }
-        if (report.getStatus() != null) {
+        if (report.getStatus() == null) {
             count++;
         }
 
@@ -83,6 +91,9 @@ public class ReportDaoImpl implements ReportDao {
         if (report.getUserId() != null) {
             params[index] = report.getUserId();
             index++;
+        }
+        if(report.getUsername()==null){
+            params[index] = LoginCheckFilter.currentUser.getUsername();
         }
         if (report.getContent() != null && !report.getContent().isEmpty()) {
             params[index] = report.getContent();
@@ -118,13 +129,10 @@ public class ReportDaoImpl implements ReportDao {
 
     @Override
     public void updateByIdSelective(Report report) throws Exception {
-        StringBuilder sqlBuilder = new StringBuilder("update tb_store");
+        StringBuilder sqlBuilder = new StringBuilder("update tb_report");
         sqlBuilder.append(" ");
         sqlBuilder.append("set");
 
-        if (report.getContent() != null) {
-            sqlBuilder.append("`content` = ?,");
-        }
         if (report.getStatus() != null) {
             sqlBuilder.append("`status` = ?,");
         }
@@ -136,9 +144,6 @@ public class ReportDaoImpl implements ReportDao {
 
         int count = 0;
 
-        if (report.getContent() != null && !report.getContent().isEmpty()) {
-            count++;
-        }
         if (report.getStatus() != null) {
             count++;
         }
@@ -147,10 +152,6 @@ public class ReportDaoImpl implements ReportDao {
 
         int index = 0;
 
-        if (report.getContent() != null && !report.getContent().isEmpty()) {
-            params[index] = report.getContent();
-            index++;
-        }
         if (report.getStatus() != null) {
             params[index] = report.getStatus();
         }

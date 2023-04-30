@@ -12,6 +12,10 @@ public class Report {
      */
     private Integer userId;
     /**
+     * 举报用户名称
+     */
+    private String username;
+    /**
      * 举报内容
      */
     private String content;
@@ -64,11 +68,20 @@ public class Report {
         this.status = status;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "Report{" +
                 "id=" + id +
                 ", userId=" + userId +
+                ", username='" + username + '\'' +
                 ", content='" + content + '\'' +
                 ", reportTime=" + reportTime +
                 ", status=" + status +

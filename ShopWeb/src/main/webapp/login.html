@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>login</title>
+    <link href="css/login.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
+
 <body>
 <div id="app" style="height: 350px">
     <form @submit.prevent="login">
         <h1 id="loginMsg">LOGIN IN</h1>
-        <div id="errorMsg">${login_msg} ${register_msg}</div>
-        <p>Username:<input id="username" name="username" value="${cookie.username.value}" type="text" v-model="user.username" required></p>
-
-        <p>Password:<input id="password" name="password" value="${cookie.password.value}" type="password" v-model="user.password" required></p>
-        <p>Remember:<input id="remember" name="remember" value="1" type="checkbox"></p>
+        <p>Username:<input id="username" name="username" type="text" v-model="user.username"></p>
+        <p>Password:<input id="password" name="password" type="password" v-model="user.password"></p>
+        <p>Remember:<input id="remember" name="remember" type="checkbox" v-model="remember"></p>
         <div id="subDiv">
             <input type="submit" class="button" value="login up">
             <input type="reset" class="button" value="reset">&nbsp;&nbsp;&nbsp;
@@ -33,24 +32,28 @@
                 username: '',
                 password: '',
             },
+            login_msg: '',
+            remember:false
         },
         methods: {
             login() {
-                axios.post('login/login', {
-                    username: this.user.username,
-                    password: this.user.password,
-                },{
-                    headers: {
-                        'Content-Type': 'application/json'
+                axios({
+                    method:'post',
+                    url:'user/login',
+                    params:{
+                        username: this.user.username,
+                        password: this.user.password,
+                        remember: this.remember
                     }
-                })
-                    .then(function (response) {
+                }).then(function (response) {
                         if (response.data.code === 200) {
                             alert("登陆成功");
-                            // 重定向到首页
-                            window.location.href = 'homepage.html';
-                        } else if (response.data.message === '输入错误次数过多，请稍后再试') {
-                            alert(response.data.message + '，请60秒后再次输入用户名及密码进行登录验证');
+                            if(cookie.username.value && cookie.password.value) {
+                                document.getElementById('username').innerHTML = cookie.username.value;
+                                document.getElementById('password').innerHTML = cookie.password.value;
+                            }
+                        } else if (response.data.msg === '输入错误已超过三次，请在一分钟后重试') {
+                            alert(response.data.msg + '，请60秒后再次输入用户名及密码进行登录验证');
                             // 禁用输入框
                             document.getElementById('username').disabled = true;
                             document.getElementById('password').disabled = true;
@@ -60,8 +63,6 @@
                                 document.getElementById('username').disabled = false;
                                 document.getElementById('password').disabled = false;
                             }, 60000); // 60 秒
-                        }else{
-                            alert(response.data.message);
                         }
                     })
                     .catch(function (error) {

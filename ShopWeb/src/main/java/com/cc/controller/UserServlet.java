@@ -2,6 +2,7 @@ package com.cc.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.cc.common.Constants;
+import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.exception.Result;
 import com.cc.exception.ResultCode;
 import com.cc.po.Subscribe;
@@ -14,6 +15,8 @@ import com.cc.service.SubscribeService;
 import com.cc.service.UserService;
 import com.cc.utils.CheckCodeUtil;
 import com.cc.utils.JwtUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.cc.exception.ResultCode.*;
+
 @WebServlet("/user/*")
 public class UserServlet extends BaseServlet {
     private final UserService userService = new UserServiceImpl();
@@ -33,6 +38,8 @@ public class UserServlet extends BaseServlet {
     private final OrderService orderService = new OrderServiceImpl();
 
     private final SubscribeService subscribeService = new SubscribeServiceImpl();
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServlet.class);
 
     /**
      * 存储输入密码错误的次数
@@ -49,16 +56,12 @@ public class UserServlet extends BaseServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if(username.isEmpty()){
-            Result result = Result.error(ResultCode.NEED_USER_NAME);
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(JSON.toJSONString(result));
-        }
-        if(password.isEmpty()){
-            Result result = Result.error(ResultCode.NEED_PASSWORD);
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(JSON.toJSONString(result));
-        }
+        logger.debug("username:"+username);
+        logger.debug("password:"+password);
+
+        //获取复选框数据
+        String remember = request.getParameter("remember");
+        logger.debug(remember);
 
         User u = userService.login(username, password);
 
@@ -74,6 +77,21 @@ public class UserServlet extends BaseServlet {
 
             //设置自定义 header，将令牌保存到 header 中
             response.setHeader("Authorization", "Bearer " + token);
+
+            //判断用户是否勾选记住我
+            if("true".equals(remember)){
+                //勾选了，发送Cookie
+
+                //1. 创建Cookie对象
+                Cookie c_username = new Cookie("username",username);
+                Cookie c_password = new Cookie("password",password);
+                // 设置Cookie的存活时间
+                c_username.setMaxAge( 60 * 60 * 24 * 7);
+                c_password.setMaxAge( 60 * 60 * 24 * 7);
+                //2. 发送
+                response.addCookie(c_username);
+                response.addCookie(c_password);
+            }
 
             //保存用户信息时，不保存密码
             u.setPassword(null);
@@ -93,9 +111,6 @@ public class UserServlet extends BaseServlet {
         // 登录失败，增加错误计数
         Integer errorCount = passwordErrorCounts.getOrDefault(username, 0) + 1;
         passwordErrorCounts.put(username, errorCount);
-
-        //存储错误信息到request
-        request.setAttribute("login_msg", "用户名或密码错误");
 
         //跳转回登录界面
         request.getRequestDispatcher("/login.html").forward(request, response);
@@ -146,27 +161,43 @@ public class UserServlet extends BaseServlet {
         HttpSession session = request.getSession();
 
         String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+        logger.debug(params);
+
         User user = JSON.parseObject(params, User.class);
 
+        logger.debug(String.valueOf(user));
+
         if(user.getPassword().isEmpty()){
-            Result result = Result.error(ResultCode.NEED_PASSWORD);
+            Result result = Result.error(NEED_PASSWORD);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
+
+            //存储错误信息到request
+            request.setAttribute("register_msg", "密码为空");
+            return;
         }
 
         if(user.getPassword().length()<8){
-            Result result = Result.error(ResultCode.PASSWORD_TOO_SHORT);
+            Result result = Result.error(PASSWORD_TOO_SHORT);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
+
+            //存储错误信息到request
+            request.setAttribute("register_msg", "密码过短，长度小于8");
+            return;
         }
 
         String code = request.getParameter("checkCode");
         // 验证验证码是否正确
         String checkCode = (String) session.getAttribute("checkCodeGen");
         if (code == null || code.isEmpty() || !code.equalsIgnoreCase(checkCode)) {
-            Result result = Result.error(ResultCode.WRONG_CHECK_CODE);
+            Result result = Result.error(WRONG_CHECK_CODE);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
+
+            //存储错误信息到request
+            request.setAttribute("register_msg", "验证码错误");
             return;
         }
 

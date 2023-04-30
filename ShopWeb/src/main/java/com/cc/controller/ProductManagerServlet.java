@@ -226,7 +226,7 @@ public class ProductManagerServlet extends BaseServlet {
      * @throws ServletException
      * @throws IOException
      */
-    protected void upload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void upload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         InputStream inputStream = null;
         OutputStream outputStream = null;
 
