@@ -54,4 +54,12 @@ public interface CartDao {
      * @param selected
      */
     void updateSelect(Integer userId,Integer productId,Integer selected) throws Exception;
+
+    /**
+     * 查询购物车项的数量
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    Integer selectCount(Integer userId)throws Exception;
 }

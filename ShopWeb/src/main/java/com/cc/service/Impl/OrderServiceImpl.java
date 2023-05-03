@@ -79,11 +79,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String createForCart() throws Exception {
-        //拿到用户ID
-        Integer userId = LoginCheckFilter.currentUser.getId();
-
         //从购物车查找已经勾选的商品
-        List<CartVO> cartVOList = cartService.list(userId);
+        List<CartVO> cartVOList = cartService.list();
         ArrayList<CartVO> cartVOListTemp = new ArrayList<>();
         for (int i = 0; i < cartVOList.size(); i++) {
             CartVO cartVO = cartVOList.get(i);
@@ -105,9 +102,9 @@ public class OrderServiceImpl implements OrderService {
         //生成订单
         Order order = new Order();
         //生成订单号，有独立的规则
-        String orderNo = OrderNoFactory.getOrderCode(Long.valueOf(userId));
+        String orderNo = OrderNoFactory.getOrderCode(Long.valueOf(LoginCheckFilter.currentUser.getId()));
         order.setOrderNo(orderNo);
-        order.setUserId(userId);
+        order.setUserId(LoginCheckFilter.currentUser.getId());
         order.setTotalPrice(totalPrice(orderItemList));
         //插入到Order表
         orderDao.insertSelective(order);

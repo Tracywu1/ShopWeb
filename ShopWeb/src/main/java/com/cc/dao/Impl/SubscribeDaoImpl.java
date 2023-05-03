@@ -125,4 +125,12 @@ public class SubscribeDaoImpl implements SubscribeDao {
 
         logger.debug("update:" + update);
     }
+
+    @Override
+    public Integer selectFollowCountById(Integer userId) throws Exception {
+        String sql = "select count(*) from tb_subscribe where userId = ?";
+        int followCount = CRUDUtils.queryCount(sql, userId);
+        logger.debug("followCount:" + followCount);
+        return followCount;
+    }
 }

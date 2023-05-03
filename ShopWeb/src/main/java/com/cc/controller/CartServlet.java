@@ -27,7 +27,7 @@ public class CartServlet extends BaseServlet{
      */
     public void list(HttpServletRequest request, HttpServletResponse response) throws Exception {
         //调用service查询
-        List<CartVO> cartVOS = cartService.list(LoginCheckFilter.currentUser.getId());
+        List<CartVO> cartVOS = cartService.list();
 
         Result result = Result.success(cartVOS);
         response.setContentType("application/json;charset=UTF-8");
@@ -46,7 +46,7 @@ public class CartServlet extends BaseServlet{
         int productId = Integer.parseInt(request.getParameter("productId"));
 
         //调用service更新数据
-        cartService.update(count,LoginCheckFilter.currentUser.getId(),productId);
+        cartService.update(count,productId);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -64,7 +64,7 @@ public class CartServlet extends BaseServlet{
         int productId = Integer.parseInt(request.getParameter("productId"));
 
         //调用service删除
-        cartService.delete(LoginCheckFilter.currentUser.getId(),productId);
+        cartService.delete(productId);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -82,7 +82,7 @@ public class CartServlet extends BaseServlet{
         int selected = Integer.parseInt(request.getParameter("selected"));
 
         //调用service
-        cartService.selectOrNot(LoginCheckFilter.currentUser.getId(),productId,selected);
+        cartService.selectOrNot(productId,selected);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -90,7 +90,7 @@ public class CartServlet extends BaseServlet{
     }
 
     /**
-     * 全选择/全部选择购物车中的商品
+     * 全选择/全不选择购物车中的商品
      * @param request
      * @param response
      * @throws Exception
@@ -99,7 +99,7 @@ public class CartServlet extends BaseServlet{
         int selected = Integer.parseInt(request.getParameter("selected"));
 
         //调用service
-        cartService.selectAllOrNot(LoginCheckFilter.currentUser.getId(),selected);
+        cartService.selectAllOrNot(selected);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -117,17 +117,31 @@ public class CartServlet extends BaseServlet{
         int count = Integer.parseInt(request.getParameter("count"));
 
         //调用service添加
-        cartService.add(1,productId,count);
+        cartService.add(productId,count);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }
 
+    /**
+     * 创建订单
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     public void createOrder(HttpServletRequest request, HttpServletResponse response)throws Exception{
         String orderNo = orderService.createForCart();
 
         Result result = Result.success(orderNo);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    public void count(HttpServletRequest request,HttpServletResponse response)throws Exception{
+        int count = cartService.selectCount();
+
+        Result result = Result.success(count);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }

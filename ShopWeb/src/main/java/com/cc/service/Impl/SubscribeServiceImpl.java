@@ -4,12 +4,15 @@ import com.cc.dao.CommentDao;
 import com.cc.dao.Impl.CommentDaoImpl;
 import com.cc.dao.Impl.StoreDaoImpl;
 import com.cc.dao.Impl.SubscribeDaoImpl;
+import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.StoreDao;
 import com.cc.dao.SubscribeDao;
+import com.cc.dao.UserDao;
 import com.cc.filter.LoginCheckFilter;
 import com.cc.po.Comment;
 import com.cc.po.Store;
 import com.cc.po.Subscribe;
+import com.cc.po.User;
 import com.cc.service.CommentService;
 import com.cc.service.SubscribeService;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class SubscribeServiceImpl implements SubscribeService {
     private final SubscribeDao subscribeDao = new SubscribeDaoImpl();
     private final StoreDao storeDao = new StoreDaoImpl();
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
     public List<Subscribe> getAllByProductId(Integer userId) throws Exception {
@@ -35,6 +39,10 @@ public class SubscribeServiceImpl implements SubscribeService {
 
         store.setFansNum(store.getFansNum()+1);
         storeDao.updateByIdSelective(store);
+
+        User user = userDao.selectById(LoginCheckFilter.currentUser.getId());
+        user.setFollowCount(user.getFollowCount()+1);
+        userDao.updateByIdSelective(user);
     }
 
     @Override

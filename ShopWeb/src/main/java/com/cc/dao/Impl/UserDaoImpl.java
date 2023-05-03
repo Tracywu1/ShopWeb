@@ -59,6 +59,14 @@ public class UserDaoImpl implements UserDao {
             columnsBuilder.append("`userRole`,");
             valuesBuilder.append("?,");
         }
+        if(user.getFollowCount()!=null){
+            columnsBuilder.append("`followCount`,");
+            valuesBuilder.append("?,");
+        }
+      /*  if(user.getFansCount()!=null){
+            columnsBuilder.append("`fansCount`,");
+            valuesBuilder.append("?,");
+        }*/
         if (user.getCreateTime() != null) {
             columnsBuilder.append("`createTime`,");
             valuesBuilder.append("?,");
@@ -113,6 +121,12 @@ public class UserDaoImpl implements UserDao {
         if (user.getUserRole() != null) {
             count++;
         }
+        if (user.getFollowCount() != null) {
+            count++;
+        }
+       /* if (user.getFansCount() != null) {
+            count++;
+        }*/
         if (user.getCreateTime() != null) {
             count++;
         }
@@ -164,6 +178,14 @@ public class UserDaoImpl implements UserDao {
             params[index] = user.getUserRole();
             index++;
         }
+        if (user.getFollowCount() != null) {
+            params[index] = user.getFollowCount();
+            index++;
+        }
+      /*  if (user.getFansCount() != null) {
+            params[index] = user.getFansCount();
+            index++;
+        }*/
         if (user.getCreateTime() != null) {
             params[index] = user.getCreateTime();
             index++;
@@ -230,11 +252,14 @@ public class UserDaoImpl implements UserDao {
         if (user.getEmail() != null) {
             sqlBuilder.append("`email` = ?,");
         }
-        if (user.getCreateTime() != null) {
-            sqlBuilder.append("`createTime` = ?,");
+        if (user.getImage() != null){
+            sqlBuilder.append("`image`= ?,");
         }
-        if (user.getUpdateTime() != null) {
-            sqlBuilder.append("`updateTime` = ?,");
+        if (user.getUserRole() != null){
+            sqlBuilder.append("`userRole` = ?,");
+        }
+        if(user.getFollowCount() != null){
+            sqlBuilder.append("`followCount` = ?,");
         }
 
         // 删除最后一个逗号
@@ -267,6 +292,9 @@ public class UserDaoImpl implements UserDao {
             count++;
         }
         if (user.getUserRole() != null) {
+            count++;
+        }
+        if (user.getFollowCount() != null) {
             count++;
         }
 
@@ -304,6 +332,9 @@ public class UserDaoImpl implements UserDao {
         }
         if (user.getUserRole() != null) {
             params[index] = user.getUserRole();
+        }
+        if (user.getFollowCount() != null) {
+            params[index] = user.getFollowCount();
         }
 
         params[params.length - 1] = user.getId();

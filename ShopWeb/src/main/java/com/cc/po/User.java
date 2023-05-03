@@ -2,7 +2,6 @@ package com.cc.po;
 
 
 import java.sql.Timestamp;
-import java.util.List;
 
 public class User {
     /**
@@ -14,7 +13,7 @@ public class User {
      */
     private Integer storeId;
     /**
-     *用户名  （5-25位中英文、数字、下划线或组合）
+     *用户名  （自动生成的）
      */
     private String username;
     /**
@@ -45,6 +44,10 @@ public class User {
      * 用户角色
      */
     private Integer userRole;
+    /**
+     * 关注者的数量
+     */
+    private Integer followCount;
     /**
      * 创建时间
      */
@@ -150,6 +153,14 @@ public class User {
         this.storeId = storeId;
     }
 
+    public Integer getFollowCount() {
+        return followCount;
+    }
+
+    public void setFollowCount(Integer followCount) {
+        this.followCount = followCount;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -163,6 +174,7 @@ public class User {
                 ", phoneNum='" + phoneNum + '\'' +
                 ", image='" + image + '\'' +
                 ", userRole=" + userRole +
+                ", followCount=" + followCount +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';

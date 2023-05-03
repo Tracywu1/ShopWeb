@@ -210,4 +210,12 @@ public class CartDaoImpl implements CartDao {
         }
     }
 
+    @Override
+    public Integer selectCount(Integer userId) throws Exception {
+        String sql = "select count(*) from tb_cart where userId = ?";
+        int count = CRUDUtils.queryCount(sql, userId);
+        logger.debug("count:" + count);
+        return count;
+    }
+
 }

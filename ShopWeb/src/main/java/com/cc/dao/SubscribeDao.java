@@ -24,5 +24,13 @@ public interface SubscribeDao {
      */
     void insertSelective(Subscribe subscribe) throws Exception;
 
+    /**
+     * 查询关注的用户的数量
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    Integer selectFollowCountById(Integer userId)throws Exception;
+
 
 }

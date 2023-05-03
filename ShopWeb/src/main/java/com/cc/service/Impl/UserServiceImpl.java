@@ -2,12 +2,15 @@ package com.cc.service.Impl;
 
 import com.cc.common.Constants;
 import com.cc.controller.UserServlet;
+import com.cc.dao.Impl.SubscribeDaoImpl;
 import com.cc.dao.Impl.UserDaoImpl;
+import com.cc.dao.SubscribeDao;
 import com.cc.dao.UserDao;
 import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
 import com.cc.filter.LoginCheckFilter;
 import com.cc.po.Order;
+import com.cc.po.Subscribe;
 import com.cc.po.User;
 import com.cc.service.UserService;
 import com.cc.utils.RandomUsernameGenerator;
@@ -23,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao = new UserDaoImpl();
 
+    private final SubscribeDao subscribeDao = new SubscribeDaoImpl();
+
     @Override
     public void delete(Integer id) throws Exception {
         userDao.delete(id);
@@ -30,7 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById() throws Exception {
-        return userDao.selectById(LoginCheckFilter.currentUser.getId());
+        User user = userDao.selectById(LoginCheckFilter.currentUser.getId());
+        user.setFollowCount(subscribeDao.selectFollowCountById(LoginCheckFilter.currentUser.getId()));
+        return user;
     }
 
 

@@ -53,36 +53,29 @@
             .name_right .p1 {
                 font-weight: bold;
             }
-
-            /* Order and return records */
-            .my_menu {
+            /* User menu */
+            .menu_list1 {
                 display: flex;
-                justify-content: space-between;
+                flex-wrap: wrap;
+                justify-content: flex-start;
                 align-items: center;
                 margin-bottom: 20px;
             }
-            .li_list {
-                display: flex;
-                align-items: center;
-                margin-right: 20px;
-            }
-            .li_list img {
-                margin-right: 10px;
-            }
-            .li_list span {
+            .tiao {
+                width: 25%;
+                padding: 10px;
+                box-sizing: border-box;
+                text-align: center;
                 font-size: 14px;
+                color: #666;
+                border-right: 1px solid #e5e5e5;
+                border-bottom: 1px solid #e5e5e5;
             }
-            .li_list::after {
-                content: "|";
-                margin-left: 10px;
-                color: #999;
-            }
-            .li_list:last-child::after {
-                content: none;
+            .tiao:last-child {
+                border-right: none;
             }
 
-            /* User menu */
-            .menu_list {
+            .menu_list2 {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: flex-start;
@@ -135,56 +128,94 @@
         </style>
 
     </head>
-    <body class="body_color_user">
-    <div class="mall_main">
-        <div id="child_header">
-            <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
-            <div class="current_location"><span>个人中心</span></div>
-        </div>
-        <div class="wx_wrap">
-            <a href="user_info.html">
-                <div class="person_top">
-                    <img class="top_bj" src="img/top_bj.jpg">
-                    <div class="per_con">
-                        <div class="user_photo">
-                            <img src="img/user_photo.jpg">
-                            <span>zhangbin</span>
-                        </div>
-                        <div class="name_right">
-                            <p class="p1">会员ID：18921120000</p>
-                            <p>注册时间：2015-11-11</p>
-                            <p>会员级别：三级分销商</p>
-                            <p class="p2">积分值：600</p>
-                        </div>
-                    </div>
+        <div class="body_color_user">
+            <div class="mall_main">
+                <div id="child_header">
+                    <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+                    <div class="current_location"><span>个人中心</span></div>
                 </div>
-            </a>
-            <div class="my_menu">
-                <ul>
-                    <li class="li_list"><a href="order_list.html"><img src="img/user_icon1.png"> <span>我的订单</span></a></li>
-                    <li class="li_list"><a href="order_return.html"><img src="img/user_icon2.png"> <span>退货记录</span></a></li>
+                <div class="wx_wrap">
+                    <a href="user_info.html">
+                        <div class="person_top">
+                            <img class="top_bj" src="img/top_bj.jpg">
+                            <div class="per_con">
+                                <div class="user_photo">
+                                    <img :src="userPhoto">
+                                    <span>昵称：{{ nickname }}</span>
+                                </div>
+                                <div class="name_right">
+                                    <p class="p1">用户名：{{ username }}</p>
+                                    <p class="p2">关注：{{ followCount }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <ul class="menu_list1">
+                        <li class="tiao"><a href="subscribe.html">我的关注</a></li>
+                        <li class="tiao"><a href="order_list.html">我的订单</a></li>
+                        <li class="tiao"><a href="order_return.html">退货记录</a></li>
+                        <li class="tiao"><a href="address_list.html">地址管理</a></li>
+                    </ul>
+                    <ul class="menu_list2">
+                        <li class="tiao"><a href="my_support.html">我的客服</a></li>
+                        <li class="tiao"><a href="account_security.html">账户安全</a></li>
+                        <li class="tiao"><a href="site.html">设置</a></li>
+                    </ul>
+                </div>
+
+                <ul class="wx_nav">
+                    <li><a href="homepage.html"><img src="img/nav_icon1.png"><span class="yellow">首页</span></a></li>
+                    <li><a href="blog.html"><img src="img/nav_icon2.png"><span class="yellow">动态</span></a></li>
+                    <li><a href="chat.html"><img src="img/nav_icon3.png"><span class="yellow">消息</span></a></li>
+                    <li><a href="cart.html"><img src="img/nav_icon4.png"><span class="yellow">购物车</span><b>{{ cartCount }}</b></a></li>
+                    <li><a href="user-center.html"><img src="img/nav_icon5.png"><span class="yellow">个人中心</span></a></li>
                 </ul>
             </div>
-
-
-            <ul class="menu_list">
-                <li class="tiao" ><a href="address_list.html">地址管理</a></li>
-                <li class="tiao"><a href="my_support.html">我的客服</a></li>
-                <li class="tiao"><a href="account_security.html">账户安全</a></li>
-                <li class="tiao"><a href="site.html">设置</a></li>
-            </ul>
-
         </div>
 
-        <ul class="wx_nav">
-            <li><a href="homepage.html"><img src="img/nav_icon1.png"><span class="yellow">首页</span></a></li>
-            <li><a href="blog.html"><img src="img/nav_icon2.png"><span class="yellow">动态</span></a></li>
-            <li><a href="chat.html"><img src="img/nav_icon3.png"><span class="yellow">消息</span></a></li>
-            <li><a href="cart.html"><img src="img/nav_icon4.png"><span class="yellow">购物车</span></a></li>
-            <li><a href="user-center.html"><img src="img/nav_icon5.png"><span class="yellow">个人中心</span>
-                <b>15</b></a></li>
-        </ul>
-    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/axios-0.18.0.js"></script>
+
+
+    <script>
+        const app = new Vue({
+            el: '#child_header',
+            data: {
+                userPhoto: '',
+                nickname: '',
+                username: '',
+                followCount: 0,
+                cartCount: 0
+            },
+            mounted() {
+                this.getUserInfo();
+                this.getCartCount();
+            },
+            methods: {
+                getUserInfo() {
+                    axios.get('user/selectPersonalInfo').then(response => {
+                        const { data } = response;
+                        this.userPhoto = data.data.data.image;
+                        this.nickname = data.data.data.nickname;
+                        this.username = data.data.data.username;
+                        this.followCount = data.data.data.followCount;
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                },
+                //获得购物车项的数量
+                getCartCount() {
+                    axios.get('cart/count').then(response => {
+                        this.cartCount = response.data.data.count;
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                },
+            }
+        });
+    </script>
+
     
-    </body>
+    `</body>
 </html>
