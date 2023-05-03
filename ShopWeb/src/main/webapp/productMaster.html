@@ -22,8 +22,7 @@
         <el-table
                 :data="tableData"
                 style="width: 100%"
-                :row-class-name="tableRowClassName"
-                @selection-change="handleSelectionChange">
+                :row-class-name="tableRowClassName">
             <el-table-column
                     type="selection"
                     width="55">
@@ -69,9 +68,11 @@
                     align="center"
                     label="操作">
 
-                <el-row>
-                    <el-button type="danger">下架</el-button>
-                </el-row>
+                <template slot-scope="{ index, row }">
+                    <el-row>
+                        <el-button type="danger" @click="deleteProduct(index, row)">下架</el-button>
+                    </el-row>
+                </template>
 
             </el-table-column>
 
@@ -141,8 +142,41 @@
                 this.selectAll();
             },
 
+            // 下架
+            deleteProduct(index, row) {
+                // 弹出确认提示框
+                this.$confirm('此操作将删除该数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var _this = this;
+                    //用户点击确认按钮
+                    const id = row.id; // 获取要修改的数据的id
+                    axios.post(`product/master/delete?id=${id}`)
+                        .then(response => {
+                            if(response.data.code === 200){
+                                //修改成功
+                            // 重新查询数据
+                            _this.selectAll();
+                            // 弹出消息提示
+                            _this.$message({
+                                message: '恭喜你，删除成功',
+                                type: 'success'
+                            });
 
-            },
+                        }
+                    })
+                }).catch(() => {
+                    //用户点击取消按钮
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            }
+
+        },
 
             data() {
                 return {

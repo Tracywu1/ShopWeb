@@ -34,13 +34,13 @@ public class Product {
      */
     private BigDecimal price ;
     /**
+     * 月销量（不在数据库内）
+     */
+    private Integer monthlySalesCount;
+    /**
      * 库存
      */
     private Integer productCount;
-    /**
-     * 总销售量
-     */
-    private Integer saleCount;
     /**
      * 创建时间
      */
@@ -49,6 +49,10 @@ public class Product {
      * 更新时间
      */
     private Timestamp updateTime;
+    /**
+     * 评论列表
+     */
+    private List<Comment> commentList;
 
     public Integer getId() {
         return id;
@@ -102,14 +106,6 @@ public class Product {
         this.productCount = productCount;
     }
 
-    public Integer getSaleCount() {
-        return saleCount;
-    }
-
-    public void setSaleCount(Integer saleCount) {
-        this.saleCount = saleCount;
-    }
-
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -138,6 +134,22 @@ public class Product {
         this.storeName = storeName == null ? null : storeName.trim();
     }
 
+    public Integer getMonthlySalesCount() {
+        return monthlySalesCount;
+    }
+
+    public void setMonthlySalesCount(Integer monthlySalesCount) {
+        this.monthlySalesCount = monthlySalesCount;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -148,10 +160,11 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", image='" + image + '\'' +
                 ", price=" + price +
+                ", monthlySalesCount=" + monthlySalesCount +
                 ", productCount=" + productCount +
-                ", saleCount=" + saleCount +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", commentList=" + commentList +
                 '}';
     }
 }

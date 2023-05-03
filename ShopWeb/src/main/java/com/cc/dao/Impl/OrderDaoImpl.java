@@ -32,15 +32,11 @@ public class OrderDaoImpl implements OrderDao {
             columnsBuilder.append("`userId`,");
             valuesBuilder.append("?,");
         }
-        if (order.getStoreId() != null) {
-            columnsBuilder.append("`storeId`,");
-            valuesBuilder.append("?,");
-        }
         if (order.getAddressId() != null) {
             columnsBuilder.append("`addressId`,");
             valuesBuilder.append("?,");
         }
-        if (order.getStatus() != null) {
+        if (order.getStatus() == null) {
             columnsBuilder.append("`status`,");
             valuesBuilder.append("?,");
         }
@@ -93,13 +89,10 @@ public class OrderDaoImpl implements OrderDao {
         if (order.getUserId() != null) {
             count++;
         }
-        if (order.getStoreId() != null) {
-            count++;
-        }
         if (order.getAddressId() != null) {
             count++;
         }
-        if (order.getStatus() != null) {
+        if (order.getStatus() == null) {
             count++;
         }
         if (order.getTotalPrice() != null) {
@@ -135,10 +128,6 @@ public class OrderDaoImpl implements OrderDao {
         }
         if (order.getUserId() != null) {
             params[index] = order.getUserId();
-            index++;
-        }
-        if (order.getStoreId() != null) {
-            params[index] = order.getStoreId();
             index++;
         }
         if (order.getAddressId() != null) {

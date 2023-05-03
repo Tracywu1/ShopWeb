@@ -72,6 +72,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void delete(Integer userId, Integer productId) throws Exception {
         Cart cart = cartDao.selectByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //该商品之前不在购物车内，无法更新
+            throw new MyException(ResultCode.UPDATE_FAILED);
+        }
         cartDao.delete(cart.getId());
     }
 

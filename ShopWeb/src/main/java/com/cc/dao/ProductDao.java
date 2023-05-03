@@ -2,6 +2,7 @@ package com.cc.dao;
 
 import com.cc.po.Product;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductDao {
@@ -91,4 +92,12 @@ public interface ProductDao {
      * @throws Exception
      */
     void updateByIdSelective(Product product) throws Exception;
+
+    /**
+     * 查询月销量
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Integer selectMonthlySalesCount(Integer id) throws Exception;
 }

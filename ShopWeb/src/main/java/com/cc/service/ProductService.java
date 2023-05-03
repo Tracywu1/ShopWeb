@@ -63,4 +63,11 @@ public interface ProductService {
      * @return
      */
     PageBean<Product> selectByPageAndCondition(int currentPage, int pageSize, String productName, String storeName) throws Exception;
+
+    /**
+     * 根据id查询商品信息
+     * @param id
+     * @return
+     */
+    Product selectById(Integer id) throws Exception;
 }

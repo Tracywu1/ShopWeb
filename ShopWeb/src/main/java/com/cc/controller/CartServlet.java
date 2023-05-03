@@ -5,6 +5,8 @@ import com.cc.exception.Result;
 import com.cc.filter.LoginCheckFilter;
 import com.cc.service.CartService;
 import com.cc.service.Impl.CartServiceImpl;
+import com.cc.service.Impl.OrderServiceImpl;
+import com.cc.service.OrderService;
 import com.cc.vo.CartVO;
 
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import java.util.List;
 @WebServlet("/cart/*")
 public class CartServlet extends BaseServlet{
     private final CartService cartService = new CartServiceImpl();
+    private final OrderService orderService = new OrderServiceImpl();
 
     /**
      * 购物车列表
@@ -27,24 +30,6 @@ public class CartServlet extends BaseServlet{
         List<CartVO> cartVOS = cartService.list(LoginCheckFilter.currentUser.getId());
 
         Result result = Result.success(cartVOS);
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(result));
-    }
-
-    /**
-     * 添加数据
-     * @param request
-     * @param response
-     * @throws Exception
-     */
-    public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        int count = Integer.parseInt(request.getParameter("count"));
-
-        //调用service添加
-        cartService.add(LoginCheckFilter.currentUser.getId(),productId,count);
-
-        Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }
@@ -120,4 +105,31 @@ public class CartServlet extends BaseServlet{
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }
+
+    /**
+     * 加入购物车
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int count = Integer.parseInt(request.getParameter("count"));
+
+        //调用service添加
+        cartService.add(1,productId,count);
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    public void createOrder(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        String orderNo = orderService.createForCart();
+
+        Result result = Result.success(orderNo);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
 }

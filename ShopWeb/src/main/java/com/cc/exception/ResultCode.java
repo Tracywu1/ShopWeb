@@ -7,7 +7,7 @@ public enum ResultCode {
     /**
      * 客户端请求成功，即处理成功
      */
-    SUCCESS(200, "操作成功"),
+    SUCCESS(10000, "操作成功"),
 
 
     NEED_USER_NAME(1, "用户名不能为空"),

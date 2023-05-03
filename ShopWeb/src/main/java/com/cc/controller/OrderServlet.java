@@ -22,17 +22,21 @@ public class OrderServlet extends BaseServlet {
     private final OrderService orderService = new OrderServiceImpl();
 
     /**
-     * 创建订单
+     * 创建订单(立即购买)
      *
      * @param request
      * @param response
      * @throws Exception
      */
     public void create(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //调用service添加//加个createOrderReq
-        orderService.create();
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int count = Integer.parseInt(request.getParameter("count"));
+        int addressId = Integer.parseInt(request.getParameter("addressId"));
 
-        Result result = Result.success();
+        //调用service添加
+        String orderNo = orderService.create(productId,count,addressId);
+
+        Result result = Result.success(orderNo);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }

@@ -42,10 +42,6 @@ public class StoreDaoImpl implements StoreDao {
             columnsBuilder.append("`fansNum`,");
             valuesBuilder.append("?,");
         }
-        if (store.getAveMonthSales() != null) {
-            columnsBuilder.append("`aveMonthSales`,");
-            valuesBuilder.append("?,");
-        }
         if (store.getCreateTime() != null) {
             columnsBuilder.append("`createTime`,");
             valuesBuilder.append("?,");
@@ -89,9 +85,6 @@ public class StoreDaoImpl implements StoreDao {
         if (store.getFansNum() != null) {
             count++;
         }
-        if (store.getAveMonthSales() != null) {
-            count++;
-        }
         if (store.getCreateTime() != null) {
             count++;
         }
@@ -129,10 +122,6 @@ public class StoreDaoImpl implements StoreDao {
         }
         if (store.getFansNum() != null) {
             params[index] = store.getFansNum();
-            index++;
-        }
-        if (store.getAveMonthSales() != null) {
-            params[index] = store.getAveMonthSales();
             index++;
         }
         if (store.getCreateTime() != null) {
@@ -184,9 +173,7 @@ public class StoreDaoImpl implements StoreDao {
         if (store.getFansNum() != null) {
             sqlBuilder.append("`fansNum` = ?,");
         }
-        if (store.getAveMonthSales() != null) {
-            sqlBuilder.append("`aveMonthSales` = ?,");
-        }
+
         if (store.getCreateTime() != null) {
             sqlBuilder.append("`createTime` = ?,");
         }

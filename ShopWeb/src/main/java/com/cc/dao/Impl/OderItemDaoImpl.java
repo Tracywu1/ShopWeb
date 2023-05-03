@@ -17,7 +17,7 @@ public class OderItemDaoImpl implements OrderItemDao {
 
     @Override
     public void insertSelective(OrderItem orderItem) throws Exception {
-        StringBuilder sqlBuilder = new StringBuilder("insert into tb_orderItem");
+        StringBuilder sqlBuilder = new StringBuilder("insert into tb_order_item");
         StringBuilder columnsBuilder = new StringBuilder("(");
         StringBuilder valuesBuilder = new StringBuilder("(");
         if (orderItem.getId() != null) {
@@ -29,15 +29,15 @@ public class OderItemDaoImpl implements OrderItemDao {
             valuesBuilder.append("?,");
         }
         if (orderItem.getProductId() != null) {
-            columnsBuilder.append("`orderItemId`,");
+            columnsBuilder.append("`productId`,");
             valuesBuilder.append("?,");
         }
         if (orderItem.getProductName() != null) {
-            columnsBuilder.append("`orderItemName`,");
+            columnsBuilder.append("`productName`,");
             valuesBuilder.append("?,");
         }
         if (orderItem.getProductImage() != null) {
-            columnsBuilder.append("`orderItemImage`,");
+            columnsBuilder.append("`productImage`,");
             valuesBuilder.append("?,");
         }
         if (orderItem.getUnitPrice() != null) {
@@ -159,7 +159,7 @@ public class OderItemDaoImpl implements OrderItemDao {
 
     @Override
     public void delete(Integer id) throws Exception {
-        String sql = "delete from tb_orderItem where id = ?";
+        String sql = "delete from tb_order_item where id = ?";
         int update = CRUDUtils.update(sql, id);
         logger.debug("update:" + update);
 
@@ -170,7 +170,7 @@ public class OderItemDaoImpl implements OrderItemDao {
 
     @Override
     public List<OrderItem> selectByOrderNo(String orderNo) throws Exception {
-        String sql = "select * from tb_orderItem where orderNo =?";
+        String sql = "select * from tb_order_item where orderNo =?";
         List<OrderItem> orderItems = CRUDUtils.queryMore(sql, OrderItem.class, orderNo);
         logger.debug(String.valueOf(orderItems));
         return orderItems;
@@ -178,7 +178,7 @@ public class OderItemDaoImpl implements OrderItemDao {
 
     @Override
     public void updateByIdSelective(OrderItem orderItem) throws Exception {
-        StringBuilder sqlBuilder = new StringBuilder("update tb_orderItem");
+        StringBuilder sqlBuilder = new StringBuilder("update tb_order_item");
         sqlBuilder.append(" ");
         sqlBuilder.append("set");
         if (orderItem.getOrderNo() != null) {

@@ -19,10 +19,6 @@ public class Order {
      */
     private Integer userId;
     /**
-     * 店铺ID
-     */
-    private Integer storeId;
-    /**
      * 地址ID
      */
     private Integer addressId;
@@ -111,14 +107,6 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public Integer getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
-    }
-
     public Integer getAddressId() {
         return addressId;
     }
@@ -157,7 +145,6 @@ public class Order {
                 "id=" + id +
                 ", orderNo='" + orderNo + '\'' +
                 ", userId=" + userId +
-                ", storeId=" + storeId +
                 ", addressId=" + addressId +
                 ", status=" + status +
                 ", totalPrice=" + totalPrice +

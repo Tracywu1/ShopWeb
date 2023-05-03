@@ -17,7 +17,7 @@ public class OrderItem {
      */
     private Integer productId;
     /**
-     * 商品单价
+     * 商品名称
      */
     private String productName;
     /**

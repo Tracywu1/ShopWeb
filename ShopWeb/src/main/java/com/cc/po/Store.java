@@ -31,7 +31,7 @@ public class Store {
     /**
      * 月均销量
      */
-    private Integer aveMonthSales;
+    private Integer saleCount;
     /**
      * 创建时间
      */
@@ -89,12 +89,12 @@ public class Store {
         this.fansNum = fansNum;
     }
 
-    public Integer getAveMonthSales() {
-        return aveMonthSales;
+    public Integer getSaleCount() {
+        return saleCount;
     }
 
-    public void setAveMonthSales(Integer aveMonthSales) {
-        this.aveMonthSales = aveMonthSales;
+    public void setSaleCount(Integer saleCount) {
+        this.saleCount = saleCount;
     }
 
     public Timestamp getCreateTime() {

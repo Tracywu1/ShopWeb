@@ -1,17 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>上传文件</title>
+    <meta charset="utf-8">
+    <title>上传头像</title>
+    <style lang="scss" scoped>
+      .editPage__img {
+        .avatar-uploader .el-upload {
+          border: 1px dashed #d9d9d9;
+          border-radius: 6px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+          border-color: #409eff;
+        }
+        .avatar-uploader-icon {
+          font-size: 16px;
+          color: #8c939d;
+          width: 350px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+        }
+        .avatar {
+          width: 350px;
+          height: auto;
+          display: block;
+        }
+        .title {
+          font-size: 18px;
+          margin-bottom: 20px;
+        }
+        .img__con {
+          p {
+            margin-top: 10px;
+            text-align: center;
+            span{
+              color: #409eff;
+            }
+          }
+          .el-button {
+            width: 100%;
+            margin: 10px 0 20px 0;
+          }
+        }
+      }
+    </style>
+
 </head>
 <body>
+<div id="app">
 
-    <form action="product/manager/upload" method="post" enctype="multipart/form-data">
-        姓名: <input type="text" name="username"><br>
-        年龄: <input type="text" name="age"><br>
-        头像: <input type="file" name="image"><br>
-        <input type="submit" value="提交">
-    </form>
+<template>
+    <div class="editPage__img">
+        <div class="title">图片设置</div>
+        <div class="img__con">
+            <el-upload
+                    class="avatar-uploader"
+                    :action="uploadImgUrl"
+                    :data="uploadImgData"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload"
+            >
+                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <p><span>(点击图片即可替换其它图片)</span><br>说明：图片宽度为750PX，格式为JPG或者PNG，每张图片大小不超过3M</p>
+        </div>
+    </div>
+</template>
+</div>
 
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+
+<script src="js/axios-0.18.0.js"></script>
+
+
+<script>
+        new Vue({
+            el: "#app",
+        data() {
+            return {
+                imageUrl: this.rightData.imageUrl,
+                // 图片上传
+                uploadImgUrl: `${process.env.VUE_APP_BASE_API}/common-server/aliFile/upLoadFileNoSecret`,
+                uploadImgData: { busiName: 32 },
+                // 应付多个组件的情况 记录当前组件的key值
+                componentKey: null,
+            };
+        },
+        methods: {
+            uploadImg() {},
+            handleAvatarSuccess(res, file) {
+                // console.log(res)
+                this.imageUrl = res.data.url;
+                this.$emit("childRightFn", {
+                    ...this.rightData,
+                    ...{ imageUrl: this.imageUrl},
+                    ...{props: {src: this.imageUrl}}
+                });
+            },
+            beforeAvatarUpload(file) {
+                const isJPG =
+                    file.type === "image/jpeg" ||
+                    file.type === "image/jpg" ||
+                    file.type === "image/png";
+                // 限制只能3M以内的图片
+                const isLt2M = file.size / 1024 / 1024 < 3;
+
+                if (!isJPG) {
+                    this.$message.error("图片只能是 JPG 或者 PNG 格式!");
+                }
+                if (!isLt2M) {
+                    this.$message.error("上传头像图片大小不能超过 3MB!");
+                }
+                return isJPG && isLt2M;
+            },
+        },
+        })
+</script>
 </body>
 </html>
+
+

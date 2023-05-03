@@ -214,7 +214,7 @@
                     url: "product/manager/add",
                     data:_this.product
                 }).then(function (resp) {
-                    if (resp.code == 200) {
+                    if (resp.data.code == 10000) {
                         //添加成功
                         //关闭窗口
                         _this.dialogVisible = false;
@@ -267,7 +267,7 @@
                         url: "product/manager/deleteInBatches",
                         data: _this.selectedIds
                     }).then(function (resp) {
-                        if (resp.data.code === 200) {
+                        if (resp.data.code === 10000) {
                             //删除成功
                             // 重新查询数据
                             _this.selectAll();

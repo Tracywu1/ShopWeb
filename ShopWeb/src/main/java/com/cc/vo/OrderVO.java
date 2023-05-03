@@ -9,8 +9,6 @@ public class OrderVO {
 
     private Integer userId;
 
-    private Integer storeId;
-
     private Integer addressId;
 
     private BigDecimal totalPrice;
@@ -93,14 +91,6 @@ public class OrderVO {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Integer getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
     }
 
     public Integer getAddressId() {

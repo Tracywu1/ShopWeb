@@ -1,6 +1,8 @@
 package com.cc.service.Impl;
 
 import com.cc.common.Constants;
+import com.cc.dao.CommentDao;
+import com.cc.dao.Impl.CommentDaoImpl;
 import com.cc.dao.Impl.ProductDaoImpl;
 import com.cc.dao.ProductDao;
 import com.cc.exception.MyException;
@@ -12,8 +14,8 @@ import com.cc.service.ProductService;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
-
     private final ProductDao productDao = new ProductDaoImpl();
+    private final CommentDao commentDao = new CommentDaoImpl();
     @Override
     public List<Product> getAllProduct() throws Exception {
         return productDao.selectAllProduct();
@@ -92,6 +94,14 @@ public class ProductServiceImpl implements ProductService {
         pageBean.setTotalCount(totalCount);
 
         return pageBean;
+    }
+
+    @Override
+    public Product selectById(Integer id) throws Exception {
+        Product product = productDao.selectProductById(id);
+        product.setMonthlySalesCount(productDao.selectMonthlySalesCount(id));
+        product.setCommentList(commentDao.selectByProductId(id));
+        return product;
     }
 
 }

@@ -20,4 +20,9 @@ public class AddressServiceImpl implements AddressService {
     public Address getAddress(Integer id) throws Exception {
         return addressDao.selectById(id);
     }
+
+    @Override
+    public void addAddress(Address address)throws Exception{
+        addressDao.insert(address);
+    }
 }

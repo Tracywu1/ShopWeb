@@ -100,7 +100,7 @@
                     }
                 })
                     .then(function(response){
-                        if (response.data.code === 200) {
+                        if (response.data.code === 10000) {
                             alert("注册成功");
                             window.location.href = 'login.html';
                         } else {

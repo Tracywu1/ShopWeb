@@ -46,7 +46,7 @@
                         remember: this.remember
                     }
                 }).then(function (response) {
-                        if (response.data.code === 200) {
+                        if (response.data.code === 10000) {
                             alert("登陆成功");
                             if(cookie.username.value && cookie.password.value) {
                                 document.getElementById('username').innerHTML = cookie.username.value;

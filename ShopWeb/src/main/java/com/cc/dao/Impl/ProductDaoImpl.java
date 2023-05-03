@@ -8,6 +8,7 @@ import com.cc.utils.CRUDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,10 +50,6 @@ public class ProductDaoImpl implements ProductDao {
         }
         if (product.getProductCount() != null) {
             columnsBuilder.append("`productCount`,");
-            valuesBuilder.append("?,");
-        }
-        if (product.getSaleCount() != null) {
-            columnsBuilder.append("`saleCount`,");
             valuesBuilder.append("?,");
         }
         if (product.getCreateTime() != null) {
@@ -104,9 +101,6 @@ public class ProductDaoImpl implements ProductDao {
         if (product.getProductCount() != null) {
             count++;
         }
-        if (product.getSaleCount() != null) {
-            count++;
-        }
         if (product.getCreateTime() != null) {
             count++;
         }
@@ -148,10 +142,6 @@ public class ProductDaoImpl implements ProductDao {
         }
         if (product.getProductCount() != null) {
             params[index] = product.getProductCount();
-            index++;
-        }
-        if (product.getSaleCount() != null) {
-            params[index] = product.getSaleCount();
             index++;
         }
         if (product.getCreateTime() != null) {
@@ -240,9 +230,6 @@ public class ProductDaoImpl implements ProductDao {
         if (product.getProductName() != null) {
             sqlBuilder.append("`productName` = ?,");
         }
-        if (product.getStoreName() != null) {
-            sqlBuilder.append("`storeName` = ?,");
-        }
         if (product.getDescription() != null) {
             sqlBuilder.append("`description` = ?,");
         }
@@ -254,15 +241,6 @@ public class ProductDaoImpl implements ProductDao {
         }
         if (product.getProductCount() != null) {
             sqlBuilder.append("`productCount` = ?,");
-        }
-        if (product.getSaleCount() != null) {
-            sqlBuilder.append("`saleCount` = ?,");
-        }
-        if (product.getCreateTime() != null) {
-            sqlBuilder.append("`createTime` = ?,");
-        }
-        if (product.getUpdateTime() != null) {
-            sqlBuilder.append("`updateTime` = ?,");
         }
 
         // 删除最后一个逗号
@@ -296,10 +274,6 @@ public class ProductDaoImpl implements ProductDao {
             params[index] = product.getProductName();
             index++;
         }
-        if (product.getStoreName() != null && !product.getStoreName().isEmpty()) {
-            params[index] = product.getStoreName();
-            index++;
-        }
         if (product.getDescription() != null && !product.getDescription().isEmpty()) {
             params[index] = product.getDescription();
             index++;
@@ -324,6 +298,14 @@ public class ProductDaoImpl implements ProductDao {
         if (update == 0) {
             throw new MyException(ResultCode.UPDATE_FAILED);
         }
+    }
+
+    @Override
+    public Integer selectMonthlySalesCount(Integer id) throws Exception {
+        String sql ="SELECT COUNT(1) FROM tb_order_item oi JOIN tb_order o ON oi.orderNo = o.orderNo WHERE oi.createTime >= DATE_ADD(CURDATE(), INTERVAL -DAY(CURDATE()) + 1 DAY) AND oi.createTime < DATE_ADD(DATE_ADD(CURDATE(), INTERVAL 1 MONTH), INTERVAL -DAY(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)) DAY) AND oi.productId = ? AND o.status = 3";
+        int count = CRUDUtils.queryCount(sql,id);
+        logger.debug("count:"+count);
+        return count;
     }
 
     @Override

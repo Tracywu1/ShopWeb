@@ -45,9 +45,16 @@ public interface OrderService {
     OrderVO detail(String orderNo) throws Exception;
 
     /**
-     * 创建订单
+     * 为购物车中勾选的商品创建订单
      */
-    String create() throws Exception;
+    String createForCart() throws Exception;
+
+    /**
+     * 为立即购买的商品创建订单
+     * @return
+     * @throws Exception
+     */
+    String create(Integer productId,Integer count,Integer addressId)throws Exception;
 
     /**
      * 修改商品信息
