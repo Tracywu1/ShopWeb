@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>支付页面</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <h1>订单支付</h1>
+  <p>商品名称：{{productName}}
+  <p>总金额：{{ totalPrice }}元</p>
+  <hr>
+  <h2>选择收货地址</h2>
+  <select v-model="selectedAddressId">
+    <option v-for="address in addresses" :key="address.id" :value="address.id">{{ address.address }}</option>
+  </select>
+  <hr>
+  <button @click="pay()">立即支付</button>
+</div>
+
+<script>
+  const app = new Vue({
+    el: '#app',
+    data() {
+      return {
+        totalPrice: '', // 总金额
+        addresses: [], // 所有收货地址
+        selectedAddressId: '', // 当前选中的收货地址
+        productId: '', // 商品id
+        count: '', // 购买数量
+      };
+    },
+    created() {
+      // 从URL中获取商品ID、购买数量
+      const urlParams = new URLSearchParams(window.location.search);
+      this.productId = urlParams.get('productId');
+      this.count = urlParams.get('count');
+
+      // 获取用户的所有收货地址
+      axios.get('address/getAll')
+              .then(response => {
+                this.addresses = response.data.data;
+                this.selectedAddressId = this.addresses[0].id; // 默认选中第一个地址
+              })
+              .catch(error => console.error(error));
+    },
+    methods: {
+      // 支付
+      pay() {
+        axios.post(`order/create?productId=${this.productId}&count=${this.count}&addressId=${this.selectedAddressId}`)
+                .then(response => {
+                  if (response.data.code === 10000) {
+                    alert('支付成功');
+                    window.location.href = 'paySuccess.html'; // 跳转到支付成功页面
+                  } else {
+                    alert('支付失败');
+                  }
+                })
+                .catch(error => console.error(error));
+      },
+    },
+  });
+</script>
+</body>
+</html>

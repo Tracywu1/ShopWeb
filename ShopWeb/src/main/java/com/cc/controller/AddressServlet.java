@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet("/address/*")
@@ -34,4 +36,11 @@ public class AddressServlet extends BaseServlet{
         response.getWriter().write(JSON.toJSONString(result));
     }
 
+    public void getAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<Address> addressList = addressService.getAddressList();
+
+        Result result = Result.success(addressList);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
 }

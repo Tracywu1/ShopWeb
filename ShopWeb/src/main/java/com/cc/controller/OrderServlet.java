@@ -35,6 +35,7 @@ public class OrderServlet extends BaseServlet {
 
         //调用service添加
         String orderNo = orderService.create(productId,count,addressId);
+        orderService.pay(orderNo);
 
         Result result = Result.success(orderNo);
         response.setContentType("application/json;charset=UTF-8");
