@@ -1,4 +1,59 @@
-<body>
-<div id="app"></div>
-<script src="js/app.js"></script>
-</body>
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="stylesheet" href="css/mall.css" type="text/css" />
+
+        <title>QG购物商城用户个人中心</title>
+    </head>
+    <body class="body_color_user">
+        <div class="mall_main">
+            <div id="child_header">
+                <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+                <div class="current_location"><span>个人中心</span></div>
+            </div>
+            <div class="wx_wrap">
+                <a href="user_info.html">
+                    <div class="person_top">
+                        <img class="top_bj" src="img/top_bj.jpg">
+                        <div class="per_con">
+                            <div class="user_photo">
+                                <img src="img/user_photo.jpg">
+                                <span>zhangbin</span>
+                            </div>
+                            <div class="name_right">
+                                <p class="p1">会员ID：18921120000</p>
+                                <p>注册时间：2015-11-11</p>
+                                <p>会员级别：三级分销商</p>
+                                <p class="p2">积分值：600</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="my_menu">
+                    <ul>
+                        <li class="li_list"><a href="order_list.html"><img src="img/user_icon1.png"> <span>我的订单</span></a></li>
+                        <li class="li_list"><a href="order_return.html"><img src="img/user_icon2.png"> <span>退货记录</span></a></li>
+                        <li class="li_list"><a href="order_refund.html"><img src="img/user_icon3.png"> <span>退款记录</span></a></li>
+                    </ul>
+                </div>
+
+
+                <ul class="menu_list">
+                    <li class="tiao" ><a href="address_list.html">地址管理</a></li>
+                    <li class="tiao"><a href="account_security.html">账户安全</a></li>
+                    <li class="tiao"><a href="site.html">设置</a></li>
+                </ul>
+
+            </div>
+
+            <ul class="wx_nav">
+                <li><a href="index.html"><img src="img/nav_icon1.png"><span class="yellow">首页</span></a></li>
+                <li><a href="cart.html"><img src="img/nav_icon4.png"><span>购物车</span>
+                        <b>15</b></a></li>
+            </ul>
+        </div>
+
+    </body>
+</html>
