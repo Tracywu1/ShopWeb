@@ -3,48 +3,58 @@
 <head lang="en">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <title>地址管理</title>
     <link rel="stylesheet" href="css/mall.css" type="text/css" />
 </head>
 <body>
 <div class="mall_main">
 <div id="child_header">
-    <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
     <div class="current_location"><span>地址管理</span></div>
     <div class="next_operate"><a href="address_add.html"><span>新增地址</span></a></div>
 </div>
-<div class="address_list">
-    <div class="list_left">
-        <p class="pw1">张彬</p>
-        <p class="pw1">18921120000</p>
-        <p class="pw2">无锡市滨湖区锦溪路99号太湖云电商</p>
-        <a href="address_edit.html" class="list_right"><img src="img/change_adr.png"></a>
+    <div id="app">
+        <div v-for="(address, index) in addresses" :key="index" class="address_list">
+            <div class="list_left">
+                <p class="pw1">{{ address.name }}</p>
+                <p class="pw1">{{ address.phone }}</p>
+                <p class="pw2">{{ address.address }}</p>
+                <a href="address_edit.html" class="list_right"><img src="img/change_adr.png"></a>
+            </div>
+            <a class="default_adr">
+                <input type="radio" :id="'default_adr' + index" :name="'default_adr'" v-model="defaultAddress" :value="address">
+                设为默认地址
+            </a>
+        </div>
     </div>
-    <a class="default_adr"><input type="radio" id="default_adr1" name="default_adr">设为默认地址</a>
-</div>
 
-<div class="address_list">
-    <div class="list_left">
-        <p class="pw1">张彬</p>
-        <p class="pw1">18921120000</p>
-        <p class="pw2">无锡市滨湖区锦溪路99号太湖云电商</p>
-        <a href="address_edit.html" class="list_right"><img src="img/change_adr.png"></a>
-    </div>
-    <a class="default_adr"><input type="radio" id="default_adr2" name="default_adr">设为默认地址</a>
-</div>
-
-<div class="address_list">
-    <div class="list_left">
-        <p class="pw1">张彬</p>
-        <p class="pw1">18921120000</p>
-        <p class="pw2">无锡市滨湖区锦溪路99号太湖云电商</p>
-        <a href="address_edit.html" class="list_right"><img src="img/change_adr.png"></a>
-    </div>
-    <a class="default_adr"><input type="radio" id="default_adr3" name="default_adr">设为默认地址</a>
-</div>
-</div>
-
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                addresses: [],
+                defaultAddress: null
+            },
+            mounted() {
+                axios.get('address/getAll')
+                    .then(response => {
+                        this.addresses = response.data.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            watch: {
+                defaultAddress(newAddress, oldAddress) {
+                    axios.put('/api/default_address', { address: newAddress })
+                        .then(response => {
+                            console.log(response.data.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+            }
+        });
+    </script>
 </body>
 </html>

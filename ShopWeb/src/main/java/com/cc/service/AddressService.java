@@ -26,4 +26,22 @@ public interface AddressService {
      * @throws Exception
      */
     void addAddress(Address address)throws Exception;
+
+    /**
+     * 将该用户所有地址的isDefault更新为0
+     * @throws Exception
+     */
+    void updateDefault()throws Exception;
+
+    /**
+     * 将当前的设置的默认地址的is_default设置为1
+     */
+    void updateDefaultById(Address address)throws Exception;
+
+    /**
+     * 查询默认地址
+     * @return
+     * @throws Exception
+     */
+    Address selectDefault()throws Exception;
 }

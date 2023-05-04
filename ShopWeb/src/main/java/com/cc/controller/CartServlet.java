@@ -8,16 +8,24 @@ import com.cc.service.Impl.CartServiceImpl;
 import com.cc.service.Impl.OrderServiceImpl;
 import com.cc.service.OrderService;
 import com.cc.vo.CartVO;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet("/cart/*")
 public class CartServlet extends BaseServlet{
     private final CartService cartService = new CartServiceImpl();
     private final OrderService orderService = new OrderServiceImpl();
+
+    private static final Logger logger = LoggerFactory.getLogger(CartServlet.class);
 
     /**
      * 购物车列表
@@ -72,35 +80,27 @@ public class CartServlet extends BaseServlet{
     }
 
     /**
-     * 选择/不选择购物车中某商品
+     * 批量删除
+     *
      * @param request
      * @param response
      * @throws Exception
      */
-    public void select(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        int selected = Integer.parseInt(request.getParameter("selected"));
+    public void deleteInBatches(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
-        //调用service
-        cartService.selectOrNot(productId,selected);
+        logger.debug(params);
 
-        Result result = Result.success();
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(result));
-    }
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(params);
+        int[] ids = mapper.treeToValue(node, int[].class);
 
-    /**
-     * 全选择/全不选择购物车中的商品
-     * @param request
-     * @param response
-     * @throws Exception
-     */
-    public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        int selected = Integer.parseInt(request.getParameter("selected"));
+        logger.debug(Arrays.toString(ids));
 
-        //调用service
-        cartService.selectAllOrNot(selected);
+        //调用service批量删除
+        cartService.deleteInBatches(ids);
 
+        //响应成功标识
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
@@ -131,7 +131,18 @@ public class CartServlet extends BaseServlet{
      * @throws Exception
      */
     public void createOrder(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        String orderNo = orderService.createForCart();
+        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+        logger.debug(params);
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(params);
+        int[] ids = mapper.treeToValue(node, int[].class);
+
+        logger.debug(Arrays.toString(ids));
+
+        String orderNo = orderService.createForCart(ids);
+        orderService.pay(orderNo);
 
         Result result = Result.success(orderNo);
         response.setContentType("application/json;charset=UTF-8");

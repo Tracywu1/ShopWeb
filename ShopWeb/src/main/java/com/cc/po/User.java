@@ -13,7 +13,7 @@ public class User {
      */
     private Integer storeId;
     /**
-     *用户名  （自动生成的）
+     *用户名  （自动生成的,为确保规范只能以5-25位英文（暂时只支持英文小写，建议不要使用身份证、手机号等隐私信息等）、数字、下划线或组合的形式修改）
      */
     private String username;
     /**

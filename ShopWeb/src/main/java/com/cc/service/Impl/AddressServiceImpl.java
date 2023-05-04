@@ -25,4 +25,19 @@ public class AddressServiceImpl implements AddressService {
     public void addAddress(Address address)throws Exception{
         addressDao.insert(address);
     }
+
+    @Override
+    public void updateDefault() throws Exception {
+        addressDao.updateDefault(LoginCheckFilter.currentUser.getId());
+    }
+
+    @Override
+    public void updateDefaultById(Address address) throws Exception {
+        addressDao.update(address);
+    }
+
+    @Override
+    public Address selectDefault() throws Exception {
+        return addressDao.selectDefault(LoginCheckFilter.currentUser.getId());
+    }
 }

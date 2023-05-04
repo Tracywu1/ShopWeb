@@ -10,13 +10,12 @@
 <body>
 <div class="mall_main">
 <div id="child_header">
-    <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
     <div class="current_location"><span>编辑地址</span></div>
-    <div class="next_operate"><a href="address_list.html"><span>保存</span></a></div>
+    <div class="next_operate"><a href="#" id="save_address"><span>保存</span></a></div>
 </div>
 <div class="address_edit">
     <ul>
-        <li><span>联系人</span><input type="text" value="张彬" name="user_name"></li>
+        <li><span>联系人</span><input type="text" value="" name="user_name"></li>
         <li>
          <form name="form2" method="post" action="">
           <p class="gender">
@@ -30,7 +29,7 @@
           </p>
          </form>
         </li>
-        <li><span>手机号码</span><input name="tel" type="text" value="18921120000" maxlength="11"></li>
+        <li><span>手机号码</span><input name="tel" type="text"  maxlength="11"></li>
         <li><span>所在地区</span>
             <div id="area_adr" class="area_adr">
             <div class="m_zlxg" id="shengfen">
@@ -63,10 +62,51 @@
 </div>
 
 <script type="text/javascript" src="js/address.js"></script>
+
 <script type="text/javascript">
 $(function(){
 
 	$("#area_adr").sjld("#shengfen","#chengshi","#quyu");
+
+    $("#save_address").click(function(event){
+        event.preventDefault();
+        var username = $("input[name='user_name']").val();
+        var gender = $("input[name='gender']:checked").val();
+        var tel = $("input[name='tel']").val();
+        var province = $("#shengfen p").text();
+        var city = $("#chengshi p").text();
+        var district = $("#quyu p").text();
+        var address = $("input[name='address']").val();
+
+        if (username == "" || tel == "" || province == "选择省份" || city == "选择城市" || district == "选择区域" || address == "") {
+            alert("请填写完整的地址信息！");
+            return;
+        }
+
+        var data = {
+            username: username,
+            gender: gender,
+            tel: tel,
+            province: province,
+            city: city,
+            district: district,
+            address: address
+        };
+
+        $.ajax({
+            url: "address/add",
+            type: "POST",
+            data: data,
+            success: function(response) {
+                alert("保存成功");
+                console.log(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert("保存失败");
+                console.log("AJAX Error: " + textStatus + " " + errorThrown);
+            }
+        });
+    });
 	
 });
 </script>

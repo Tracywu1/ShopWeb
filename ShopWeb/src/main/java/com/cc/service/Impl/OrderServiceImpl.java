@@ -78,17 +78,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String createForCart() throws Exception {
+    public String createForCart(int[] ids) throws Exception {
         //从购物车查找已经勾选的商品
-        List<CartVO> cartVOList = cartService.list();
-        ArrayList<CartVO> cartVOListTemp = new ArrayList<>();
-        for (int i = 0; i < cartVOList.size(); i++) {
-            CartVO cartVO = cartVOList.get(i);
-            if (cartVO.getIsSelected().equals(Constants.IsSelected.SELECTED)) {
-                cartVOListTemp.add(cartVO);
-            }
-        }
-        cartVOList = cartVOListTemp;
+        List<CartVO> cartVOList = cartService.list(ids);
+
         //如果购物车已勾选的为空，报错
         if (cartVOList.size() == 0) {
             throw new MyException(ResultCode.CART_EMPTY);
@@ -98,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
         //把购物车对象转为订单item对象
         List<OrderItem> orderItemList = cartVOListToOrderItemList(cartVOList);
         //把购物车中的已勾选商品删除
-        cleanCart(cartVOList);
+        cartDao.deleteByIds(ids);
         //生成订单
         Order order = new Order();
         //生成订单号，有独立的规则
@@ -163,7 +156,7 @@ public class OrderServiceImpl implements OrderService {
         order.setAddressId(address.getId());
         order.setReceiverName(address.getReceiverName());
         order.setReceiverPhone(address.getReceiverPhone());
-        order.setReceiverAddress(address.getReceiverAddress());
+        order.setReceiverAddress(address.getProvince()+address.getCity()+address.getDistinct()+address.getAddress());
         //插入到Order表
         orderDao.insertSelective(order);
 
@@ -281,13 +274,6 @@ public class OrderServiceImpl implements OrderService {
         return orderItem;
     }
 
-    private void cleanCart(List<CartVO> cartVOList) throws Exception {
-        for (int i = 0; i < cartVOList.size(); i++) {
-            CartVO cartVO = cartVOList.get(i);
-            cartDao.delete(cartVO.getId());
-        }
-    }
-
     @Override
     public void update(Order updateOrder) throws Exception {
         orderDao.updateByIdSelective(updateOrder);
@@ -370,7 +356,6 @@ public class OrderServiceImpl implements OrderService {
             throw new MyException(ResultCode.WRONG_ORDER_STATUS);
         }
     }
-
 
     @Override
     public void pay(String orderNo) throws Exception {

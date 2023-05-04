@@ -36,4 +36,18 @@ public interface AddressDao {
      * @return
      */
     List<Address> selectAllByUserId(Integer userId) throws Exception;
+
+    /**
+     * 将该用户所有地址的isDefault更新为0
+     * @param userId
+     */
+    void updateDefault (Integer userId) throws Exception;
+
+    /**
+     * 查询默认地址
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    Address selectDefault (Integer userId)throws Exception;
 }

@@ -43,4 +43,25 @@ public class AddressServlet extends BaseServlet{
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
     }
+
+    public void setDefault(HttpServletRequest request,HttpServletResponse response)throws Exception{
+        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        logger.debug(params);
+
+        //转为Address对象
+        Address address = JSON.parseObject(params, Address.class);
+
+        addressService.updateDefault();
+
+        address.setIsDefault(1);
+        addressService.updateDefaultById(address);
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    public void getDefault(HttpServletRequest request,HttpServletResponse response)throws Exception{
+
+    }
 }

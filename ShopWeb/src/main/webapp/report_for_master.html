@@ -102,11 +102,11 @@
                     .then(response => {
                         const data = response.data.data.map(report => {
                             return {
-                                reportId: report.id, // 将id属性赋值给reportId属性
-                                username: report.username,
-                                content: report.content,
-                                reportTime: this.formatDate(report.reportTime), // 格式化时间
-                                statusStr: this.getStatusString(report.status),
+                                reportId: report_for_master.id, // 将id属性赋值给reportId属性
+                                username: report_for_master.username,
+                                content: report_for_master.content,
+                                reportTime: this.formatDate(report_for_master.reportTime), // 格式化时间
+                                statusStr: this.getStatusString(report_for_master.status),
                             };
                         });
                         this.tableData = data;

@@ -7,10 +7,18 @@ import java.util.List;
 
 public interface CartService {
     /**
-     * 查询所有
+     * 查询所有byIds
      * @return
      */
+    List<CartVO> list(int[] ids) throws Exception;
+
+    /**
+     * 查询所有byUserId
+     * @return
+     * @throws Exception
+     */
     List<CartVO> list() throws Exception;
+
 
     /**
      * 新增购物车项
@@ -43,17 +51,10 @@ public interface CartService {
     void delete(Integer productId) throws Exception;
 
     /**
-     * 是否选中
-     * @param productId
-     * @param selected
+     * 批量删除
+     * @param ids
      */
-    void selectOrNot(Integer productId, Integer selected) throws Exception;
-
-    /**
-     * 是否全部选中
-     * @param selected
-     */
-    void selectAllOrNot(Integer selected) throws Exception;
+    void deleteInBatches(int[] ids) throws Exception;
 
     /**
      * 查询购物车项的数量

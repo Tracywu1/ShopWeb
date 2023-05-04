@@ -31,12 +31,32 @@ public class AddressDaoImpl implements AddressDao {
             columnsBuilder.append("`receiverName`,");
             valuesBuilder.append("?,");
         }
+        if (address.getSex() != null) {
+            columnsBuilder.append("`sex`,");
+            valuesBuilder.append("?,");
+        }
         if (address.getReceiverPhone() != null) {
             columnsBuilder.append("`receiverPhone`,");
             valuesBuilder.append("?,");
         }
-        if (address.getReceiverAddress() != null) {
-            columnsBuilder.append("`receiverAddress`,");
+        if (address.getProvince() != null) {
+            columnsBuilder.append("`province`,");
+            valuesBuilder.append("?,");
+        }
+        if (address.getCity() != null) {
+            columnsBuilder.append("`city`,");
+            valuesBuilder.append("?,");
+        }
+        if (address.getDistinct() != null) {
+            columnsBuilder.append("`distinct`,");
+            valuesBuilder.append("?,");
+        }
+        if (address.getAddress() != null) {
+            columnsBuilder.append("`address`,");
+            valuesBuilder.append("?,");
+        }
+        if (address.getIsDefault() != null) {
+            columnsBuilder.append("`isDefault`,");
             valuesBuilder.append("?,");
         }
         if (address.getCreateTime() != null) {
@@ -72,10 +92,25 @@ public class AddressDaoImpl implements AddressDao {
         if (address.getReceiverName() != null && !address.getReceiverName().isEmpty()) {
             count++;
         }
+        if (address.getSex() == null) {
+            count++;
+        }
         if (address.getReceiverPhone() != null && !address.getReceiverPhone().isEmpty()) {
             count++;
         }
-        if (address.getReceiverAddress() != null && !address.getReceiverAddress().isEmpty()) {
+        if (address.getProvince() != null && !address.getProvince().isEmpty()) {
+            count++;
+        }
+        if (address.getCity() != null && !address.getCity().isEmpty()) {
+            count++;
+        }
+        if (address.getDistinct() != null && !address.getDistinct().isEmpty()) {
+            count++;
+        }
+        if (address.getAddress() != null && !address.getAddress().isEmpty()) {
+            count++;
+        }
+        if (address.getIsDefault() != null) {
             count++;
         }
         if (address.getCreateTime() != null) {
@@ -101,12 +136,32 @@ public class AddressDaoImpl implements AddressDao {
             params[index] = address.getReceiverName();
             index++;
         }
+        if (address.getSex() != null) {
+            params[index] = address.getSex();
+            index++;
+        }
         if (address.getReceiverPhone() != null && !address.getReceiverPhone().isEmpty()) {
             params[index] = address.getReceiverPhone();
             index++;
         }
-        if (address.getReceiverAddress() != null && !address.getReceiverAddress().isEmpty()) {
-            params[index] = address.getReceiverAddress();
+        if (address.getProvince() != null && !address.getProvince().isEmpty()) {
+            params[index] = address.getProvince();
+            index++;
+        }
+        if (address.getCity() != null && !address.getCity().isEmpty()) {
+            params[index] = address.getCity();
+            index++;
+        }
+        if (address.getDistinct() != null && !address.getDistinct().isEmpty()) {
+            params[index] = address.getDistinct();
+            index++;
+        }
+        if (address.getAddress() != null && !address.getAddress().isEmpty()) {
+            params[index] = address.getAddress();
+            index++;
+        }
+        if (address.getIsDefault() != null) {
+            params[index] = address.getIsDefault();
             index++;
         }
         if (address.getCreateTime() != null) {
@@ -142,23 +197,30 @@ public class AddressDaoImpl implements AddressDao {
         StringBuilder sqlBuilder = new StringBuilder("update tb_address");
         sqlBuilder.append(" ");
         sqlBuilder.append("set");
-        if (address.getUserId() != null) {
-            sqlBuilder.append("`userId` = ?,");
-        }
+
         if (address.getReceiverName() != null) {
             sqlBuilder.append("`receiverName` = ?,");
+        }
+        if (address.getSex() != null) {
+            sqlBuilder.append("`sex` = ?,");
         }
         if (address.getReceiverPhone() != null) {
             sqlBuilder.append("`receiverPhone` = ?,");
         }
-        if (address.getReceiverAddress() != null) {
-            sqlBuilder.append("`detail` = ?,");
+        if (address.getProvince() != null) {
+            sqlBuilder.append("`province` = ?,");
         }
-        if (address.getCreateTime() != null) {
-            sqlBuilder.append("`createTime` = ?,");
+        if (address.getCity() != null) {
+            sqlBuilder.append("`city` = ?,");
         }
-        if (address.getUpdateTime() != null) {
-            sqlBuilder.append("`updateTime` = ?,");
+        if (address.getDistinct() != null) {
+            sqlBuilder.append("`distinct` = ?,");
+        }
+        if (address.getAddress() != null) {
+            sqlBuilder.append("`address` = ?,");
+        }
+        if (address.getIsDefault() != null) {
+            sqlBuilder.append("`isDefault` = ?,");
         }
 
         // 删除最后一个逗号
@@ -169,16 +231,28 @@ public class AddressDaoImpl implements AddressDao {
         Object[] params;
         int count = 0;
 
-        if (address.getUserId() != null) {
+        if (address.getReceiverName() != null && !address.getReceiverName().isEmpty()) {
             count++;
         }
-        if (address.getReceiverName() != null && !address.getReceiverName().isEmpty()) {
+        if (address.getSex() != null) {
             count++;
         }
         if (address.getReceiverPhone() != null && !address.getReceiverPhone().isEmpty()) {
             count++;
         }
-        if (address.getReceiverAddress() != null && !address.getReceiverAddress().isEmpty()) {
+        if (address.getProvince() != null && !address.getProvince().isEmpty()) {
+            count++;
+        }
+        if (address.getCity() != null && !address.getCity().isEmpty()) {
+            count++;
+        }
+        if (address.getDistinct() != null && !address.getDistinct().isEmpty()) {
+            count++;
+        }
+        if (address.getAddress() != null && !address.getAddress().isEmpty()) {
+            count++;
+        }
+        if (address.getIsDefault() != null) {
             count++;
         }
 
@@ -190,12 +264,32 @@ public class AddressDaoImpl implements AddressDao {
             params[index] = address.getReceiverName();
             index++;
         }
+        if (address.getSex() != null) {
+            params[index] = address.getSex();
+            index++;
+        }
         if (address.getReceiverPhone() != null && !address.getReceiverPhone().isEmpty()) {
             params[index] = address.getReceiverPhone();
             index++;
         }
-        if (address.getReceiverAddress() != null) {
-            params[index] = address.getReceiverAddress();
+        if (address.getProvince() != null && !address.getProvince().isEmpty()) {
+            params[index] = address.getProvince();
+            index++;
+        }
+        if (address.getCity() != null && !address.getCity().isEmpty()) {
+            params[index] = address.getCity();
+            index++;
+        }
+        if (address.getDistinct() != null && !address.getDistinct().isEmpty()) {
+            params[index] = address.getDistinct();
+            index++;
+        }
+        if (address.getAddress() != null && !address.getAddress().isEmpty()) {
+            params[index] = address.getAddress();
+            index++;
+        }
+        if (address.getIsDefault() != null) {
+            params[index] = address.getIsDefault();
         }
 
         params[params.length - 1] = address.getId();
@@ -221,6 +315,25 @@ public class AddressDaoImpl implements AddressDao {
         String sql = "select * from tb_address where userId =?";
         List<Address> address = CRUDUtils.queryMore(sql, Address.class, userId);
         logger.debug(address.toString());
+        return address;
+    }
+
+    @Override
+    public void updateDefault(Integer userId) throws Exception {
+        String sql = "update tb_address set isDefault = 0 where userId = ?";
+        int update = CRUDUtils.update(sql,userId);
+        logger.debug("update:"+update);
+
+        if (update == 0) {
+            throw new MyException(ResultCode.UPDATE_FAILED);
+        }
+    }
+
+    @Override
+    public Address selectDefault(Integer userId) throws Exception {
+        String sql = "select * from tb_address where userId = ? and isDefault = 1";
+        Address address = CRUDUtils.query(sql, Address.class, userId);
+        logger.debug(String.valueOf(address));
         return address;
     }
 }

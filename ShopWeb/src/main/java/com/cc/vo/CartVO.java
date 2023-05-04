@@ -15,8 +15,6 @@ public class CartVO {
 
     private Integer count;
 
-    private Integer isSelected;
-
     private BigDecimal price;
 
     private BigDecimal totalPrice;
@@ -24,6 +22,7 @@ public class CartVO {
     private String productName;
 
     private String productImage;
+
 
     public Integer getId() {
         return id;
@@ -57,14 +56,6 @@ public class CartVO {
         this.count = count;
     }
 
-    public Integer getIsSelected() {
-        return isSelected;
-    }
-
-    public void setIsSelected(Integer isSelected) {
-        this.isSelected = isSelected;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
@@ -73,20 +64,20 @@ public class CartVO {
         this.price = price;
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public String getProductName() {
         return productName;
     }
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getProductImage() {
@@ -104,7 +95,6 @@ public class CartVO {
                 ", productId=" + productId +
                 ", userId=" + userId +
                 ", count=" + count +
-                ", isSelected=" + isSelected +
                 ", price=" + price +
                 ", totalPrice=" + totalPrice +
                 ", productName='" + productName + '\'' +

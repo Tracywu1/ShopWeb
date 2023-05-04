@@ -23,10 +23,6 @@ public class Cart {
      */
     private Integer count;
     /**
-     * 是否勾选，默认未勾选
-     */
-    private Integer isSelected= Constants.IsSelected.UN_SELECTED;
-    /**
      * 创建时间
      */
     private Timestamp  createTime;
@@ -93,14 +89,6 @@ public class Cart {
         this.updateTime = updateTime;
     }
 
-    public Integer getIsSelected() {
-        return isSelected;
-    }
-
-    public void setIsSelected(Integer isSelected) {
-        this.isSelected = isSelected;
-    }
-
     @Override
     public String toString() {
         return "Cart{" +
@@ -108,7 +96,6 @@ public class Cart {
                 ", userId=" + userId +
                 ", productId=" + productId +
                 ", count=" + count +
-                ", isSelected=" + isSelected +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", productList=" + productList +

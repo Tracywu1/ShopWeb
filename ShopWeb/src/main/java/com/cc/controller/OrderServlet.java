@@ -127,18 +127,4 @@ public class OrderServlet extends BaseServlet {
         response.getWriter().write(JSON.toJSONString(result));
     }
 
-    /**
-     * 支付接口
-     * @param request
-     * @param response
-     * @throws Exception
-     */
-    public void pay(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        orderService.pay(request.getParameter("orderNo"));
-
-        Result result = Result.success();
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(result));
-    }
-
 }

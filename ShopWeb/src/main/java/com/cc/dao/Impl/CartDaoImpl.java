@@ -9,6 +9,7 @@ import com.cc.vo.CartVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 /**
  * @author 32119
@@ -22,6 +23,32 @@ public class CartDaoImpl implements CartDao {
         int update = CRUDUtils.update(sql, id);
         logger.debug("update:" + update);
 
+        if (update == 0) {
+            throw new MyException(ResultCode.DELETE_FAILED);
+        }
+    }
+
+    @Override
+    public void deleteByIds(int[] ids) throws Exception {
+        StringBuilder sqlBuilder = new StringBuilder("delete from tb_cart where id in (");
+
+        for (int i = 0; i < ids.length; i++) {
+            if (i == ids.length - 1) {
+                sqlBuilder.append("? ");
+            } else {
+                sqlBuilder.append("?, ");
+            }
+        }
+
+        sqlBuilder.append(")");
+        String sql = sqlBuilder.toString();
+        logger.debug(sql);
+
+        // 将int[]转换为Object[]
+        Object[] params = Arrays.stream(ids).boxed().toArray();
+
+        int update = CRUDUtils.update(sql, params);
+        logger.debug("update:" + update);
         if (update == 0) {
             throw new MyException(ResultCode.DELETE_FAILED);
         }
@@ -57,10 +84,6 @@ public class CartDaoImpl implements CartDao {
         }
         if (cart.getCount() != null) {
             columnsBuilder.append("`count`,");
-            valuesBuilder.append("?,");
-        }
-        if (cart.getIsSelected() != null) {
-            columnsBuilder.append("`isSelected`,");
             valuesBuilder.append("?,");
         }
         if (cart.getCreateTime() != null) {
@@ -100,9 +123,6 @@ public class CartDaoImpl implements CartDao {
         if (cart.getCount() != null) {
             count++;
         }
-        if (cart.getIsSelected() != null) {
-            count++;
-        }
         if (cart.getCreateTime() != null) {
             count++;
         }
@@ -130,10 +150,6 @@ public class CartDaoImpl implements CartDao {
             params[index] = cart.getCount();
             index++;
         }
-        if (cart.getIsSelected() != null) {
-            params[index] = cart.getIsSelected();
-            index++;
-        }
         if (cart.getCreateTime() != null) {
             params[index] = cart.getCreateTime();
             index++;
@@ -149,8 +165,31 @@ public class CartDaoImpl implements CartDao {
     @Override
     public List<CartVO> selectAll(Integer userId) throws Exception {
         String sql = "select c.id as id, p.id as productId, c.userId as userId, c.count as count, c.isSelected as isSelected, p.price as price, p.name as productName, p.image as productImage from tb_cart c left join tb_product p on p.id = c.productId where c.userId = ?";
-        //能否封装成功？
         List<CartVO> carts = CRUDUtils.queryMore(sql, CartVO.class, userId);
+        logger.debug(carts.toString());
+        return carts;
+    }
+
+    @Override
+    public List<CartVO> selectByIds(int[] ids)throws Exception{
+        StringBuilder sqlBuilder = new StringBuilder("select c.id as id, p.id as productId, c.userId as userId, c.count as count, c.isSelected as isSelected, p.price as price, p.name as productName, p.image as productImage from tb_cart c left join tb_product p on p.id = c.productId from tb_cart c left join tb_product p on p.id = c.productId where id in (");
+
+        for (int i = 0; i < ids.length; i++) {
+            if (i == ids.length - 1) {
+                sqlBuilder.append("? ");
+            } else {
+                sqlBuilder.append("?, ");
+            }
+        }
+
+        sqlBuilder.append(")");
+        String sql = sqlBuilder.toString();
+        logger.debug(sql);
+
+        // 将int[]转换为Object[]
+        Object[] params = Arrays.stream(ids).boxed().toArray();
+
+        List<CartVO> carts = CRUDUtils.queryMore(sql, CartVO.class, params);
         logger.debug(carts.toString());
         return carts;
     }
@@ -168,40 +207,6 @@ public class CartDaoImpl implements CartDao {
     public void updateCount(Integer count, Integer id) throws Exception {
         Object[] params = {count, id};
         String sql = "update tb_cart set `count` = ? where id = ?";
-        int update = CRUDUtils.update(sql, params);
-        logger.debug("update:" + update);
-
-        if (update == 0) {
-            throw new MyException(ResultCode.UPDATE_FAILED);
-        }
-    }
-
-    @Override
-    public void updateSelect(Integer userId, Integer productId, Integer selected) throws Exception {
-        StringBuilder sqlBuilder = new StringBuilder("update tb_cart set `isSelected` = ? where 1=1");
-        if (userId != null) {
-            sqlBuilder.append(" and userId = ?");
-        }
-        if (productId != null) {
-            sqlBuilder.append(" and productId = ?");
-        }
-        String sql = sqlBuilder.toString();
-
-        logger.debug("sql:" + sql);
-
-        Object[] params = new Object[1];
-        int index = 0;
-
-        params[0] = selected;
-        index++;
-        if (userId != null) {
-            params[index] = userId;
-            index++;
-        }
-        if (productId != null) {
-            params[index] = productId;
-        }
-
         int update = CRUDUtils.update(sql, params);
         logger.debug("update:" + update);
 

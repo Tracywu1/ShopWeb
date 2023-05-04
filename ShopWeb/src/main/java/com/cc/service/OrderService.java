@@ -46,8 +46,11 @@ public interface OrderService {
 
     /**
      * 为购物车中勾选的商品创建订单
+     * @param ids
+     * @return
+     * @throws Exception
      */
-    String createForCart() throws Exception;
+    String createForCart(int[] ids) throws Exception;
 
     /**
      * 为立即购买的商品创建订单

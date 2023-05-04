@@ -21,13 +21,13 @@ public class CartServiceImpl implements CartService {
     private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
+    public List<CartVO> list(int[] ids) throws Exception {
+        return cartDao.selectByIds(ids);
+    }
+
+    @Override
     public List<CartVO> list() throws Exception {
-        List<CartVO> cartVOS = cartDao.selectAll(LoginCheckFilter.currentUser.getId());
-        for (int i = 0; i < cartVOS.size(); i++) {
-            CartVO cartVO = cartVOS.get(i);
-            cartVO.setTotalPrice(new BigDecimal(cartVO.getCount()).multiply(cartVO.getPrice()));
-        }
-        return cartVOS;
+        return cartDao.selectAll(LoginCheckFilter.currentUser.getId());
     }
 
     @Override
@@ -41,7 +41,6 @@ public class CartServiceImpl implements CartService {
             cart.setProductId(productId);
             cart.setUserId(LoginCheckFilter.currentUser.getId());
             cart.setCount(count);
-            cart.setIsSelected(Constants.IsSelected.SELECTED);
             cartDao.insertSelective(cart);
         } else {
             //该商品已经在购物车内，数量相加
@@ -81,13 +80,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void selectOrNot(Integer productId, Integer selected) throws Exception {
-        cartDao.updateSelect(LoginCheckFilter.currentUser.getId(), productId, selected);
-    }
-
-    @Override
-    public void selectAllOrNot(Integer selected) throws Exception {
-        cartDao.updateSelect(LoginCheckFilter.currentUser.getId(), null, selected);
+    public void deleteInBatches(int[] ids) throws Exception {
+        cartDao.deleteByIds(ids);
     }
 
     @Override

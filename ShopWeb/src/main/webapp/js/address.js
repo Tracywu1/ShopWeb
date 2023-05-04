@@ -45,14 +45,6 @@
 		{
     		return Math.max.apply(Math,array);
 		}
-//	var max_kd = Array.max(kuandu);
-//		if(max_kd<118){
-//			$(css).width('');
-//		}
-//			else{
-//					$(css).width(max_kd);
-//			}
-	
 /*---------------------------------------------------------------------*/
 
 	$(sfli).click(function(){
@@ -69,19 +61,12 @@
 		var csmc = csgs[i].name;
 		var csnr = "<li>"+csmc+"</li>";
 		$(chengshi).find('ul').append(csnr);
-//		kuandu[i] =csmc.length*14+20;
 	}
 Array.max=function(array)
 {
     return Math.max.apply(Math,array);
 }
-//var max_kd = Array.max(kuandu);
-//if(max_kd<91){
-//	$(css).width('91px');
-//	}
-//	else{
-//	$(css).width(max_kd);
-//	}
+
 	var qygsdqmr = provinceList[sfnum].cityList[0].areaList;
 	$(quyu).find('ul').text('');
 	for(j=0;j<qygsdqmr.length;j++){
