@@ -10,7 +10,15 @@ public interface SubscribeService {
      * 查询某一用户的关注列表
      * @return
      */
-    List<Subscribe> getAllByProductId(Integer userId) throws Exception;
+    List<Subscribe> getAllByUserId() throws Exception;
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Subscribe getById(Integer id)throws Exception;
 
     /**
      * 关注

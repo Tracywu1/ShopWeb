@@ -13,6 +13,14 @@ public interface SubscribeDao {
     List<Subscribe> selectByUserId(Integer userId) throws Exception;
 
     /**
+     * 根据id查询
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Subscribe getById(Integer id)throws Exception;
+
+    /**
      * 删除数据
      * @param id
      */

@@ -24,6 +24,14 @@ public class SubscribeDaoImpl implements SubscribeDao {
     }
 
     @Override
+    public Subscribe getById(Integer id) throws Exception {
+        String sql ="select * from tb_subscribe where id = ?";
+        Subscribe subscribe = CRUDUtils.query(sql,Subscribe.class,id);
+        logger.debug("subscribe:"+subscribe);
+        return subscribe;
+    }
+
+    @Override
     public void delete(Integer id) throws Exception {
         String sql ="delete from tb_subscribe where id = ?";
         int update = CRUDUtils.update(sql,id);

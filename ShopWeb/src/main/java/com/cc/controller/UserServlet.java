@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -311,6 +312,20 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
+     * 查看用户关注列表
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void listOfFollow(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        List<Subscribe> subscribeList = subscribeService.getAllByUserId();
+
+        Result result = Result.success(subscribeList);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
      * 关注
      * @param request
      * @param response
@@ -319,6 +334,21 @@ public class UserServlet extends BaseServlet {
     public void follow(HttpServletRequest request,HttpServletResponse response) throws Exception {
         Integer storeId = Integer.valueOf(request.getParameter("id"));
         subscribeService.add(storeId);
+
+        Result result = Result.success();
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(result));
+    }
+
+    /**
+     * 取消关注
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void unfollow(HttpServletRequest request,HttpServletResponse response)throws Exception{
+        Integer id = Integer.valueOf(request.getParameter("id"));
+        subscribeService.delete(id);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");

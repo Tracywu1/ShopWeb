@@ -24,8 +24,13 @@ public class SubscribeServiceImpl implements SubscribeService {
     private final UserDao userDao = new UserDaoImpl();
 
     @Override
-    public List<Subscribe> getAllByProductId(Integer userId) throws Exception {
-        return subscribeDao.selectByUserId(userId);
+    public List<Subscribe> getAllByUserId() throws Exception {
+        return subscribeDao.selectByUserId(LoginCheckFilter.currentUser.getId());
+    }
+
+    @Override
+    public Subscribe getById(Integer id) throws Exception {
+        return subscribeDao.getById(id);
     }
 
     @Override
@@ -47,6 +52,12 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     @Override
     public void delete(Integer id) throws Exception {
+        Subscribe subscribe = subscribeDao.getById(id);
+        Integer storeId = subscribe.getStoreId();
         subscribeDao.delete(id);
+
+        Store store = storeDao.selectStoreById(storeId);
+        store.setFansNum(store.getFansNum()-1);
+        storeDao.updateByIdSelective(store);
     }
 }

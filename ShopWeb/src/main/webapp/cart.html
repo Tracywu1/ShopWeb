@@ -106,8 +106,8 @@
             selectAll() {
                 axios({
                     method: "post",
-                    url: "product/list?",
-                    data: this.product
+                    url: "cart/list?",
+                    data: this.cart
                 }).then(resp => {
                     //设置表格数据
                     this.tableData = resp.data.data.rows; // {rows:[],totalCount:100}
@@ -265,7 +265,7 @@
                 dialogVisible: false,
 
                 // 购物车模型数据
-                product: {
+                cart: {
                     id: '',
                     productId: '',
                     productName: '',
