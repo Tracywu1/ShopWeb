@@ -12,7 +12,7 @@ public interface UserService {
      * 根据ID查询用户
      * @return
      */
-    User getById() throws Exception;
+    User getById(Integer id) throws Exception;
 
     /**
      * 用户登录
@@ -50,5 +50,5 @@ public interface UserService {
     /**
      * 成为店铺管理员
      */
-    void beManager() throws Exception;
+    void beManager(Integer id) throws Exception;
 }

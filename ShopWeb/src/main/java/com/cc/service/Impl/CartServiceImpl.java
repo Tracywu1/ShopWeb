@@ -26,20 +26,20 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartVO> list() throws Exception {
-        return cartDao.selectAll(LoginCheckFilter.currentUser.getId());
+    public List<CartVO> list(Integer userId) throws Exception {
+        return cartDao.selectAll(userId);
     }
 
     @Override
-    public void add(Integer productId, Integer count) throws Exception {
-        validProduct(productId, count);
+    public void add(Integer productId, Integer count,Integer userId) throws Exception {
+        validProduct(productId, count,userId);
 
-        Cart cart = cartDao.selectByUserIdAndProductId(LoginCheckFilter.currentUser.getId(), productId);
+        Cart cart = cartDao.selectByUserIdAndProductId(userId, productId);
         if (cart == null) {
             //这个商品之前不在购物车内，需要新增一个记录
             cart = new Cart();
             cart.setProductId(productId);
-            cart.setUserId(LoginCheckFilter.currentUser.getId());
+            cart.setUserId(userId);
             cart.setCount(count);
             cartDao.insertSelective(cart);
         } else {
@@ -50,8 +50,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void validProduct(Integer productId,Integer count) throws Exception {
-        Product product = productDao.selectProductById(LoginCheckFilter.currentUser.getId());
+    public void validProduct(Integer productId,Integer count,Integer userId) throws Exception {
+        Product product = productDao.selectProductById(userId);
         //判断商品是否存在，商品是否上架
         if (product == null) {
             throw new MyException(ResultCode.NOT_SALE);
@@ -63,15 +63,15 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void update(Integer count, Integer productId) throws Exception {
-        validProduct(productId, count);
-        Cart cart = cartDao.selectByUserIdAndProductId(LoginCheckFilter.currentUser.getId(), productId);
+    public void update(Integer count, Integer productId,Integer userId) throws Exception {
+        validProduct(productId, count,userId);
+        Cart cart = cartDao.selectByUserIdAndProductId(userId, productId);
         cartDao.updateCount(count, cart.getId());
     }
 
     @Override
-    public void delete(Integer productId) throws Exception {
-        Cart cart = cartDao.selectByUserIdAndProductId(LoginCheckFilter.currentUser.getId(), productId);
+    public void delete(Integer productId,Integer userId) throws Exception {
+        Cart cart = cartDao.selectByUserIdAndProductId(userId, productId);
         if (cart == null) {
             //该商品之前不在购物车内，无法更新
             throw new MyException(ResultCode.UPDATE_FAILED);
@@ -85,8 +85,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Integer selectCount() throws Exception {
-        return cartDao.selectCount(LoginCheckFilter.currentUser.getId());
+    public Integer selectCount(Integer userId) throws Exception {
+        return cartDao.selectCount(userId);
     }
 
 

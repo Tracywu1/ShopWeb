@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById() throws Exception {
-        User user = userDao.selectById(LoginCheckFilter.currentUser.getId());
-        user.setFollowCount(subscribeDao.selectFollowCountById(LoginCheckFilter.currentUser.getId()));
+    public User getById(Integer id) throws Exception {
+        User user = userDao.selectById(id);
+        user.setFollowCount(subscribeDao.selectFollowCountById(id));
         return user;
     }
 
@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void beManager() throws Exception {
-        User user = userDao.selectById(LoginCheckFilter.currentUser.getId());
+    public void beManager(Integer id) throws Exception {
+        User user = userDao.selectById(id);
         if (user.getUserRole() == Constants.UserRole.ORDINARY_USERS.getNum()) {
             user.setUserRole(Constants.UserRole.STORE_MANAGER.getNum());
             userDao.updateByIdSelective(user);

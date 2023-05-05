@@ -19,7 +19,6 @@ import java.util.Map;
  */
 //@WebFilter("/*")
 public class LoginCheckFilter implements Filter {
-    public static User currentUser;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -61,7 +60,6 @@ public class LoginCheckFilter implements Filter {
 
         // JWT指令牌验证通过，将用户信息存储到session中
         HttpSession session = req.getSession();
-        currentUser = (User) session.getAttribute(Constants.QG_MALL_USER);
 
         //放行。
         chain.doFilter(request, response);

@@ -1,4 +1,4 @@
-package com.cc.webSocket;
+package com.cc.chat;
 
 import com.cc.po.ResultMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;

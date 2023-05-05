@@ -1,4 +1,4 @@
-package com.cc.webSocket;
+package com.cc.chat;
 
 import java.util.ArrayList;
 import java.util.List;

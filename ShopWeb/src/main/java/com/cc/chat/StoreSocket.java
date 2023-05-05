@@ -1,4 +1,4 @@
-package com.cc.webSocket;
+package com.cc.chat;
 
 import javax.websocket.Session;
 import java.io.IOException;

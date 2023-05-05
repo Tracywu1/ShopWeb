@@ -117,7 +117,7 @@ public class CartServlet extends BaseServlet{
         int count = Integer.parseInt(request.getParameter("count"));
 
         //调用service添加
-        cartService.add(productId,count);
+        cartService.add(productId,count,);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
