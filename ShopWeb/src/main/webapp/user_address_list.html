@@ -10,7 +10,7 @@
 <div class="mall_main">
 <div id="child_header">
     <div class="current_location"><span>地址管理</span></div>
-    <div class="next_operate"><a href="address_add.html"><span>新增地址</span></a></div>
+    <div class="next_operate"><a href="user_address_add.html"><span>新增地址</span></a></div>
 </div>
     <div id="app">
         <div v-for="(address, index) in addresses" :key="index" class="address_list">
@@ -18,7 +18,7 @@
                 <p class="pw1">{{ address.name }}</p>
                 <p class="pw1">{{ address.phone }}</p>
                 <p class="pw2">{{ address.address }}</p>
-                <a href="address_edit.html" class="list_right"><img src="img/change_adr.png"></a>
+                <a href="user_address_edit.html" class="list_right"><img src="img/change_adr.png"></a>
             </div>
             <a class="default_adr">
                 <input type="radio" :id="'default_adr' + index" :name="'default_adr'" v-model="defaultAddress" :value="address">

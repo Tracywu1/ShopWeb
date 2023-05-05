@@ -8,4 +8,13 @@ public interface StoreService {
      * @param store
      */
     void add (Store store) throws Exception;
+
+
+    /**
+     * 根据id查询店铺信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Store selectById(Integer id)throws Exception;
 }

@@ -1,0 +1,87 @@
+/* Personal information */
+.person_top {
+    position: relative;
+    height: 150px;
+    margin-bottom: 20px;
+}
+.top_bj {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.per_con {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.user_photo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.name_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+}
+.name_right p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.name_right .p1 {
+    font-weight: bold;
+}
+/* User menu */
+.menu_list1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.tiao {
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+.tiao:last-child {
+    border-right: none;
+}
+
+.menu_list2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.tiao {
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+.tiao:last-child {
+    border-right: none;
+}

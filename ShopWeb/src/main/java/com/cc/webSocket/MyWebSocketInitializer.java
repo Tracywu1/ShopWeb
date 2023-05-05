@@ -1,7 +1,4 @@
-package com.cc.Listener;
-
-import com.cc.Config.MyWebSocketConfig;
-import com.cc.controller.ChatEndpoint;
+package com.cc.webSocket;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

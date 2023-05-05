@@ -223,4 +223,12 @@ public class StoreDaoImpl implements StoreDao {
             throw new MyException(ResultCode.UPDATE_FAILED);
         }
     }
+
+    @Override
+    public Integer selectMonthlyAveSaleCount(Integer id) throws Exception {
+        String sql ="SELECT COUNT(1) FROM tb_product tp JOIN tb_store ts ON tp.storeId = ts.id WHERE oi.createTime >= DATE_ADD(CURDATE(), INTERVAL -DAY(CURDATE()) + 1 DAY) AND oi.createTime < DATE_ADD(DATE_ADD(CURDATE(), INTERVAL 1 MONTH), INTERVAL -DAY(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)) DAY) AND ts.id = ? ";
+        int count = CRUDUtils.queryCount(sql,id);
+        logger.debug("count:"+count);
+        return count;
+    }
 }

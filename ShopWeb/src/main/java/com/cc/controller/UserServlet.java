@@ -114,7 +114,7 @@ public class UserServlet extends BaseServlet {
         passwordErrorCounts.put(username, errorCount);
 
         //跳转回登录界面
-        request.getRequestDispatcher("/login.html").forward(request, response);
+        request.getRequestDispatcher("/user_login.html").forward(request, response);
 
         if (errorCount != null && errorCount >= 3) {
             Result result = Result.error(ResultCode.WRONG_PASSWORD_EXCESS);
@@ -224,7 +224,7 @@ public class UserServlet extends BaseServlet {
         response.getWriter().write(JSON.toJSONString(result));
 
         // 重定向到登录页面
-        response.sendRedirect(request.getContextPath() + "/login.html");
+        response.sendRedirect(request.getContextPath() + "/user_login.html");
     }
 
     /**

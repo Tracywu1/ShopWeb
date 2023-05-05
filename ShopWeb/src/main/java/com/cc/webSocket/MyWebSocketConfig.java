@@ -1,6 +1,4 @@
-package com.cc.Config;
-
-import com.cc.controller.ChatEndpoint;
+package com.cc.webSocket;
 
 import javax.websocket.Endpoint;
 import javax.websocket.server.ServerApplicationConfig;

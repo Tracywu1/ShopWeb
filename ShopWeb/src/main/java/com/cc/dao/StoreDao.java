@@ -32,4 +32,12 @@ public interface StoreDao {
      * @throws Exception
      */
     void updateByIdSelective(Store store) throws Exception;
+
+    /**
+     * 查询店铺月均销量
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    Integer selectMonthlyAveSaleCount(Integer id)throws Exception;
 }

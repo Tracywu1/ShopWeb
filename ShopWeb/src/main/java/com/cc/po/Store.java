@@ -31,7 +31,7 @@ public class Store {
     /**
      * 月均销量
      */
-    private Integer saleCount;
+    private Integer monthlyAveSaleCount;
     /**
      * 创建时间
      */
@@ -89,14 +89,6 @@ public class Store {
         this.fansNum = fansNum;
     }
 
-    public Integer getSaleCount() {
-        return saleCount;
-    }
-
-    public void setSaleCount(Integer saleCount) {
-        this.saleCount = saleCount;
-    }
-
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -113,5 +105,26 @@ public class Store {
         this.updateTime = updateTime;
     }
 
+    public Integer getMonthlyAveSaleCount() {
+        return monthlyAveSaleCount;
+    }
 
+    public void setMonthlyAveSaleCount(Integer monthlyAveSaleCount) {
+        this.monthlyAveSaleCount = monthlyAveSaleCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", managerId=" + managerId +
+                ", storeName='" + storeName + '\'' +
+                ", description='" + description + '\'' +
+                ", logo='" + logo + '\'' +
+                ", fansNum=" + fansNum +
+                ", monthlyAveSaleCount=" + monthlyAveSaleCount +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

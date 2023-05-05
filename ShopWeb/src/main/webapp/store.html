@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="css/mall.css" type="text/css" />
+    <link rel="stylesheet" href="css/center.css" type="text/css" />
+
+    <title>店铺详情页</title>
+
+</head>
+<body>
+<div class="body_color_user">
+    <div class="mall_main">
+        <div class="wx_wrap">
+                <div class="person_top">
+                    <img class="top_bj" src="img/top_bj.jpg">
+                    <div class="per_con">
+                        <div class="user_photo">
+                            <img :src="store.logo">
+                            <span>店铺名：{{ store.storeName }}</span>
+                        </div>
+                        <div class="name_right">
+                            <p class="p1">简介：{{ store.description }}</p>
+                            <p class="p2">粉丝数量：{{ store.fansNum }}</p>
+                            <p class="p3">月均销量：{{ store.monthlyAveSaleCount }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            <ul class="menu_list1">
+                <li class="tiao"><a href="store_product.html">全部宝贝</a></li>
+                <li class="tiao"><a href="store_blog.html">店铺动态</a></li>
+                <li class="tiao"><a href="chat.html">客服</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="js/vue.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+
+<script>
+new Vue({
+        el: '#child_header',
+        data: {
+            store:{},
+        },
+    async created() {
+        const storeId = this.getStoreIdFromUrl();
+        const { data } = await axios.get(`store/selectById?id=${storeId}`);
+        this.store = data.data;
+    },
+    methods: {
+        // 从URL中获取店铺ID
+        getStoreIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        },
+    }
+    });
+</script>
+
+</body>
+</html>
