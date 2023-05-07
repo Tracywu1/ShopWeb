@@ -13,38 +13,51 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ServerEndpoint("/chat/")
+@ServerEndpoint("/chat")
 public class ChatEndpoint {
     private final UserService userService = new UserServiceImpl();
     private final ChatService chatService = new ChatServiceImpl();
 
-    // 存储店铺 ID 与对应的聊天室
+    /**
+     * 存储店铺 ID 与对应的聊天室
+     */
     private static Map<Integer, ChatRoom> storeChatRooms = new ConcurrentHashMap<>();
 
-    // 存储客服 ID 与对应的 WebSocket 连接
+    /**
+     * 存储客服 ID 与对应的 WebSocket 连接
+     */
     private static Map<Integer, ChatEndpoint> customerServiceConnections = new ConcurrentHashMap<>();
 
-    // 存储用户 ID 与对应的 WebSocket 连接
+    /**
+     * 存储用户 ID 与对应的 WebSocket 连接
+     */
     private static Map<Integer, ChatEndpoint> userConnections = new ConcurrentHashMap<>();
 
-    // 当前 WebSocket 连接的 session 对象
+    /**
+     * 当前 WebSocket 连接的 session 对象
+     */
     private Session session;
 
     public Session getSession() {
         return session;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    // 当前连接的用户类型，包括 customerService（客服）和 user（用户）
+    /**
+     * 当前连接的用户类型，包括 customerService（客服）和 user（用户）
+     */
     private Integer userType;
 
-    // 当前连接的用户 ID，包括客服 ID 和用户 ID
+    /**
+     * 当前连接的用户 ID，包括客服 ID 和用户 ID
+     */
     private Integer userId;
 
-    // 连接建立
+    /**
+     * 收到消息
+     * @param session
+     * @param config
+     * @throws Exception
+     */
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws Exception {
         this.session = session;
@@ -53,7 +66,6 @@ public class ChatEndpoint {
         Map<String, List<String>> params = session.getRequestParameterMap();
         userType = Integer.valueOf(params.get("userRole").get(0));
         userId = Integer.valueOf(params.get("userId").get(0));
-        Integer toUserId = Integer.valueOf(params.get("toUserId").get(0));
 
         // 根据用户类型添加连接到相应的 Map 中
         if (userType == 3) {
@@ -74,34 +86,23 @@ public class ChatEndpoint {
 
             // 将当前连接加入到聊天室中
             chatRoom.join(this);
-
-            List<Chat> chats = null;
-            if (userType == 3) {
-                // 获取客服与用户之间的聊天记录
-                chats = chatService.selectByFromUserIdAndToUserId(userId, toUserId);
-            } else if (userType == 1) {
-                // 获取用户与客服之间的聊天记录
-                chats = chatService.selectByFromUserIdAndToUserId(userId, toUserId);
-            }
-
-            // 发送聊天记录给客户端
-            for (Chat message : chats) {
-                String resultMessage = MessageUtils.getMessage(false,userService.getById(userId).getUsername(), message.getMessage());
-                session.getBasicRemote().sendText(resultMessage);
-            }
         }
     }
 
-    // 收到消息
+    /**
+     * 收到消息
+     * @param message
+     * @param session
+     */
     @OnMessage
     public void onMessage(String message, Session session) {
         // 解析消息内容
         try {
             ObjectMapper mapper =new ObjectMapper();
-            Message mess = mapper.readValue(message, Message.class);
-            Integer toUserId = mess.getToId();
-            String data = mess.getMessage();
-            String username = userService.getById(userId).getUsername();
+            Chat chat = mapper.readValue(message, Chat.class);
+            Integer toUserId = chat.getToUserId();
+            String data = chat.getMessage();
+            String username = chat.getFromUsername();
             String resultMessage = MessageUtils.getMessage(false, username, data);
 
             // 将消息转发给指定用户
@@ -121,7 +122,10 @@ public class ChatEndpoint {
         }
     }
 
-    // 连接关闭
+    /**
+     * 连接关闭
+     * @param session
+     */
     @OnClose
     public void onClose(Session session) {
         if (userType == 3) {

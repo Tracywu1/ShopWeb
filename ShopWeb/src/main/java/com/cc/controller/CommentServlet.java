@@ -28,7 +28,7 @@ public class CommentServlet extends BaseServlet {
 
         logger.debug("params:" + params);
 
-        //转为ProductApplication对象
+        //转为ProductApplication对象(要有creatorId)
         Comment comment = JSON.parseObject(params, Comment.class);
 
         logger.debug("Comment:"+comment);

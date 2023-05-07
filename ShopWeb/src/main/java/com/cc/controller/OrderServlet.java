@@ -32,9 +32,10 @@ public class OrderServlet extends BaseServlet {
         int productId = Integer.parseInt(request.getParameter("productId"));
         int count = Integer.parseInt(request.getParameter("count"));
         int addressId = Integer.parseInt(request.getParameter("addressId"));
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
 
         //调用service添加
-        String orderNo = orderService.create(productId,count,addressId);
+        String orderNo = orderService.create(productId,count,addressId,userId);
         orderService.pay(orderNo);
 
         Result result = Result.success(orderNo);
@@ -51,8 +52,9 @@ public class OrderServlet extends BaseServlet {
      */
     public void detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String orderNo = request.getParameter("orderNo");
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
 
-        OrderVO orderVO = orderService.detail(orderNo);
+        OrderVO orderVO = orderService.detail(orderNo,userId);
 
         Result result = Result.success(orderVO);
         response.setContentType("application/json;charset=UTF-8");
@@ -66,8 +68,9 @@ public class OrderServlet extends BaseServlet {
      * @throws Exception
      */
     public void listNotShipped(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
         //调用service查询
-        List<OrderVO> orderVOList = orderService.listNotShippedForCustomer();
+        List<OrderVO> orderVOList = orderService.listNotShippedForCustomer(userId);
 
         logger.debug("orderVOList:" + orderVOList.toString());
 
@@ -83,8 +86,9 @@ public class OrderServlet extends BaseServlet {
      * @throws Exception
      */
     public void listDelivered(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
         //调用service查询
-        List<OrderVO> orderVOList = orderService.listDeliveredForCustomer();
+        List<OrderVO> orderVOList = orderService.listDeliveredForCustomer(userId);
 
         logger.debug("orderVOList:" + orderVOList.toString());
 
@@ -100,8 +104,9 @@ public class OrderServlet extends BaseServlet {
      * @throws Exception
      */
     public void listReceived(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
         //调用service查询
-        List<OrderVO> orderVOList = orderService.listReceivedForCustomer();
+        List<OrderVO> orderVOList = orderService.listReceivedForCustomer(userId);
 
         logger.debug("orderVOList:" + orderVOList.toString());
 
@@ -117,8 +122,9 @@ public class OrderServlet extends BaseServlet {
      * @throws Exception
      */
     public void listAfterSalesService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
         //调用service查询
-        List<OrderVO> orderVOList = orderService.listAfterSalesServiceForCustomer();
+        List<OrderVO> orderVOList = orderService.listAfterSalesServiceForCustomer(userId);
 
         logger.debug("orderVOList:" + orderVOList.toString());
 

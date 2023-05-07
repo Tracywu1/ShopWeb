@@ -12,8 +12,8 @@ public class AddressServiceImpl implements AddressService {
     private final AddressDao addressDao = new AddressDaoImpl();
 
     @Override
-    public List<Address> getAddressList() throws Exception {
-        return addressDao.selectAllByUserId(LoginCheckFilter.currentUser.getId());
+    public List<Address> getAddressList(Integer userId) throws Exception {
+        return addressDao.selectAllByUserId(userId);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateDefault() throws Exception {
-        addressDao.updateDefault(LoginCheckFilter.currentUser.getId());
+    public void updateDefault(Integer userId) throws Exception {
+        addressDao.updateDefault(userId);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address selectDefault() throws Exception {
-        return addressDao.selectDefault(LoginCheckFilter.currentUser.getId());
+    public Address selectDefault(Integer userId) throws Exception {
+        return addressDao.selectDefault(userId);
     }
 }

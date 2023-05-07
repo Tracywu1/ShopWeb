@@ -23,7 +23,7 @@ public class AddressDaoImpl implements AddressDao {
             columnsBuilder.append("`id`,");
             valuesBuilder.append("?,");
         }
-        if (address.getUserId() == null) {
+        if (address.getUserId() != null) {
             columnsBuilder.append("`userId`,");
             valuesBuilder.append("?,");
         }
@@ -86,7 +86,7 @@ public class AddressDaoImpl implements AddressDao {
         if (address.getId() != null) {
             count++;
         }
-        if (address.getUserId() == null) {
+        if (address.getUserId() != null) {
             count++;
         }
         if (address.getReceiverName() != null && !address.getReceiverName().isEmpty()) {
@@ -128,8 +128,8 @@ public class AddressDaoImpl implements AddressDao {
             params[index] = address.getId();
             index++;
         }
-        if (address.getUserId() == null) {
-            params[index] = LoginCheckFilter.currentUser.getId();
+        if (address.getUserId() != null) {
+            params[index] = address.getUserId();
             index++;
         }
         if (address.getReceiverName() != null && !address.getReceiverName().isEmpty()) {

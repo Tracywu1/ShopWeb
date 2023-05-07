@@ -130,7 +130,8 @@ public class UserServlet extends BaseServlet {
      * @throws Exception
      */
     public void selectPersonalInfo(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        User user = userService.getById();
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
+        User user = userService.getById(userId);
         user.setPassword(null);
 
         Result result = Result.success(user);
@@ -318,7 +319,8 @@ public class UserServlet extends BaseServlet {
      * @throws Exception
      */
     public void listOfFollow(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        List<Subscribe> subscribeList = subscribeService.getAllByUserId();
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
+        List<Subscribe> subscribeList = subscribeService.getAllByUserId(userId);
 
         Result result = Result.success(subscribeList);
         response.setContentType("application/json;charset=UTF-8");
@@ -333,7 +335,8 @@ public class UserServlet extends BaseServlet {
      */
     public void follow(HttpServletRequest request,HttpServletResponse response) throws Exception {
         Integer storeId = Integer.valueOf(request.getParameter("id"));
-        subscribeService.add(storeId);
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
+        subscribeService.add(storeId,userId);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");

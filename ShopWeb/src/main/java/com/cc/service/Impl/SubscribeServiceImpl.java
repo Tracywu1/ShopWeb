@@ -1,19 +1,14 @@
 package com.cc.service.Impl;
 
-import com.cc.dao.CommentDao;
-import com.cc.dao.Impl.CommentDaoImpl;
 import com.cc.dao.Impl.StoreDaoImpl;
 import com.cc.dao.Impl.SubscribeDaoImpl;
 import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.StoreDao;
 import com.cc.dao.SubscribeDao;
 import com.cc.dao.UserDao;
-import com.cc.filter.LoginCheckFilter;
-import com.cc.po.Comment;
 import com.cc.po.Store;
 import com.cc.po.Subscribe;
 import com.cc.po.User;
-import com.cc.service.CommentService;
 import com.cc.service.SubscribeService;
 
 import java.util.List;
@@ -24,8 +19,8 @@ public class SubscribeServiceImpl implements SubscribeService {
     private final UserDao userDao = new UserDaoImpl();
 
     @Override
-    public List<Subscribe> getAllByUserId() throws Exception {
-        return subscribeDao.selectByUserId(LoginCheckFilter.currentUser.getId());
+    public List<Subscribe> getAllByUserId(Integer userId) throws Exception {
+        return subscribeDao.selectByUserId(userId);
     }
 
     @Override
@@ -34,9 +29,9 @@ public class SubscribeServiceImpl implements SubscribeService {
     }
 
     @Override
-    public void add(Integer storeId) throws Exception {
+    public void add(Integer storeId,Integer userId) throws Exception {
         Subscribe subscribe = new Subscribe();
-        subscribe.setUserId(LoginCheckFilter.currentUser.getId());
+        subscribe.setUserId(userId);
         subscribe.setStoreId(storeId);
         Store store = storeDao.selectStoreById(storeId);
         subscribe.setStoreName(store.getStoreName());
@@ -45,7 +40,7 @@ public class SubscribeServiceImpl implements SubscribeService {
         store.setFansNum(store.getFansNum()+1);
         storeDao.updateByIdSelective(store);
 
-        User user = userDao.selectById(LoginCheckFilter.currentUser.getId());
+        User user = userDao.selectById(userId);
         user.setFollowCount(user.getFollowCount()+1);
         userDao.updateByIdSelective(user);
     }

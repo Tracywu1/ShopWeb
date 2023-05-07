@@ -12,6 +12,7 @@ import javax.websocket.server.ServerEndpointConfig;
 import java.io.IOException;
 import java.net.URI;
 
+/*
 public class MyWebSocketInitializer implements ServletContextListener {
 
     @Override
@@ -22,15 +23,7 @@ public class MyWebSocketInitializer implements ServletContextListener {
         // 创建 WebSocketContainer 对象
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
 
-        ServerContainer serverContainer = (ServerContainer)container;
-
-        // 注册 WebSocket 配置类
-        ServerEndpointConfig chatEndpointConfig = ServerEndpointConfig.Builder.create(ChatEndpoint.class, "/chat").build();
-        try {
-            serverContainer.addEndpoint(chatEndpointConfig);
-        } catch (DeploymentException e) {
-            throw new RuntimeException(e);
-        }
+        ServerContainer serverContainer = (ServerContainer) servletContext.getAttribute("javax.websocket.server.ServerContainer");
 
         // 注册 MyWebSocketConfig 配置类
         ServerApplicationConfig serverApplicationConfig = new MyWebSocketConfig();
@@ -42,7 +35,7 @@ public class MyWebSocketInitializer implements ServletContextListener {
 
         // 启动 WebSocket
         try {
-            container.connectToServer(ChatEndpoint.class, URI.create("ws://localhost:8080/myEndpoint"));
+            container.connectToServer(ChatEndpoint.class, URI.create("ws://localhost:8080/chat"));
         } catch (DeploymentException | IOException e) {
             e.printStackTrace();
         }
@@ -54,3 +47,4 @@ public class MyWebSocketInitializer implements ServletContextListener {
     }
 
 }
+*/

@@ -7,11 +7,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
 public class MyWebSocketConfig implements ServerApplicationConfig {
 
     @Override
     public Set<ServerEndpointConfig> getEndpointConfigs(Set<Class<? extends Endpoint>> endpointClasses) {
-        Set<ServerEndpointConfig> result = new HashSet<>();
+        Set<ServerEndpointConfig> result = new HashSet<ServerEndpointConfig>();
 
         // 在这里添加所有需要暴露的 Endpoint
         result.add(ServerEndpointConfig.Builder.create(ChatEndpoint.class, "/chat").build());
@@ -25,4 +26,4 @@ public class MyWebSocketConfig implements ServerApplicationConfig {
         return Collections.emptySet();
     }
 
-}
+}*/

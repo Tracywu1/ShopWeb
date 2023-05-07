@@ -28,7 +28,7 @@ public class BlogServlet extends BaseServlet {
 
         logger.debug("params:" + params);
 
-        //转为ProductApplication对象
+        //转为ProductApplication对象(要有storeId)
         Blog blog = JSON.parseObject(params, Blog.class);
 
         logger.debug("Blog:"+blog);

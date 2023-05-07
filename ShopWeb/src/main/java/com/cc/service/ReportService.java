@@ -11,7 +11,7 @@ public interface ReportService {
      * @param report
      * @throws Exception
      */
-    void add(Report report)throws Exception;
+    void add(Report report,Integer userId)throws Exception;
 
     /**
      * 认同举报

@@ -34,8 +34,9 @@ public class CartServlet extends BaseServlet{
      * @throws Exception
      */
     public void list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int userId = Integer.parseInt(request.getParameter("userId"));
         //调用service查询
-        List<CartVO> cartVOS = cartService.list();
+        List<CartVO> cartVOS = cartService.list(userId);
 
         Result result = Result.success(cartVOS);
         response.setContentType("application/json;charset=UTF-8");
@@ -52,9 +53,10 @@ public class CartServlet extends BaseServlet{
         //接收购买数量和商品的id
         int count = Integer.parseInt(request.getParameter("count"));
         int productId = Integer.parseInt(request.getParameter("productId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
 
         //调用service更新数据
-        cartService.update(count,productId);
+        cartService.update(count,productId,userId);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -68,11 +70,11 @@ public class CartServlet extends BaseServlet{
      * @throws Exception
      */
     public void delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        //不能传入userId和cartId否则可以删除别人的购物车
         int productId = Integer.parseInt(request.getParameter("productId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
 
         //调用service删除
-        cartService.delete(productId);
+        cartService.delete(productId,userId);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -114,10 +116,11 @@ public class CartServlet extends BaseServlet{
      */
     public void add(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int productId = Integer.parseInt(request.getParameter("productId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
         int count = Integer.parseInt(request.getParameter("count"));
 
         //调用service添加
-        cartService.add(productId,count,);
+        cartService.add(productId,count,userId);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
@@ -131,17 +134,16 @@ public class CartServlet extends BaseServlet{
      * @throws Exception
      */
     public void createOrder(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
 
-        logger.debug(params);
-
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(params);
-        int[] ids = mapper.treeToValue(node, int[].class);
+        String idsStr = request.getParameter("ids");
+        int[] ids = Arrays.stream(idsStr.split(","))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
         logger.debug(Arrays.toString(ids));
 
-        String orderNo = orderService.createForCart(ids);
+        String orderNo = orderService.createForCart(ids,userId);
         orderService.pay(orderNo);
 
         Result result = Result.success(orderNo);
@@ -150,7 +152,8 @@ public class CartServlet extends BaseServlet{
     }
 
     public void count(HttpServletRequest request,HttpServletResponse response)throws Exception{
-        int count = cartService.selectCount();
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        int count = cartService.selectCount(userId);
 
         Result result = Result.success(count);
         response.setContentType("application/json;charset=UTF-8");

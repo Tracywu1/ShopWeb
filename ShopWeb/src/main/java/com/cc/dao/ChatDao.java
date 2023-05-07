@@ -20,4 +20,11 @@ public interface ChatDao {
      */
     List<Chat> selectByFromUserIdAndToUserId(Integer fromUserId, Integer toUserId)throws Exception;
 
+    /**
+     * 按照userId查询
+     * @param userId
+     * @return
+     */
+    List<Chat> selectByUserId(Integer userId) throws Exception;
+
 }

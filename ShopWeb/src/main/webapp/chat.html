@@ -2,423 +2,208 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>咨询</title>
-    <style>
-        {
-            margin: 0;padding: 0;
-            box-sizing: border-box;
-        }
-        body
-        {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(#009688 0%,#009688 130px,#d9dbd5 130px,#d9dbd5 100%)
-        }
-        .container
-        {
-            position: relative;
-            width: 1396px;
-            max-width: 100%;
-            height: calc( 100vh - 40px);
-            background:#fff;
-            box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06),0 2px 5px 0 rgba(0,0,0,0.06);
-            display: flex;
-        }
-        .container .leftSide
-        {
-            position: relative;
-            flex:30%;
-            background:#fff;
-            border-right: 1px solid rgba(0, 0, 0, 0.2);
-        }
-        .container .rightSide
-        {
-            position: relative;
-            flex: 70%;
-            background:#e5ddd5;
-        }
-        .container .rightSide::before
-        {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.06;
-        }
-        .header
-        {
-            position: relative;
-            width: 100%;
-            height: 60px;
-            background: #ededed;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 15px;
-        }
-        .userimg
-        {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            overflow: hidden;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .cover
-        {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .nav_icons li
-        {
-            display: flex;
-            list-style: none;
-            cursor: pointer;
-            color: #51585c;
-            font-size: 1.5em;
-            margin-left: 22px;
-        }
-        .search_chat div
-        {
-            width: 100%;
-        }
-        .search_chat div input
-        {
-            width:100%;
-            outline: none;
-            border: none;
-            background: #fff;
-            padding: 6px;
-            height: 38px;
-            border-radius: 30px;
-            font-size: 14px;
-            padding-left: 40px;
-        }
-        .search_chat div input::placeholder
-        {
-            color: #bbb;
-        }
-        .search_chat div img
-        {
-            position: absolute;
-            left: 30px;
-            top: 14px;
-            font-size: 1.5em;
-        }
-        .chatlist
-        {
-            position: relative;
-            height: calc(100%- 110px);
-            overflow-y: auto;
-        }
-        .chatlist .block
-        {
-            position: relative;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        }
-        .chatlist .block.active{
-            background: #ebebeb;
-        }
-        .chatlist .block:hover
-        {
-            background:#f5f5f5;
-        }
-        .chatlist .block .imgbx
-        {
-            position: relative;
-            min-width: 45px;
-            height: 45px;
-            overflow: hidden;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .chatlist .block .details
-        {
-            position: relative;
-            width: 100%;
-        }
-        .chatlist .block .details .listHead
-        {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        .chatlist .block .details .listHead h4
-        {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #111;
-        }
-        .chatlist .block .details .listHead .time
-        {
-            font-size: 0.75em;
-            color: #aaa;
-        }
-        .chatlist .block .details .listHead .time
-        {
-            color: #111;
-        }
 
-        .message_p
-        {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .message_p p
-        {
-            color: #aaa;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            font-size: 0.9em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .message_p b
-        {
-            background-color: red;
-            color: #fff;
-            min-width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.75em;
-        }
-        .imgText
-        {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .imgText h4
-        {
-            font-weight: 500;
-            line-height: 1.2em;
-            margin-left: 15px;
-        }
-        .imgText h4 span
-        {
-            font-size: 0.8em;
-            color: #555;
-        }
-        .chatBox
-        {
-            position: relative;
-            width: 100%;
-            height: calc(100%- 120px);
-            padding: 50px;
-            overflow-y: auto;
-        }
-        .message
-        {
-            position: relative;
-            display: flex;
-            width: 100%;
-            margin: 5px 0;
-        }
-        .message p
-        {
-            position: relative;
-            right: 0;
-            text-align: right;
-            max-width: 65%;
-            padding: 12px;
-            background: #dcf8c6;
-            border-radius: 10px;
-            font-size: 0.9em;
-        }
-        .message p::before
-        {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -12px;
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg,#dcf8c6 0%,#dcf8c6 50%,transparent 50%,transparent);
-        }
-        .message p span
-        {
-            display: block;
-            margin-top: 5px;
-            font-size: 0.85em;
-            opacity: 0.5;
-        }
-        .my_message
-        {
-            justify-content: flex-end;
-        }
-        .frnd_message
-        {
-            justify-content: flex-start;
-        }
-        .frnd_message p {
-            background: #87CEEB;
-            text-align: left;
-        }
-        .message.frnd_message p::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -12px;
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(225deg, #87CEEB 0%, #87CEEB 50%, transparent 50%, transparent);
-        }
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-        .chatbox_input
-        {
-            position: relative;
-            width: 100%;
-            height: 150px;
-            background: #f0f0f0;
-            padding: 15px;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .chatbox_input input
-        {
-            position: relative;
-            width: 90%;
+    #app {
+      display: flex;
+      height: 100vh;
+    }
 
-            margin: 0 20px;
-            padding: 10px 20px;
-            border: none;
-            outline: none;
-            border-radius: 30px;
-            font-size: 1em;
-        }
-    </style>
+    .chat-list {
+      width: 20%;
+      background-color: #f2f2f2;
+      overflow: auto;
+    }
+
+    .chat-list > div {
+      display: flex;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .chat-avatar {
+      margin-right: 10px;
+    }
+
+    .chat-avatar img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .chat-info {
+      flex-grow: 1;
+    }
+
+    .chat-name {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .chat-preview {
+      color: #888;
+    }
+
+    .chat-box {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      background-color: #f2f2f2;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .sent-message {
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      padding: 5px;
+      margin-bottom: 10px;
+      align-self: flex-end;
+    }
+
+    .received-message {
+      background-color: #bfbfbf;
+      border-radius: 5px;
+      padding: 5px;
+      margin-bottom: 10px;
+      align-self: flex-start;
+    }
+
+    .chat-input {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+
+    .chat-input input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+  </style>
 </head>
-
 <body>
 <div id="app">
-    <div class="container">
-        <div class="leftSide">
-            <!--header-->
-            <div class="header">
-                <div class="userimg">
-                    <img src="img/user_photo.jpg" class="cover">
-                </div>
-            </div>
-            <!--ChatList-->
-            <div class="chatlist" v-for="(customerService, index) in customerServices" :key="index">
-                <div class="block " :class="{ unread: customerService.unread }" @click="selectCustomerService(index)">
-                    <div class="imgbx">
-                        <img :src="customerService.img" class="cover">
-                    </div>
-                    <div class="details">
-                        <div class="listHead">
-                            <h4>{{ customerService.name }}</h4>
-                            <p class="time">{{ customerService.lastMessage.time }}</p>
-                        </div>
-                        <div class="message_p">
-                            <p>{{ customerService.lastMessage.text }}</p>
-                            <b v-if="customerService.unread">{{ customerService.unread }}</b>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="rightSide" v-if="selectedCustomerService">
-            <div class="header">
-                <div class="imgText">
-                    <div class="userimg">
-                        <img :src="selectedCustomerService.img" class="cover">
-                    </div>
-                    <h4>{{ selectedCustomerService.name }}</h4>
-                </div>
-            </div>
-            <!--chatbox-->
-            <div class="chatBox">
-                <div class="message" v-for="(message, index) in selectedCustomerService.messages" :key="index" :class="{ my_message: message.isMe, frnd_message: !message.isMe }">
-                    <p>{{ message.text }}<br><span>{{ message.time }}</span></p>
-                </div>
-            </div>
-
-            <!--chat input-->
-            <div class="chatbox_input">
-                <div>
-                    <input type="text" v-model="newMessage" @keydown.enter="sendMessage">
-                </div>
-            </div>
-        </div>
+  <div class="chat-list">
+    <div v-for="(chat, index) in chats" :key="index" @click="selectChat(chat)">
+      <div class="chat-avatar">
+        <img :src="chat.avatar" alt="Avatar">
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">{{chat.name}}</div>
+        <div class="chat-preview">{{chat.preview}}</div>
+      </div>
     </div>
+  </div>
+  <div class="chat-box">
+    <div class="chat-header">{{selectedChat.name}}</div>
+    <div class="chat-messages">
+      <div v-for="(message, index) in selectedChat.messages" :key="index" :class="{ 'sent-message': message.sender === 'me', 'received-message': message.sender !== 'me' }">
+        {{message.text}}
+      </div>
+    </div>
+    <div class="chat-input">
+      <input v-model="newMessage" @keydown.enter="sendMessage" placeholder="Type a message...">
+    </div>
+  </div>
 </div>
+
 
 <script src="js/vue.js"></script>
 <script src="js/axios-0.18.0.js"></script>
 
 <script>
-   new Vue({
-        el: '#app',
-        data: {
-            friends: [], // 存储客服列表
-            selectedFriend: null, // 存储当前选择的客服
-            newMessage: '' // 存储新消息
+  new Vue({
+    el: "#app",
+    data() {
+      return {
+        chats: [],
+        selectedChat: {
+          name: '',
+          messages: []
         },
-        created: function() {
-            // 在创建Vue实例时获取客服列表
-            axios.get('/api/friends')
-                .then(response => {
-                    this.friends = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-        methods: {
-            selectFriend: function(index) {
-                // 当用户选择朋友时，设置selectedFriend并获取聊天记录
-                this.selectedFriend = this.friends[index];
-                axios.get('/api/messages/' + this.selectedFriend.id)
-                    .then(response => {
-                        this.selectedFriend.messages = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            },
-            sendMessage: function() {
-                if (!this.newMessage) {
-                    return;
-                }
-                let message = {
-                    toName: this.selectedFriend.name,
-                    message: this.newMessage
-                };
-                axios.post('/api/messages', message)
-                    .then(response => {
-                        let newMessage = response.data;
-                        this.selectedFriend.messages.push(newMessage);
-                        this.newMessage = '';
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }
+        newMessage: '',
+        socket: null
+      }
+    },
+    mounted() {
+      // 建立 WebSocket 连接
+      this.socket = new WebSocket('ws://localhost:8080/chat');
+      this.socket.addEventListener('open', (event) => {
+        console.log('WebSocket connected.');
+      });
+      this.socket.addEventListener('message', (event) => {
+        console.log(`Received message: ${event.data}`);
+        const message = JSON.parse(event.data);
+        // 更新聊天记录
+        const chat = this.chats.find(c => c.id === message.chatId);
+        chat.messages.push(message);
+      })
+    },
+    async created() {
+      const userId = this.getUserIdFromUrl();
+      const { data } = await axios.get(`chat/list?userId=${userId}`);
+      this.chats = data.data;
+    },
+    methods: {
+      // 从URL中获取用户ID
+      getUserIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('userId');
+      },
+
+      selectChat(chat) {
+        this.selectedChat.name = chat.storeName;
+        this.getChatHistory(chat.fromUserId,chat.toUserId);
+      },
+
+      getChatHistory(fromUserId,toUserId) {
+        axios.get(`chat/history?fromUserId=${fromUserId}&toUserId=${toUserId}`).then(response => {
+          this.selectedChat.messages = response.data.data;
+        }).catch(error => {
+          console.error(error);
+        });
+      },
+
+      sendMessage() {
+        if (this.newMessage === '') {
+          return;
         }
-    })
+
+        const message = {
+          chatId: this.selectedChat.id,
+          text: this.newMessage
+        };
+
+        this.socket.send(JSON.stringify(message));
+        this.socket.addEventListener('message', (event) => {
+          console.log(`Received response: ${event.data}`);
+          // 发送消息后等待服务器响应后再关闭 WebSocket 连接
+          this.socket.close();
+        });
+      },
+    }
+  })
 </script>
+
 </body>
 </html>

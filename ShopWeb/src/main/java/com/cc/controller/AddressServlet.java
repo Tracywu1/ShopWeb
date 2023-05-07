@@ -24,7 +24,7 @@ public class AddressServlet extends BaseServlet{
         String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         logger.debug(params);
 
-        //转为Address对象
+        //转为Address对象(要有userId)
         Address address = JSON.parseObject(params, Address.class);
 
         logger.debug("address:"+address);
@@ -37,7 +37,8 @@ public class AddressServlet extends BaseServlet{
     }
 
     public void getAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<Address> addressList = addressService.getAddressList();
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        List<Address> addressList = addressService.getAddressList(userId);
 
         Result result = Result.success(addressList);
         response.setContentType("application/json;charset=UTF-8");
@@ -48,10 +49,11 @@ public class AddressServlet extends BaseServlet{
         String params = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         logger.debug(params);
 
-        //转为Address对象
+        //转为Address对象(要有userId)
         Address address = JSON.parseObject(params, Address.class);
 
-        addressService.updateDefault();
+        Integer userId = address.getUserId();
+        addressService.updateDefault(userId);
 
         address.setIsDefault(1);
         addressService.updateDefaultById(address);

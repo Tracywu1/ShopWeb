@@ -28,7 +28,7 @@ public class ReportDaoImpl implements ReportDao {
             columnsBuilder.append("`storeId`,");
             valuesBuilder.append("?,");
         }
-        if(report.getUsername()==null){
+        if(report.getUsername()!=null){
             columnsBuilder.append("`username`,");
             valuesBuilder.append("?,");
         }
@@ -67,7 +67,7 @@ public class ReportDaoImpl implements ReportDao {
         if (report.getUserId() != null) {
             count++;
         }
-        if(report.getUsername() ==null && report.getUsername().isEmpty()){
+        if(report.getUsername() !=null && !report.getUsername().isEmpty()){
             count++;
         }
         if (report.getContent() != null && !report.getContent().isEmpty()) {
@@ -92,8 +92,8 @@ public class ReportDaoImpl implements ReportDao {
             params[index] = report.getUserId();
             index++;
         }
-        if(report.getUsername()==null){
-            params[index] = LoginCheckFilter.currentUser.getUsername();
+        if(report.getUsername()!=null){
+            params[index] = report.getUsername();
         }
         if (report.getContent() != null && !report.getContent().isEmpty()) {
             params[index] = report.getContent();

@@ -125,4 +125,22 @@ public class ChatDaoImpl implements ChatDao {
 
         return chatList;
     }
+
+    @Override
+    public List<Chat> selectByUserId(Integer userId) throws Exception {
+        String sql1 ="select * from tb_chat where fromUserId = ?";
+        List<Chat> chatList1 = CRUDUtils.queryMore(sql1,Chat.class,userId);
+        logger.debug("chatList1:"+chatList1);
+        String sql2 ="select * from tb_chat where toUserId = ?";
+        List<Chat> chatList2 = CRUDUtils.queryMore(sql2,Chat.class,userId);
+        logger.debug("chatList2:"+chatList2);
+        List<Chat> chatList = new ArrayList<>();
+        chatList.addAll(chatList1);
+        chatList.addAll(chatList2);
+
+        //按发送时间的先后排序
+        chatList.sort(Comparator.comparing(Chat::getSendTime));
+
+        return chatList;
+    }
 }

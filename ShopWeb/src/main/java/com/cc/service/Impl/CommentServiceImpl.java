@@ -2,6 +2,8 @@ package com.cc.service.Impl;
 
 import com.cc.dao.CommentDao;
 import com.cc.dao.Impl.CommentDaoImpl;
+import com.cc.dao.Impl.UserDaoImpl;
+import com.cc.dao.UserDao;
 import com.cc.filter.LoginCheckFilter;
 import com.cc.po.Comment;
 import com.cc.service.CommentService;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class CommentServiceImpl implements CommentService {
     private final CommentDao commentDao = new CommentDaoImpl();
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
     public List<Comment> getAllByProductId(Integer productId) throws Exception {
@@ -18,8 +21,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void add(Comment comment) throws Exception {
-        comment.setCreatorId(LoginCheckFilter.currentUser.getId());
-        comment.setImage(LoginCheckFilter.currentUser.getImage());
+        comment.setImage(userDao.selectById(comment.getCreatorId()).getImage());
         commentDao.insertSelective(comment);
     }
 

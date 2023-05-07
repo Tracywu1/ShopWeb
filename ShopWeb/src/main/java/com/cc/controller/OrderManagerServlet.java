@@ -45,7 +45,8 @@ public class OrderManagerServlet {
      * @throws Exception
      */
     public void selectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<OrderVO> orderVOList = orderService.listForManager();
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
+        List<OrderVO> orderVOList = orderService.listForManager(userId);
 
         Result result = Result.success(orderVOList);
         response.setContentType("application/json;charset=UTF-8");
@@ -64,6 +65,7 @@ public class OrderManagerServlet {
         // 接收 当前页码 和 每页展示条数    url?currentPage=1&pageSize=5
         String _currentPage = request.getParameter("currentPage");
         String _pageSize = request.getParameter("pageSize");
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
 
         int currentPage = Integer.parseInt(_currentPage);
         int pageSize = Integer.parseInt(_pageSize);
@@ -72,7 +74,7 @@ public class OrderManagerServlet {
         logger.debug("pageSize" + pageSize);
 
         // 调用service查询
-        PageBean<OrderVO> pageBean = orderService.selectByPage(currentPage, pageSize);
+        PageBean<OrderVO> pageBean = orderService.selectByPage(currentPage, pageSize,userId);
 
         //响应成功标识
         Result result = Result.success(pageBean);
@@ -92,6 +94,7 @@ public class OrderManagerServlet {
         // 接收 当前页码 和 每页展示条数    url?currentPage=1&pageSize=5
         String _currentPage = request.getParameter("currentPage");
         String _pageSize = request.getParameter("pageSize");
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
 
         int currentPage = Integer.parseInt(_currentPage);
         int pageSize = Integer.parseInt(_pageSize);
@@ -104,7 +107,7 @@ public class OrderManagerServlet {
         logger.debug("storeName:" + OrderNo);
 
         // 调用service查询
-        PageBean<OrderVO> pageBean = orderService.selectByPageAndCondition(currentPage, pageSize, OrderNo);
+        PageBean<OrderVO> pageBean = orderService.selectByPageAndCondition(currentPage, pageSize, OrderNo,userId);
 
         //响应成功标识
         Result result = Result.success(pageBean);

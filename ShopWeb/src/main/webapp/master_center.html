@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网站管理员的个人中心</title>
+  <link rel="stylesheet" href="css/mall.css" type="text/css" />
+  <link rel="stylesheet" href="css/center.css" type="text/css" />
+</head>
+<body><div class="body_color_user">
+  <div class="mall_main">
+    <div class="wx_wrap">
+      <a href="user_info.html">
+        <div class="person_top">
+          <img class="top_bj" src="img/top_bj.jpg">
+          <div class="per_con">
+            <div class="user_photo">
+              <img :src="userPhoto">
+              <span>昵称：{{ nickname }}</span>
+            </div>
+            <div class="name_right">
+              <p class="p1">用户名：{{ username }}</p>
+              <p class="p2">关注：{{ followCount }}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <ul class="menu_list1">
+        <li class="tiao"><a href="master_product.html">商品管理</a></li>
+        <li class="tiao"><a href="master_store.html">店铺申请管理</a></li>
+        <li class="tiao"><a href="master_report.html">举报信息管理</a></li>
+        <li class="tiao"><a href="master_comment.html">评论管理</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="js/vue.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+
+<script>
+  const app = new Vue({
+    el: '#child_header',
+    data: {
+      userPhoto: '',
+      nickname: '',
+      username: '',
+      followCount: 0,
+    },
+    mounted() {
+      this.getUserInfo();
+    },
+    methods: {
+      getUserInfo() {
+        axios.get('user/selectPersonalInfo').then(response => {
+          const {data} = response;
+          this.userPhoto = data.data.data.image;
+          this.nickname = data.data.data.nickname;
+          this.username = data.data.data.username;
+          this.followCount = data.data.data.followCount;
+        }).catch(error => {
+          console.log(error);
+        });
+      },
+    }
+  });
+</script>
+
+</body>
+</html>

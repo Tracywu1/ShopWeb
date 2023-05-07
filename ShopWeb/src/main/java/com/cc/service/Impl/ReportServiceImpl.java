@@ -3,8 +3,10 @@ package com.cc.service.Impl;
 import com.cc.common.Constants;
 import com.cc.dao.Impl.ReportDaoImpl;
 import com.cc.dao.Impl.StoreApplicationDaoImpl;
+import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.ReportDao;
 import com.cc.dao.StoreApplicationDao;
+import com.cc.dao.UserDao;
 import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
 import com.cc.po.Report;
@@ -16,9 +18,12 @@ import java.util.List;
 
 public class ReportServiceImpl implements ReportService {
     private final ReportDao reportDao = new ReportDaoImpl();
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
-    public void add(Report report) throws Exception {
+    public void add(Report report,Integer userId) throws Exception {
+        String username = userDao.selectById(userId).getUsername();
+        report.setUsername(username);
         reportDao.insertSelective(report);
     }
 

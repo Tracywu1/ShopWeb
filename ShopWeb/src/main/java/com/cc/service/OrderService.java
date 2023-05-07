@@ -11,38 +11,38 @@ public interface OrderService {
      * 店铺管理员的订单列表
      * @return
      */
-    List<OrderVO> listForManager() throws Exception;
+    List<OrderVO> listForManager(Integer userId) throws Exception;
 
     /**
      * 用户的未发货订单列表
      * @return
      */
-    List<OrderVO> listNotShippedForCustomer() throws Exception;
+    List<OrderVO> listNotShippedForCustomer(Integer userId) throws Exception;
 
     /**
      * 用户的已发货订单列表
      * @return
      */
-    List<OrderVO> listDeliveredForCustomer() throws Exception;
+    List<OrderVO> listDeliveredForCustomer(Integer userId) throws Exception;
 
     /**
      * 用户的已收货订单列表
      * @return
      */
-    List<OrderVO> listReceivedForCustomer() throws Exception;
+    List<OrderVO> listReceivedForCustomer(Integer userId) throws Exception;
 
     /**
      * 用户的售后订单列表
      * @return
      */
-    List<OrderVO> listAfterSalesServiceForCustomer() throws Exception;
+    List<OrderVO> listAfterSalesServiceForCustomer(Integer userId) throws Exception;
 
     /**
      * 订单详情
      * @param orderNo
      * @return
      */
-    OrderVO detail(String orderNo) throws Exception;
+    OrderVO detail(String orderNo,Integer userId) throws Exception;
 
     /**
      * 为购物车中勾选的商品创建订单
@@ -50,14 +50,14 @@ public interface OrderService {
      * @return
      * @throws Exception
      */
-    String createForCart(int[] ids) throws Exception;
+    String createForCart(int[] ids,Integer userId) throws Exception;
 
     /**
      * 为立即购买的商品创建订单
      * @return
      * @throws Exception
      */
-    String create(Integer productId,Integer count,Integer addressId)throws Exception;
+    String create(Integer productId,Integer count,Integer addressId,Integer userId)throws Exception;
 
     /**
      * 修改商品信息
@@ -71,7 +71,7 @@ public interface OrderService {
      * @param pageSize   每页展示条数
      * @return
      */
-    PageBean<OrderVO> selectByPage(int currentPage, int pageSize) throws Exception;
+    PageBean<OrderVO> selectByPage(int currentPage, int pageSize,Integer storeId) throws Exception;
 
     /**
      * 分页条件查询
@@ -80,7 +80,7 @@ public interface OrderService {
      * @param orderNo
      * @return
      */
-    PageBean<OrderVO>  selectByPageAndCondition(int currentPage,int pageSize,String orderNo) throws Exception;
+    PageBean<OrderVO>  selectByPageAndCondition(int currentPage,int pageSize,String orderNo,Integer storeId) throws Exception;
 
     /**
      * 发货

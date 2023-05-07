@@ -10,7 +10,7 @@ public interface AddressService {
      * @return
      * @throws Exception
      */
-    List<Address> getAddressList() throws Exception;
+    List<Address> getAddressList(Integer userId) throws Exception;
 
     /**
      * 根据id获得收货地址
@@ -31,7 +31,7 @@ public interface AddressService {
      * 将该用户所有地址的isDefault更新为0
      * @throws Exception
      */
-    void updateDefault()throws Exception;
+    void updateDefault(Integer userId)throws Exception;
 
     /**
      * 将当前的设置的默认地址的is_default设置为1
@@ -43,5 +43,5 @@ public interface AddressService {
      * @return
      * @throws Exception
      */
-    Address selectDefault()throws Exception;
+    Address selectDefault(Integer userId)throws Exception;
 }

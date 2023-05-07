@@ -22,7 +22,6 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void add(Blog blog) throws Exception {
-        blog.setStoreId(LoginCheckFilter.currentUser.getStoreId());
         blogDao.insertSelective(blog);
     }
 

@@ -10,7 +10,7 @@ public interface SubscribeService {
      * 查询某一用户的关注列表
      * @return
      */
-    List<Subscribe> getAllByUserId() throws Exception;
+    List<Subscribe> getAllByUserId(Integer userId) throws Exception;
 
     /**
      * 根据id查询
@@ -23,7 +23,7 @@ public interface SubscribeService {
     /**
      * 关注
      */
-    void add(Integer storeId) throws Exception;
+    void add(Integer storeId,Integer userId) throws Exception;
 
     /**
      * 取消关注
