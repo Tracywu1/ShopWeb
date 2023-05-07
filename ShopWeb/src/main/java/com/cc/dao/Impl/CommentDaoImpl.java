@@ -54,10 +54,6 @@ public class CommentDaoImpl implements CommentDao {
             columnsBuilder.append("`nickName`,");
             valuesBuilder.append("?,");
         }
-        if (comment.getImage()!=null){
-            columnsBuilder.append("`image`,");
-            valuesBuilder.append("?,");
-        }
         if (comment.getContent() != null) {
             columnsBuilder.append("`content`,");
             valuesBuilder.append("?,");
@@ -95,9 +91,6 @@ public class CommentDaoImpl implements CommentDao {
         if (comment.getNickName() != null &&!comment.getNickName().isEmpty()){
             count++;
         }
-        if (comment.getImage() != null && !comment.getImage().isEmpty()){
-            count++;
-        }
         if (comment.getContent() != null && !comment.getContent().isEmpty()) {
             count++;
         }
@@ -123,10 +116,6 @@ public class CommentDaoImpl implements CommentDao {
         }
         if (comment.getNickName() != null && !comment.getNickName().isEmpty()){
             params[index] = comment.getNickName();
-            index++;
-        }
-        if (comment.getImage() != null && !comment.getImage().isEmpty()){
-            params[index] = comment.getImage();
             index++;
         }
         if (comment.getContent() != null && !comment.getContent().isEmpty()) {
