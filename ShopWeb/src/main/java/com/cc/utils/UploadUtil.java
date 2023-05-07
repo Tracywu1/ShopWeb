@@ -21,8 +21,8 @@ public class UploadUtil {
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + suffixName;
 
-        String accessKeyId = "AKIDokdJkwsXxKRLxJRO5rUs0sV7TaS6Vn8H";
-        String accessKeySecret = "zjKisqmlV3OWidHfnhNvDEySgBPL0QaU";
+        String accessKeyId = "*";
+        String accessKeySecret = "*";
         COSCredentials cred = new BasicCOSCredentials(accessKeyId, accessKeySecret);
         //COS客户端对象
         COSClient cosClient = new COSClient(cred, new ClientConfig(new Region("ap-guangzhou")));
