@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="css/mall.css" type="text/css" />
+        <link rel="stylesheet" href="css/center.css" type="text/css" />
+
+        <title>用户个人中心</title>
+
+    </head>
+    <body>
+        <div class="body_color_user">
+            <div class="mall_main">
+                <div class="wx_wrap">
+                    <a href="user_info.html">
+                        <div class="person_top">
+                            <img class="top_bj" src="img/top_bj.jpg">
+                            <div class="per_con">
+                                <div class="user_photo">
+                                    <img :src="userPhoto">
+                                    <span>昵称：{{ nickname }}</span>
+                                </div>
+                                <div class="name_right">
+                                    <p class="p1">用户名：{{ username }}</p>
+                                    <p class="p2">关注：{{ followCount }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <ul class="menu_list1">
+                        <li class="tiao"><a href="user_my_follow.html">我的关注</a></li>
+                        <li class="tiao"><a href="user_order_list.html">我的订单</a></li>
+                        <li class="tiao"><a href="user_address_list.html">地址管理</a></li>
+                        <li class="tiao"><a href="user_report.html">举报</a></li>
+                    </ul>
+                    <ul class="menu_list2">
+                        <li class="tiao"><a href="user_my_report.html">我的举报</a></li>
+                        <li class="tiao"><a href="user_account_security.html">账户安全</a></li>
+                        <li class="tiao"><a href="user_site.html">设置</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    <script src="js/vue.js"></script>
+    <script src="js/axios-0.18.0.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#child_header',
+            data: {
+                userPhoto: '',
+                nickname: '',
+                username: '',
+                followCount: 0,
+                cartCount: 0
+            },
+            mounted() {
+                this.getUserInfo();
+                this.getCartCount();
+            },
+            methods: {
+                getUserInfo() {
+                    axios.get('user/selectPersonalInfo').then(response => {
+                        const { data } = response;
+                        this.userPhoto = data.data.data.image;
+                        this.nickname = data.data.data.nickname;
+                        this.username = data.data.data.username;
+                        this.followCount = data.data.data.followCount;
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                },
+                //获得购物车项的数量
+                getCartCount() {
+                    axios.get('cart/count').then(response => {
+                        this.cartCount = response.data.data.count;
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                },
+            }
+        });
+    </script>
+    
+    `</body>
+</html>

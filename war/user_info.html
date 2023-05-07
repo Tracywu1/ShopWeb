@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>个人信息</title>
+    <link type="text/css" rel="stylesheet" href="css/mall.css"/>
+</head>
+<body class="body_color">
+<div id="app">
+    <div id="child_header">
+        <div class="goback"><a href="javascript:history.back(-1)"><i></i></a></div>
+        <div class="current_location"><span>个人信息</span></div>
+        <div class="next_operate"><a href="#" @click.prevent="saveUserInfo"><span>保存</span></a></div>
+    </div>
+    <div class="user_info">
+        <ul>
+            <li><span>头像</span><img class="info_img1" :src="avatar"></li>
+            <li><span>用户名</span><input class="info_input" type="text" v-model="username">
+            <li><span>昵称</span><input class="info_input" type="text" v-model="nickname"></li>
+            <li><span>电话号码</span><input class="info_input" type="text" v-model="phoneNum"></li>
+            <li><span>邮箱地址</span><input class="info_input" type="text" v-model="email"></li>
+            <li><span>地址</span><input class="info_input" type="text" v-model="address"></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            user:{
+                image: '',
+                username: '',
+                nickname: '',
+                phoneNum:'',
+                email:'',
+                address: ''
+            }
+        },
+        mounted() {
+            this.getUserInfo();
+        },
+        methods: {
+            getUserInfo() {
+                axios.get('/api/user') // 假设后端API为/api/user
+                    .then(response => {
+                        this.user.image = response.data.data.image;
+                        this.user.username = response.data.data.username;
+                        this.user.nickname = response.data.data.nickname;
+                        this.user.address = response.data.data.address;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            saveUserInfo() {
+                axios.put('/api/user', this.user) // 假设后端API为/api/user
+                    .then(response => {
+                        this.getUserInfo();
+                        console.log(response);
+                        alert("保存成功");
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert("保存失败");
+                    });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

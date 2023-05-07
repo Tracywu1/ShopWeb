@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>咨询</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #app {
+      display: flex;
+      height: 100vh;
+    }
+
+    .chat-list {
+      width: 20%;
+      background-color: #f2f2f2;
+      overflow: auto;
+    }
+
+    .chat-list > div {
+      display: flex;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .chat-avatar {
+      margin-right: 10px;
+    }
+
+    .chat-avatar img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .chat-info {
+      flex-grow: 1;
+    }
+
+    .chat-name {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .chat-preview {
+      color: #888;
+    }
+
+    .chat-box {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      background-color: #f2f2f2;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .sent-message {
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      padding: 5px;
+      margin-bottom: 10px;
+      align-self: flex-end;
+    }
+
+    .received-message {
+      background-color: #bfbfbf;
+      border-radius: 5px;
+      padding: 5px;
+      margin-bottom: 10px;
+      align-self: flex-start;
+    }
+
+    .chat-input {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+
+    .chat-input input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="chat-list">
+    <div v-for="(chat, index) in chats" :key="index" @click="selectChat(chat)">
+      <div class="chat-avatar">
+        <img :src="chat.avatar" alt="Avatar">
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">{{chat.name}}</div>
+        <div class="chat-preview">{{chat.preview}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="chat-box">
+    <div class="chat-header">{{selectedChat.name}}</div>
+    <div class="chat-messages">
+      <div v-for="(message, index) in selectedChat.messages" :key="index" :class="{ 'sent-message': message.sender === 'me', 'received-message': message.sender !== 'me' }">
+        {{message.text}}
+      </div>
+    </div>
+    <div class="chat-input">
+      <input v-model="newMessage" @keydown.enter="sendMessage" placeholder="Type a message...">
+    </div>
+  </div>
+</div>
+
+
+<script src="js/vue.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+
+<script>
+  new Vue({
+    el: "#app",
+    data() {
+      return {
+        chats: [],
+        selectedChat: {
+          name: '',
+          messages: []
+        },
+        newMessage: '',
+        socket: null
+      }
+    },
+    mounted() {
+      // 建立 WebSocket 连接
+      this.socket = new WebSocket('ws://localhost:8080/chat');
+      this.socket.addEventListener('open', (event) => {
+        console.log('WebSocket connected.');
+      });
+      this.socket.addEventListener('message', (event) => {
+        console.log(`Received message: ${event.data}`);
+        const message = JSON.parse(event.data);
+        // 更新聊天记录
+        const chat = this.chats.find(c => c.id === message.chatId);
+        chat.messages.push(message);
+      })
+    },
+    async created() {
+      const userId = this.getUserIdFromUrl();
+      const { data } = await axios.get(`chat/list?userId=${userId}`);
+      this.chats = data.data;
+    },
+    methods: {
+      // 从URL中获取用户ID
+      getUserIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('userId');
+      },
+
+      selectChat(chat) {
+        this.selectedChat.name = chat.storeName;
+        this.getChatHistory(chat.fromUserId,chat.toUserId);
+      },
+
+      getChatHistory(fromUserId,toUserId) {
+        axios.get(`chat/history?fromUserId=${fromUserId}&toUserId=${toUserId}`).then(response => {
+          this.selectedChat.messages = response.data.data;
+        }).catch(error => {
+          console.error(error);
+        });
+      },
+
+      sendMessage() {
+        if (this.newMessage === '') {
+          return;
+        }
+
+        const message = {
+          chatId: this.selectedChat.id,
+          text: this.newMessage
+        };
+
+        this.socket.send(JSON.stringify(message));
+        this.socket.addEventListener('message', (event) => {
+          console.log(`Received response: ${event.data}`);
+          // 发送消息后等待服务器响应后再关闭 WebSocket 连接
+          this.socket.close();
+        });
+      },
+    }
+  })
+</script>
+
+</body>
+</html>

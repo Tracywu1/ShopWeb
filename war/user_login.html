@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link href="css/login.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="app" style="height: 350px">
+    <form @submit.prevent="login">
+        <h1 id="loginMsg">LOGIN IN</h1>
+        <p>Username:<input id="username" name="username" type="text" v-model="user.username"></p>
+        <p>Password:<input id="password" name="password" type="password" placeholder="不能为标点或文字(长度在6-10)"
+                           v-model="user.password"></p>
+        <p>Remember:<input id="remember" name="remember" type="checkbox" v-model="remember"></p>
+        <div id="subDiv">
+            <input type="submit" class="button" value="login up">
+            <input type="reset" class="button" value="reset">&nbsp;&nbsp;&nbsp;
+            <a href="user_register.html">没有账号？</a>
+        </div>
+    </form>
+</div>
+
+<script src="js/vue.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            user: {
+                username: '',
+                password: '',
+            },
+            login_msg: '',
+            remember: false
+        },
+        methods: {
+            login() {
+                var rexName = /^[a-zA-Z]{3,6}$/;
+                var rexPwd = /^\w{6,10}$/;
+                if (!rexName.test(this.user.username.trim()) || !rexPwd.test(this.user.password.trim())) {
+                    alert("用户名或密码格式错误");
+                    return false;
+                }
+
+                axios({
+                    method: 'post',
+                    url: 'user/login',
+                    params: {
+                        username: this.user.username,
+                        password: this.user.password,
+                        remember: this.remember
+                    }
+                }).then(function (response) {
+                    if (response.data.code === 10000) {
+                        alert("登陆成功");
+
+                        // Store username and password in cookie or local storage if remember is checked
+                        if (this.remember) {
+                            localStorage.setItem('username', this.user.username);
+                            localStorage.setItem('password', this.user.password);
+                        } else {
+                            localStorage.removeItem('username');
+                            localStorage.removeItem('password');
+                        }
+
+                        location.href = "homepage.html"
+                    } else if (response.data.msg === '输入错误已超过三次，请在一分钟后重试') {
+                        alert(response.data.msg + '，请60秒后再次输入用户名及密码进行登录验证');
+                        // Disable username and password inputs for 1 minute
+                        document.getElementById('username').disabled = true;
+                        document.getElementById('password').disabled = true;
+                        setTimeout(function () {
+                            document.getElementById('username').disabled = false;
+                            document.getElementById('password').disabled = false;
+                        }, 60000); // 60 seconds
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                    alert(error.response.data.msg);
+                });
+            }
+        },
+        mounted() {
+            // Load saved username and password from local storage
+            if (localStorage.getItem('username') && localStorage.getItem('password')) {
+                this.user.username = localStorage.getItem('username');
+                this.user.password = localStorage.getItem('password');
+                this.remember = true;
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>
