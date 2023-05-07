@@ -50,7 +50,7 @@ public class Product {
      */
     private Timestamp updateTime;
     /**
-     * 评论列表
+     * 评论列表(也不在数据库内)
      */
     private List<Comment> commentList;
 

@@ -102,8 +102,8 @@ public class ChatEndpoint {
             Chat chat = mapper.readValue(message, Chat.class);
             Integer toUserId = chat.getToUserId();
             String data = chat.getMessage();
-            String username = chat.getFromUsername();
-            String resultMessage = MessageUtils.getMessage(false, username, data);
+            String nickname = chat.getFromNickname();
+            String resultMessage = MessageUtils.getMessage(false, nickname, data);
 
             // 将消息转发给指定用户
             if (userType == 3) {

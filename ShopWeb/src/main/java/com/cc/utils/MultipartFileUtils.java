@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * @author 32119
+ */
 public class MultipartFileUtils {
 
     public static MultipartFile parseMultipartFile(HttpServletRequest request, String paramName) throws IOException, ServletException {
@@ -24,7 +27,6 @@ public class MultipartFileUtils {
 
         String name = null;
         String originalFilename = null;
-        String contentType = null;
         for (String part : contentDispositionHeaderParts) {
             if (part.trim().startsWith("name=")) {
                 name = part.substring(part.indexOf('=') + 1).trim().replace("\"", "");
@@ -34,7 +36,7 @@ public class MultipartFileUtils {
         }
 
         // Extract the content type of the file from the Content-Type header
-        contentType = filePart.getContentType();
+        String contentType = filePart.getContentType();
 
         // Extract the size and input stream of the file from the part
         long size = filePart.getSize();

@@ -31,8 +31,6 @@ public class Cart {
      */
     private Timestamp updateTime;
 
-    private List<Product> productList;
-
     public Integer getId() {
         return id;
     }
@@ -65,14 +63,6 @@ public class Cart {
         this.count = count;
     }
 
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -98,7 +88,6 @@ public class Cart {
                 ", count=" + count +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", productList=" + productList +
                 '}';
     }
 }

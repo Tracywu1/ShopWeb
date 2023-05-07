@@ -1,11 +1,20 @@
 package com.cc.po;
 
 public class ResultMessage {
-    private boolean isSystem;//判断是不是系统消息
+    /**
+     *判断是不是系统消息
+     */
+    private boolean isSystem;
 
-    private String fromName;//若为系统消息则为null,不然则为发送给的用户的用户名
+    /**
+     * 若为系统消息则为null,不然则为发送给的用户的用户名
+     */
+    private String fromName;
 
-    private Object message;//如果使系统消息就是数组
+    /**
+     * 如果是系统消息就是数组
+     */
+    private Object message;
 
     public boolean isSystem() {
         return isSystem;

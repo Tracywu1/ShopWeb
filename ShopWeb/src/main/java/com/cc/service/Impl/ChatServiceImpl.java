@@ -19,8 +19,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void insertSelective(Chat chat) throws Exception {
-        chat.setFromUsername(userDao.selectById(chat.getFromUserId()).getUsername());
-        chat.setToUsername(userDao.selectById(chat.getToUserId()).getUsername());
+        chat.setFromNickname(userDao.selectById(chat.getFromUserId()).getUsername());
+        chat.setToNickname(userDao.selectById(chat.getToUserId()).getUsername());
         chatDao.insertSelective(chat);
     }
 

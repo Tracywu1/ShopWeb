@@ -21,7 +21,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void add(Comment comment) throws Exception {
-        comment.setImage(userDao.selectById(comment.getCreatorId()).getImage());
         commentDao.insertSelective(comment);
     }
 

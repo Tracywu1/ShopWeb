@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class ChatDaoImpl implements ChatDao {
             columnsBuilder.append("`fromUserId`,");
             valuesBuilder.append("?,");
         }
-        if (chat.getFromUsername() != null) {
+        if (chat.getFromNickname() != null) {
             columnsBuilder.append("`fromUsername`,");
             valuesBuilder.append("?,");
         }
@@ -32,7 +31,7 @@ public class ChatDaoImpl implements ChatDao {
             columnsBuilder.append("`toUserId`,");
             valuesBuilder.append("?,");
         }
-        if (chat.getToUsername() != null) {
+        if (chat.getToNickname() != null) {
             columnsBuilder.append("`toUsername`,");
             valuesBuilder.append("?,");
         }
@@ -60,13 +59,13 @@ public class ChatDaoImpl implements ChatDao {
         if (chat.getFromUserId() != null) {
             count++;
         }
-        if (chat.getFromUsername() != null && !chat.getFromUsername().isEmpty()) {
+        if (chat.getFromNickname() != null && !chat.getFromNickname().isEmpty()) {
             count++;
         }
         if (chat.getToUserId() != null) {
             count++;
         }
-        if (chat.getToUsername() != null && !chat.getToUsername().isEmpty()) {
+        if (chat.getToNickname() != null && !chat.getToNickname().isEmpty()) {
             count++;
         }
         if (chat.getSendTime() != null) {
@@ -81,16 +80,16 @@ public class ChatDaoImpl implements ChatDao {
             params[index] = chat.getFromUserId();
             index++;
         }
-        if (chat.getFromUsername() != null && !chat.getFromUsername().isEmpty()) {
-            params[index] = chat.getFromUsername();
+        if (chat.getFromNickname() != null && !chat.getFromNickname().isEmpty()) {
+            params[index] = chat.getFromNickname();
             index++;
         }
         if (chat.getToUserId() != null) {
             params[index] = chat.getToUserId();
             index++;
         }
-        if (chat.getToUsername() != null && !chat.getToUsername().isEmpty()) {
-            params[index] = chat.getToUsername();
+        if (chat.getToNickname() != null && !chat.getToNickname().isEmpty()) {
+            params[index] = chat.getToNickname();
             index++;
         }
         if (chat.getSendTime() != null) {

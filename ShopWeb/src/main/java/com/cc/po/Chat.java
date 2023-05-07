@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 
 public class Chat {
     private Integer fromUserId;
-    private String fromUsername;
+    private String fromNickname;
     private Integer toUserId;
-    private String toUsername;
+    private String toNickname;
     private String message;
     private Timestamp sendTime;
 
@@ -18,12 +18,12 @@ public class Chat {
         this.fromUserId = fromUserId;
     }
 
-    public String getFromUsername() {
-        return fromUsername;
+    public String getFromNickname() {
+        return fromNickname;
     }
 
-    public void setFromUsername(String fromUsername) {
-        this.fromUsername = fromUsername;
+    public void setFromNickname(String fromNickname) {
+        this.fromNickname = fromNickname;
     }
 
     public Integer getToUserId() {
@@ -34,12 +34,12 @@ public class Chat {
         this.toUserId = toUserId;
     }
 
-    public String getToUsername() {
-        return toUsername;
+    public String getToNickname() {
+        return toNickname;
     }
 
-    public void setToUsername(String toUsername) {
-        this.toUsername = toUsername;
+    public void setToNickname(String toNickname) {
+        this.toNickname = toNickname;
     }
 
     public String getMessage() {
@@ -62,9 +62,9 @@ public class Chat {
     public String toString() {
         return "Chat{" +
                 "fromUserId=" + fromUserId +
-                ", fromUsername='" + fromUsername + '\'' +
+                ", fromUsername='" + fromNickname + '\'' +
                 ", toUserId=" + toUserId +
-                ", toUsername='" + toUsername + '\'' +
+                ", toUsername='" + toNickname + '\'' +
                 ", message='" + message + '\'' +
                 ", sendTime=" + sendTime +
                 '}';

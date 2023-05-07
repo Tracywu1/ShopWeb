@@ -29,7 +29,7 @@ public class Store {
      */
     private Integer fansNum;
     /**
-     * 月均销量
+     * 月均销量(不在数据库内)
      */
     private Integer monthlyAveSaleCount;
     /**

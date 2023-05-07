@@ -1,7 +1,6 @@
 package com.cc.po;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Comment {
     /**
@@ -20,10 +19,6 @@ public class Comment {
      * 用户昵称
      */
     private String nickName;
-    /**
-     * 用户头像
-     */
-    private String image;
     /**
      * 评论内容
      */
@@ -81,14 +76,6 @@ public class Comment {
         this.nickName = nickName;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     @Override
     public String toString() {
         return "Comment{" +
@@ -96,7 +83,6 @@ public class Comment {
                 ", creatorId=" + creatorId +
                 ", productId=" + productId +
                 ", nickName='" + nickName + '\'' +
-                ", image='" + image + '\'' +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
                 '}';
