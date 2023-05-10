@@ -1,9 +1,6 @@
 package com.cc.common;
 
 public class Constants {
-
-    public static final String QG_MALL_USER = "qg_mall_user";
-
     public interface IsSelected {
       int  SELECTED =1;
       int  UN_SELECTED = 0;

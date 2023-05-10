@@ -21,16 +21,26 @@ public interface UserDao {
      * 根据用户名查询
      * @param username
      * @return
+     * @throws Exception
      */
     User selectByUsername(String username) throws Exception;
 
     /**
+     * 根据电话号码查询
+     * @param phoneNum
+     * @return
+     * @throws Exception
+     */
+    User selectByPhoneNum(String phoneNum)throws Exception;
+
+    /**
      * 根据用户名和密码查询
-     * @param username
+     * @param phoneNum
      * @param password
+     * @throws Exception
      * @return
      */
-    User selectByUsernameAndPwd(String username,String password) throws Exception;
+    User selectByPhoneNumAndPwd(String phoneNum,String password) throws Exception;
 
     /**
      * 修改数据

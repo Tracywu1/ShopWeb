@@ -55,11 +55,14 @@ input {
     color: #f0edf3;
     padding-left: 10px;
 }
-#username{
+#phoneNum{
     width: 200px;
 }
 #password{
     width: 202px;
+}
+#tip{
+    font-size: 12px;
 }
 .button {
     border-color: cornsilk;

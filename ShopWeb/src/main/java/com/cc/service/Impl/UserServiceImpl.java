@@ -1,16 +1,12 @@
 package com.cc.service.Impl;
 
 import com.cc.common.Constants;
-import com.cc.controller.UserServlet;
 import com.cc.dao.Impl.SubscribeDaoImpl;
 import com.cc.dao.Impl.UserDaoImpl;
 import com.cc.dao.SubscribeDao;
 import com.cc.dao.UserDao;
 import com.cc.exception.MyException;
 import com.cc.exception.ResultCode;
-import com.cc.filter.LoginCheckFilter;
-import com.cc.po.Order;
-import com.cc.po.Subscribe;
 import com.cc.po.User;
 import com.cc.service.UserService;
 import com.cc.utils.RandomUsernameGenerator;
@@ -40,10 +36,15 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User getByPhoneNum(String phoneNum) throws Exception {
+        User user = userDao.selectByPhoneNum(phoneNum);
+        return user;
+    }
 
     @Override
-    public User login(String username, String password) throws Exception {
-        return userDao.selectByUsernameAndPwd(username,password);
+    public User login(String phoneNum, String password) throws Exception {
+        return userDao.selectByPhoneNumAndPwd(phoneNum,password);
     }
 
     @Override
@@ -55,6 +56,7 @@ public class UserServiceImpl implements UserService {
         } while (userDao.selectByUsername(username) != null);
         user.setUsername(username);
         logger.debug(username);
+        //默认普通用户
         int role = Constants.UserRole.ORDINARY_USERS.getNum();
         logger.debug(String.valueOf(role));
         user.setUserRole(role);

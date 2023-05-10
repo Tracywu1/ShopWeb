@@ -115,7 +115,10 @@
                 axios({
                     method: "post",
                     url: "cart/list?",
-                    data: this.cart
+                    data: this.cart,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
                 }).then(resp => {
                     //设置表格数据
                     this.tableData = resp.data.data.rows; // {rows:[],totalCount:100}

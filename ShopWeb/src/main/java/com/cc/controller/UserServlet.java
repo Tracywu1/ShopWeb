@@ -15,6 +15,7 @@ import com.cc.service.SubscribeService;
 import com.cc.service.UserService;
 import com.cc.utils.CheckCodeUtil;
 import com.cc.utils.JwtUtils;
+import com.cc.utils.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.cc.exception.ResultCode.*;
@@ -54,67 +56,37 @@ public class UserServlet extends BaseServlet {
      * @throws IOException IO异常
      */
     public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String username = request.getParameter("username");
+        String phoneNum = request.getParameter("phoneNum");
         String password = request.getParameter("password");
 
-        logger.debug("username:"+username);
+        logger.debug("phoneNum:"+phoneNum);
         logger.debug("password:"+password);
 
-        //获取复选框数据
-        String remember = request.getParameter("remember");
-        logger.debug(remember);
-
-        User u = userService.login(username, password);
+        User u = userService.login(phoneNum, password);
 
         //登录成功,生成令牌,下发令牌
         if (u != null) {
             // 如果登录成功，则重置错误计数
-            passwordErrorCounts.remove(username);
+            passwordErrorCounts.remove(password);
             Map<String, Object> claims = new HashMap<>();
-            claims.put("id", u.getId());
-            claims.put("username", u.getUsername());
+            claims.put("userId", u.getId());
+            claims.put("phoneNum", u.getPhoneNum());
             //jwt包含了当前登录的用户信息
             String token = JwtUtils.generateJwt(claims);
 
             //设置自定义 header，将令牌保存到 header 中
             response.setHeader("Authorization", "Bearer " + token);
 
-            //判断用户是否勾选记住我
-            if("true".equals(remember)){
-                //勾选了，发送Cookie
-
-                //1. 创建Cookie对象
-                Cookie c_username = new Cookie("username",username);
-                Cookie c_password = new Cookie("password",password);
-                // 设置Cookie的存活时间
-                c_username.setMaxAge( 60 * 60 * 24 * 7);
-                c_password.setMaxAge( 60 * 60 * 24 * 7);
-                //2. 发送
-                response.addCookie(c_username);
-                response.addCookie(c_password);
-            }
-
-            //保存用户信息时，不保存密码
-            u.setPassword(null);
-            HttpSession session = request.getSession();
-            session.setAttribute(Constants.QG_MALL_USER,u);
-
-            //登录成功，跳转页面
-            String contextPath = request.getContextPath();
-            response.sendRedirect(contextPath + "/homepage");
-
             Result result = Result.success(u);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
+
             return;
         }
 
         // 登录失败，增加错误计数
-        Integer errorCount = passwordErrorCounts.getOrDefault(username, 0) + 1;
-        passwordErrorCounts.put(username, errorCount);
-
-        //跳转回登录界面
-        request.getRequestDispatcher("/user_login.html").forward(request, response);
+        Integer errorCount = passwordErrorCounts.getOrDefault(phoneNum, 0) + 1;
+        passwordErrorCounts.put(phoneNum, errorCount);
 
         if (errorCount != null && errorCount >= 3) {
             Result result = Result.error(ResultCode.WRONG_PASSWORD_EXCESS);
@@ -130,7 +102,7 @@ public class UserServlet extends BaseServlet {
      * @throws Exception
      */
     public void selectPersonalInfo(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        Integer userId = Integer.valueOf(request.getParameter("userId"));
+        Integer userId = JwtUtils.getUserIdFromToken(request);
         User user = userService.getById(userId);
         user.setPassword(null);
 
@@ -170,23 +142,44 @@ public class UserServlet extends BaseServlet {
 
         logger.debug(String.valueOf(user));
 
+        String phoneNumber = user.getPhoneNum();
+        //电话号码校验
+        if(phoneNumber.isEmpty()){
+            Result result = Result.error(NEED_PHONE_NUMBER);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSON.toJSONString(result));
+            return;
+        }
+
+        String regex = "1[3456789]\\d{9}$";
+        if (!phoneNumber.matches(regex)) {
+            Result result = Result.error(INCORRECT_PHONE_NUMBER);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSON.toJSONString(result));
+            return;
+        }
+
+        if(userService.getByPhoneNum(phoneNumber) != null){
+            Result result = Result.error(HAD_PHONE_NUMBER);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSON.toJSONString(result));
+            return;
+        }
+
+        //密码校验
         if(user.getPassword().isEmpty()){
             Result result = Result.error(NEED_PASSWORD);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
-
-            //存储错误信息到request
-            request.setAttribute("register_msg", "密码为空");
             return;
         }
 
-        if(user.getPassword().length()<8){
-            Result result = Result.error(PASSWORD_TOO_SHORT);
+        String password = user.getPassword();
+        String regex2 = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*_-])[a-zA-Z\\d!@#$%^&*_-]{8,18}$";
+        if (!password.matches(regex2)) {
+            Result result = Result.error(INCORRECT_PASSWORD);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
-
-            //存储错误信息到request
-            request.setAttribute("register_msg", "密码过短，长度小于8");
             return;
         }
 
@@ -197,9 +190,6 @@ public class UserServlet extends BaseServlet {
             Result result = Result.error(WRONG_CHECK_CODE);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
-
-            //存储错误信息到request
-            request.setAttribute("register_msg", "验证码错误");
             return;
         }
 
@@ -217,15 +207,14 @@ public class UserServlet extends BaseServlet {
      * @throws Exception
      */
     public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        // 清除 session
-        request.getSession().removeAttribute(Constants.QG_MALL_USER);
+        String authorization = request.getHeader("Authorization");
+        String token = authorization.substring(7);
+        // 将 JWT 令牌加入黑名单
+        RedisUtils.set(token, "", JwtUtils.getExpiration(request) - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
 
         Result result = Result.success();
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(result));
-
-        // 重定向到登录页面
-        response.sendRedirect(request.getContextPath() + "/user_login.html");
     }
 
     /**
@@ -244,9 +233,7 @@ public class UserServlet extends BaseServlet {
         String newPassword = request.getParameter("newPassword");
 
         //获取当前用户的ID
-        HttpSession session = request.getSession();
-        User currentUser = (User) session.getAttribute(Constants.QG_MALL_USER);
-        int id = currentUser.getId();
+        Integer id = JwtUtils.getUserIdFromToken(request);
 
         User user = new User();
         user.setId(id);

@@ -15,12 +15,21 @@ public interface UserService {
     User getById(Integer id) throws Exception;
 
     /**
+     * 根据电话号码查询用户
+     *
+     * @param phoneNum
+     * @return
+     * @throws Exception
+     */
+    User getByPhoneNum(String phoneNum)throws Exception;
+
+    /**
      * 用户登录
-     * @param username
+     * @param phoneNum
      * @param password
      * @return
      */
-    User login(String username,String password) throws Exception;
+    User login(String phoneNum,String password) throws Exception;
 
     /**
      * 用户注册

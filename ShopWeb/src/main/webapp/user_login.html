@@ -11,9 +11,9 @@
 <div id="app" style="height: 350px">
     <form @submit.prevent="login">
         <h1 id="loginMsg">LOGIN IN</h1>
-        <p>Username:<input id="username" name="username" type="text" v-model="user.username"></p>
-        <p>Password:<input id="password" name="password" type="password" placeholder="不能为标点或文字(长度在6-10)"
-                           v-model="user.password"></p>
+        <p>PhoneNum:<input id="phoneNum" name="phoneNum" type="text" v-model="user.phoneNum" required></p>
+        <p>Password:<input id="password" name="password" type="password" v-model="user.password" required></p>
+        <p id="tip">密码长度为8-18位字符，且必须同时包含字母、数字和特殊字符（!@#$%^&*_-）</p>
         <p>Remember:<input id="remember" name="remember" type="checkbox" v-model="remember"></p>
         <div id="subDiv">
             <input type="submit" class="button" value="login up">
@@ -31,7 +31,7 @@
         el: '#app',
         data: {
             user: {
-                username: '',
+                phoneNum: '',
                 password: '',
             },
             login_msg: '',
@@ -39,28 +39,37 @@
         },
         methods: {
             login() {
-                var rexName = /^[a-zA-Z]{3,6}$/;
-                var rexPwd = /^\w{6,10}$/;
-                if (!rexName.test(this.user.username.trim()) || !rexPwd.test(this.user.password.trim())) {
-                    alert("用户名或密码格式错误");
+                var rexPhoneNum = /^1[3456789]\d{9}$/;
+                var rexPwd =  /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-])[a-zA-Z\d!@#$%^&*_-]{8,18}$/;
+                if (!rexPhoneNum.test(this.user.phoneNum.trim())) {
+                    alert("电话号码格式错误");
+                    return false;
+                }
+                if(!rexPwd.test(this.user.password.trim())){
+                    alert("密码格式错误");
                     return false;
                 }
 
                 axios({
                     method: 'post',
                     url: 'user/login',
-                    params: {
-                        username: this.user.username,
+                    data: {
+                        phoneNum: this.user.phoneNum,
                         password: this.user.password,
                         remember: this.remember
                     }
-                }).then(function (response) {
+                }).then((response) => {
                     if (response.data.code === 10000) {
                         alert("登陆成功");
 
+                        const authorization = response.headers.authorization;
+                        const token = authorization.substring(7);
+                        // 将令牌保存到本地存储中
+                        localStorage.setItem('token', token);
+
                         // Store username and password in cookie or local storage if remember is checked
                         if (this.remember) {
-                            localStorage.setItem('username', this.user.username);
+                            localStorage.setItem('phoneNum', this.user.phoneNum);
                             localStorage.setItem('password', this.user.password);
                         } else {
                             localStorage.removeItem('username');
@@ -69,7 +78,7 @@
 
                         location.href = "homepage.html"
                     } else if (response.data.msg === '输入错误已超过三次，请在一分钟后重试') {
-                        alert(response.data.msg + '，请60秒后再次输入用户名及密码进行登录验证');
+                        alert(response.data.msg + '，请60秒后再次输入电话号码及密码进行登录验证');
                         // Disable username and password inputs for 1 minute
                         document.getElementById('username').disabled = true;
                         document.getElementById('password').disabled = true;
@@ -85,9 +94,9 @@
             }
         },
         mounted() {
-            // Load saved username and password from local storage
-            if (localStorage.getItem('username') && localStorage.getItem('password')) {
-                this.user.username = localStorage.getItem('username');
+            // Load saved phoneNum and password from local storage
+            if (localStorage.getItem('phoneNum') && localStorage.getItem('password')) {
+                this.user.phoneNum = localStorage.getItem('phoneNum');
                 this.user.password = localStorage.getItem('password');
                 this.remember = true;
             }

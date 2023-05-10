@@ -38,46 +38,8 @@
     <el-row>
 
         <el-button type="danger" plain @click="deleteByIds">批量下架</el-button>
-        <el-button type="primary" plain @click="dialogVisible = true">新增</el-button>
 
     </el-row>
-
-    <!--添加数据对话框表单-->
-    <el-dialog
-            title="编辑商品"
-            :visible.sync="dialogVisible"
-            width="30%"
-    >
-
-        <el-form ref="form" :model="product" label-width="80px">
-            <el-form-item label="商品名称">
-                <el-input v-model="product.productName"></el-input>
-            </el-form-item>
-
-            <el-form-item label="店铺名称">
-                <el-input v-model="product.storeName"></el-input>
-            </el-form-item>
-
-            <el-form-item label="商品单价">
-                <el-input v-model="product.price"></el-input>
-            </el-form-item>
-
-            <el-form-item label="商品库存">
-                <el-input v-model="product.productCount"></el-input>
-            </el-form-item>
-
-            <el-form-item label="商品描述">
-                <el-input type="textarea" v-model="product.description"></el-input>
-            </el-form-item>
-
-            <el-form-item>
-                <el-button type="primary" @click="addProduct">提交</el-button>
-                <el-button @click="dialogVisible = false">取消</el-button>
-            </el-form-item>
-        </el-form>
-
-    </el-dialog>
-
 
     <!--表格-->
     <template>
@@ -125,13 +87,6 @@
                     align="center"
             >
             </el-table-column>
-            <el-table-column
-                    prop="saleCount"
-                    label="商品月销量"
-                    align="center"
-            >
-            </el-table-column>
-
 
             <el-table-column
                     align="center"
@@ -179,7 +134,7 @@
             selectAll() {
                 axios({
                     method: "post",
-                    url: "product/manager/selectByPageAndCondition?currentPage=" + this.currentPage + "&pageSize=" + this.pageSize,
+                    url: "product/master/selectByPageAndCondition?currentPage=" + this.currentPage + "&pageSize=" + this.pageSize,
                     data: this.product
                 }).then(resp => {
                     //设置表格数据
@@ -313,7 +268,6 @@
                         image: '',
                         price: '',
                         productCount: '',
-                        saleCount: '',
                         createTime: '',
                         updateTime: ''
                     },
@@ -328,7 +282,6 @@
                         description: "good",
                         price: "3.68",
                         productCount: "56",
-                        saleCount: "22"
                     },{
                         productName: "香蕉",
                         storeName: "水果店",

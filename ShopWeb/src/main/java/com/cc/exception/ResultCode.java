@@ -12,7 +12,7 @@ public enum ResultCode {
 
     NEED_USER_NAME(1, "用户名不能为空"),
     NEED_PASSWORD(2, "密码不能为空"),
-    PASSWORD_TOO_SHORT(3, "密码长度不能小于8位"),
+    INCORRECT_PASSWORD(3, "密码格式错误"),
     NAME_EXISTED(4, "不允许重名"),
     INSERT_FAILED(5, "插入失败，请重试"),
     WRONG_PASSWORD(6, "密码错误"),
@@ -38,6 +38,9 @@ public enum ResultCode {
     NOT_YOUR_ORDER(26,"该订单不属于你" ),
     WRONG_USER_ROLE(27, "用户角色不符"),
     EXPECTED_MULTIPART_REQUEST(28,"不是multipart请求"),
+    INCORRECT_PHONE_NUMBER(29,"电话号码格式错误"),
+    NEED_PHONE_NUMBER(30,"电话号码不能为空"),
+    HAD_PHONE_NUMBER(31,"该电话号码已被注册"),
     SYSTEM_ERROR(40, "系统异常，请从控制台或日志中查看具体错误信息");
 
     /**

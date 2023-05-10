@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>欢迎注册</title>
     <link href="css/register.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 
@@ -20,11 +18,11 @@
         <table>
 
             <tr>
-                <td>昵称</td>
+                <td>电话号码</td>
                 <td class="inputs">
-                    <input name="nickname" type="text" id="nickname" v-model="user.nickname" required>
+                    <input name="phoneNum" type="text" id="phoneNum" v-model="user.phoneNum" required>
                     <br>
-                    <span id="nickname_err" class="err_msg" >{{register_msg}}</span>
+                    <span id="phoneNum_err" class="err_msg" style="display: none">电话号码格式有误</span>
                 </td>
 
             </tr>
@@ -34,7 +32,7 @@
                 <td class="inputs">
                     <input name="password" type="password" id="password" v-model="user.password" required>
                     <br>
-                    <span id="password_err" class="err_msg" style="display: none">密码格式有误</span>
+                    <span id="password_err" class="err_msg" style="display: none">密码格式有误,密码长度为8-18位字符，且必须同时包含字母、数字和特殊字符（!@#$%^&*_-）</span>
                 </td>
             </tr>
 
@@ -68,17 +66,38 @@
 
 </div>
 
+<script src="js/vue.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+
 <script>
     new Vue({
         el: '#app',
         data: {
             user: {
-                nickname: '',
+                phoneNum: '',
                 password: '',
             },
             confirmPassword: '',
             checkCode: '',
             checkCodeImageUrl: 'user/checkCode',
+            phoneNumRegex: /^1[3456789]\d{9}$/,
+            passwordRegex: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-])[a-zA-Z\d!@#$%^&*_-]{8,18}$/,//密码长度为8-18位字符，且必须同时包含字母、数字和特殊字符（!@#$%^&*_-）
+        },
+        watch: {
+            'user.phoneNum': function (newVal) {
+                if (!this.phoneNumRegex.test(newVal)) {
+                    document.getElementById('phoneNum_err').style.display = 'block';
+                } else {
+                    document.getElementById('phoneNum_err').style.display = 'none';
+                }
+            },
+            'user.password': function (newVal) {
+                if (!this.passwordRegex.test(newVal)) {
+                    document.getElementById('password_err').style.display = 'block';
+                } else {
+                    document.getElementById('password_err').style.display = 'none';
+                }
+            }
         },
         methods: {
             changeImage() {
@@ -111,8 +130,12 @@
                         alert(error.response.data.msg);
                         location.reload(); // 重新加载页面
                     });
-            }
-        }
+            },
+            validatePhoneNumber(phoneNumber) {
+            var regex = /^\d{11}$/;
+            return regex.test(phoneNumber);
+            },
+    }
     });
 </script>
 

@@ -6,6 +6,7 @@ import com.cc.exception.Result;
 import com.cc.exception.ResultCode;
 import com.cc.po.User;
 import com.cc.utils.JwtUtils;
+import com.cc.utils.RedisUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,6 @@ public class LoginCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
 
         //获取请求url。
         String url = req.getRequestURL().toString();
@@ -49,21 +49,17 @@ public class LoginCheckFilter implements Filter {
             return;
         }
 
-        // 验证 JWT 指令牌是否合法
+        // 验证 JWT 指令牌是否合法||检查 JWT 令牌是否已被加入黑名单
         Map<String, Object> claims = JwtUtils.parseJWT(jwt);
-        if (claims == null) {
+        if (claims == null||RedisUtils.hasKey(jwt)) {
             Result result = Result.error(ResultCode.UNAUTHORIZED);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSON.toJSONString(result));
             return;
         }
 
-        // JWT指令牌验证通过，将用户信息存储到session中
-        HttpSession session = req.getSession();
-
         //放行。
         chain.doFilter(request, response);
-
     }
 
     @Override

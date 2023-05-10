@@ -223,9 +223,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User selectByUsernameAndPwd(String username, String password) throws Exception {
-        Object[] params = {username, password};
-        String sql = "select * from tb_user where username = ? and password = ?";
+    public User selectByPhoneNum(String phoneNum) throws Exception{
+        String sql = "select * from tb_user where phoneNum =?";
+        User user = CRUDUtils.query(sql, User.class, phoneNum);
+        logger.debug(String.valueOf(user));
+        return user;
+    }
+
+    @Override
+    public User selectByPhoneNumAndPwd(String phoneNum, String password) throws Exception {
+        Object[] params = {phoneNum, password};
+        String sql = "select * from tb_user where phoneNum = ? and password = ?";
         User user1 = CRUDUtils.query(sql, User.class, params);
         logger.debug(String.valueOf(user1));
         return user1;
